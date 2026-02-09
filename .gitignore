@@ -1,0 +1,6 @@
+
+# LaTeX intermediate files
+.pdf
+.aux
+.log
+.out
