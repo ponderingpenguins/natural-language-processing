@@ -1,6 +1,15 @@
 
 # LaTeX intermediate files
-.pdf
-.aux
-.log
-.out
+# *.pdf (output files) are not ignored, as they are the final product of the compilation process and may be needed for distribution or sharing.
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.fls
+*.fdb_latexmk
+*.blg
+*.bbl
