@@ -13,3 +13,6 @@
 *.fdb_latexmk
 *.blg
 *.bbl
+
+# ignore data
+**data/
