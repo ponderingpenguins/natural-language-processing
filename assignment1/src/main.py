@@ -4,6 +4,10 @@ from dataclasses import dataclass
 
 from datasets import load_dataset
 from omegaconf import OmegaConf
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.svm import LinearSVC
 
 from .utils.preprocessing import preprocess_dataset, text_preprocessing_pipeline
 
@@ -40,15 +44,8 @@ class TrainingConfig:
     ngram_range: tuple = (1, 2)
 
 
-def train_tfidf_classifier(cfg: TrainingConfig) -> None:
-    """
-    Train a TF-IDF classifier.
-
-    Args:
-        cfg: Training configuration.
-    Returns:
-        None
-    """
+def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
+    """Load and preprocess the AG News dataset."""
 
     # Load AG News and create train/dev/test splits (dev from train).
     ds = load_dataset(cfg.hf_dataset)
@@ -76,13 +73,55 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
     logger.info(train_ds[len(train_ds) - 1])
 
     # Use word-level TF-IDF features (document the preprocessing choices).
+
+    tfidf = TfidfVectorizer(stop_words="english", max_features=5000)
+
+    X_train = tfidf.fit_transform(train_ds["text"])
+    y_train = train_ds["label"]
+    X_dev = tfidf.transform(dev_ds["text"])
+    y_dev = dev_ds["label"]
+    X_test = tfidf.transform(test_ds["text"])
+    y_test = test_ds["label"]
+
+    return X_train, y_train, X_dev, y_dev, X_test, y_test
+
+
+def train_tfidf_classifier(cfg: TrainingConfig) -> None:
+    """
+    Train a TF-IDF classifier.
+
+    Args:
+        cfg: Training configuration.
+    Returns:
+        None
+    """
+
+    X_train, y_train, X_dev, y_dev, X_test, y_test = load_and_preprocess_data(cfg)
+
     # Train two classical models (required):
     #     TF-IDF + Logistic Regression
     #     TF-IDF + Linear SVM
 
     # TF-IDF + Logistic Regression
 
+    clf = LogisticRegression(max_iter=1000)
+    clf.fit(X_train, y_train)
+    y_pred_dev = clf.predict(X_dev)
+
+    logger.info("Logistic Regression, Dev Set Performance:")
+    logger.info(classification_report(y_dev, y_pred_dev))
+    logger.info("Confusion Matrix:")
+    logger.info(confusion_matrix(y_dev, y_pred_dev))
+
     # TF-IDF + Linear SVM
+
+    clf = LinearSVC()
+    clf.fit(X_train, y_train)
+    y_pred_dev = clf.predict(X_dev)
+    logger.info("Linear SVM, Dev Set Performance:")
+    logger.info(classification_report(y_dev, y_pred_dev))
+    logger.info("Confusion Matrix:")
+    logger.info(confusion_matrix(y_dev, y_pred_dev))
 
     # Train both baseline models. Keep the dev split for model selection/tuning.
 
