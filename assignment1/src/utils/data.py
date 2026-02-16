@@ -35,8 +35,15 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     logger.info(train_ds[len(train_ds) - 1])
 
     # Use word-level TF-IDF features (document the preprocessing choices).
-
-    tfidf = TfidfVectorizer(stop_words="english", max_features=5000)
+    tfidf = TfidfVectorizer(
+        stop_words="english",
+        ngram_range=(
+            cfg.ngram_min,
+            cfg.ngram_max,
+        ),  # unigrams and bigrams
+        max_features=cfg.max_features,  # increase since bigrams add features
+        min_df=cfg.min_df,  # filter rare n-grams
+    )
 
     X_train = tfidf.fit_transform(train_ds["text"])
     y_train = train_ds["label"]
@@ -45,7 +52,4 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     X_test = tfidf.transform(test_ds["text"])
     y_test = test_ds["label"]
 
-    return X_train, y_train, X_dev, y_dev, X_test, y_test
-
-    return X_train, y_train, X_dev, y_dev, X_test, y_test
     return X_train, y_train, X_dev, y_dev, X_test, y_test
