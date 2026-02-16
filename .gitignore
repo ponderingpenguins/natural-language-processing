@@ -16,3 +16,4 @@
 
 # ignore data
 **data/
+**__pycache__
