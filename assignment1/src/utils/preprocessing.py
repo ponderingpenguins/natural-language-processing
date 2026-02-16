@@ -3,13 +3,15 @@ import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
 
 # Download necessary NLTK resources
 nltk.download("stopwords", quiet=True)  # for stopword removal
 nltk.download("wordnet", quiet=True)  # for lemmatization
 
-# Initialize the lemmatizer
+# Initialize the lemmatizer and stemmer
 LEMMATIZER = WordNetLemmatizer()
+STEMMER = PorterStemmer()
 
 
 # Preprocessing functions
@@ -33,6 +35,10 @@ def remove_stopwords(text: str) -> str:
 def lemmatize_text(text: str) -> str:
     """Lemmatize the text."""
     return " ".join(LEMMATIZER.lemmatize(word) for word in text.split())
+
+def stem_text(text: str) -> str:
+    """Stem the text."""
+    return " ".join(STEMMER.stem(word) for word in text.split())
 
 
 def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
@@ -59,4 +65,5 @@ text_preprocessing_pipeline = {
     "remove_punctuation": remove_punctuation,  # Remove punctuation
     "remove_stopwords": remove_stopwords,  # Remove stopwords
     "lemmatization": lemmatize_text,  # Lemmatize the text
+    "stemming": stem_text,  # Stem the text
 }
