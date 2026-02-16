@@ -9,6 +9,7 @@ from sklearn.svm import LinearSVC
 
 from .utils.config import TrainingConfig
 from .utils.data import load_and_preprocess_data
+from .utils.evaluate_models import evaluate_models_on_test_set
 from .utils.helpers import logger, report_stats
 
 
@@ -24,9 +25,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     X_train, y_train, X_dev, y_dev, X_test, y_test = load_and_preprocess_data(cfg)
 
-    # Train two classical models (required):
-    #     TF-IDF + Logistic Regression
-    #     TF-IDF + Linear SVM
+    # Train two classical models
+    # 1. TF-IDF + Logistic Regression
+    # 2. TF-IDF + Linear SVM
 
     param_grids: dict[str, list[dict[str, object]]] = {
         "Logistic Regression": [{"C": c} for c in [0.01, 0.1, 1.0, 10.0, 100.0]],
@@ -81,30 +82,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         y_pred_dev = best_clf.predict(X_dev)
         report_stats(name, y_dev, y_pred_dev)
 
-    # Evaluate on test once for the final numbers.
-    for name, clf in best_models.items():
-        logger.info("Evaluating %s on test set...", name)
-        y_pred_test = clf.predict(X_test)
-        report_stats(name + " (Test)", y_test, y_pred_test)
-
-        # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
-        cfg.max_misclassifications_to_report = 20
-        misclassified_indices = [
-            i
-            for i, (y_true, y_pred) in enumerate(zip(y_test, y_pred_test))
-            if y_true != y_pred
-        ]
-        logger.info("Found %d misclassified examples", len(misclassified_indices))
-        if len(misclassified_indices) >= cfg.max_misclassifications_to_report:
-            logger.info("Categorizing misclassified examples...")
-            for i in misclassified_indices[: cfg.max_misclassifications_to_report]:
-                logger.info(
-                    "Misclassified example %d: True=%s, Predicted=%s",
-                    i,
-                    y_test[i],
-                    y_pred_test[i],
-                )
-    breakpoint()
+    # Collect more than 20 misclassified examples from test
+    # and categorize them into 3–5 error types.
+    evaluate_models_on_test_set(cfg, best_models, X_test, y_test)
 
 
 def main() -> None:
