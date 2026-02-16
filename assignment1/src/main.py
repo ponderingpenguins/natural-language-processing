@@ -2,12 +2,11 @@ import sys
 
 from omegaconf import OmegaConf
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import LinearSVC
 
 from .utils.config import TrainingConfig
 from .utils.data import load_and_preprocess_data
-from .utils.helpers import logger
+from .utils.helpers import logger, report_stats
 
 
 def train_tfidf_classifier(cfg: TrainingConfig) -> None:
@@ -36,11 +35,7 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         clf.fit(X_train, y_train)
         y_pred_dev = clf.predict(X_dev)
 
-        logger.info(f"{name}, Dev Set Performance:")
-        logger.info(classification_report(y_dev, y_pred_dev))
-
-        logger.info("Confusion Matrix:")
-        logger.info(confusion_matrix(y_dev, y_pred_dev))
+        report_stats(name, y_dev, y_pred_dev)
 
     # Train both baseline models. Keep the dev split for model selection/tuning.
 
