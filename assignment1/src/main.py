@@ -30,21 +30,19 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         "Linear SVM": LinearSVC(),
     }
 
+    # Train both baseline models. Keep the dev split for model selection/tuning.
     for name, clf in models.items():
         logger.info(f"Training {name}...")
         clf.fit(X_train, y_train)
         y_pred_dev = clf.predict(X_dev)
 
+        # Report Accuracy + Macro-F1 + confusion matrix.
+
+        # Metrics (required)
+        # - Primary: Accuracy
+        # - Secondary: Macro-F1
+        # - Also include: confusion matrix + 3–5 sentences interpreting it
         report_stats(name, y_dev, y_pred_dev)
-
-    # Train both baseline models. Keep the dev split for model selection/tuning.
-
-    # Report Accuracy + Macro-F1 + confusion matrix.
-
-    # Metrics (required)
-    # - Primary: Accuracy
-    # - Secondary: Macro-F1
-    # - Also include: confusion matrix + 3–5 sentences interpreting it
 
     # Evaluate on test once for the final numbers.
 
