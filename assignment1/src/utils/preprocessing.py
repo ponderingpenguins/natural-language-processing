@@ -46,8 +46,9 @@ def preprocess_dataset(dataset, pipeline):
     """Preprocess the dataset using the provided pipeline."""
     return dataset.map(
         lambda x: {
-            "title": apply_preprocessing_pipeline(x["title"], pipeline),
-            "description": apply_preprocessing_pipeline(x["description"], pipeline),
+            "text": apply_preprocessing_pipeline(x["title"], pipeline)
+            + " "
+            + apply_preprocessing_pipeline(x["description"], pipeline)
         }
     )
 
