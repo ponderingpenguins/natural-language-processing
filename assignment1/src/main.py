@@ -1,13 +1,11 @@
 import logging
-import string
 import sys
 from dataclasses import dataclass
 
-import nltk
 from datasets import load_dataset
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 from omegaconf import OmegaConf
+
+from .utils.preprocessing import preprocess_dataset, text_preprocessing_pipeline
 
 # Configure logging
 logging.basicConfig(
@@ -16,13 +14,6 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
-
-# Download necessary NLTK resources
-nltk.download("stopwords", quiet=True)  # for stopword removal
-nltk.download("wordnet", quiet=True)  # for lemmatization
-
-# Initialize the lemmatizer
-LEMMATIZER = WordNetLemmatizer()
 
 
 # Configuration dataclass
@@ -49,48 +40,6 @@ class TrainingConfig:
     ngram_range: tuple = (1, 2)
 
 
-# Preprocessing functions
-
-
-def remove_whitespace(text: str) -> str:
-    """Remove extra whitespace from the text."""
-
-    return " ".join(text.split())
-
-
-def remove_punctuation(text):
-    """Remove punctuation from the text."""
-    return text.translate(str.maketrans("", "", string.punctuation))
-
-
-def remove_stopwords(text: str) -> str:
-    """Remove stopwords from the text."""
-    stop_words = set(stopwords.words("english"))
-    return " ".join(word for word in text.split() if word not in stop_words)
-
-
-def lemmatize_text(text: str) -> str:
-    """Lemmatize the text."""
-    return " ".join(LEMMATIZER.lemmatize(word) for word in text.split())
-
-
-def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
-    """Apply a preprocessing pipeline to the text."""
-    for _, func in pipeline.items():
-        text = func(text)
-    return text
-
-
-def preprocess_dataset(dataset, pipeline):
-    """Preprocess the dataset using the provided pipeline."""
-    return dataset.map(
-        lambda x: {
-            "title": apply_preprocessing_pipeline(x["title"], pipeline),
-            "description": apply_preprocessing_pipeline(x["description"], pipeline),
-        }
-    )
-
-
 def train_tfidf_classifier(cfg: TrainingConfig) -> None:
     """
     Train a TF-IDF classifier.
@@ -115,18 +64,10 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     # Implement preprocessing (tokenization, normalization) and document it.
 
-    pipeline = {
-        "lowercase": lambda x: x.lower(),  # Convert text to lowercase
-        "remove_whitespace": remove_whitespace,  # Remove extra whitespace
-        "remove_punctuation": remove_punctuation,  # Remove punctuation
-        "remove_stopwords": remove_stopwords,  # Remove stopwords
-        "lemmatization": lemmatize_text,  # Lemmatize the text
-    }
-
     # Preprocess the datasets using the defined pipeline.
-    train_ds = preprocess_dataset(train_ds, pipeline)
-    dev_ds = preprocess_dataset(dev_ds, pipeline)
-    test_ds = preprocess_dataset(ds["test"], pipeline)
+    train_ds = preprocess_dataset(train_ds, text_preprocessing_pipeline)
+    dev_ds = preprocess_dataset(dev_ds, text_preprocessing_pipeline)
+    test_ds = preprocess_dataset(ds["test"], text_preprocessing_pipeline)
 
     # print examples from the preprocessed datasets to verify the preprocessing steps.
     logger.info("(Before preprocessing) Example from original training set:")
