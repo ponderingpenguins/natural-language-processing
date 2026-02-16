@@ -1,29 +1,107 @@
-from datasets import load_dataset
+import sys
+from collections.abc import Callable
+from typing import Any
 
-# Load AG News and create train/dev/test splits (dev from train).
-ds = load_dataset("sh0416/ag_news")
-breakpoint()
+from omegaconf import OmegaConf
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.svm import LinearSVC
 
-# Use the official train/test split.
-# Fix a random seed and report it.
-# Create a dev split from train (e.g., 90/10). Keep the test set untouched until final reporting.
+from .utils.config import TrainingConfig
+from .utils.data import load_and_preprocess_data
+from .utils.helpers import logger, report_stats
 
-# Implement preprocessing (tokenization, normalization) and document it.
 
-# Use word-level TF-IDF features (document the preprocessing choices).
-# Train two classical models (required):
-#     TF-IDF + Logistic Regression
-#     TF-IDF + Linear SVM
+def train_tfidf_classifier(cfg: TrainingConfig) -> None:
+    """
+    Train a TF-IDF classifier.
 
-# Train both baseline models. Keep the dev split for model selection/tuning.
+    Args:
+        cfg: Training configuration.
+    Returns:
+        None
+    """
 
-# Report Accuracy + Macro-F1 + confusion matrix.
+    X_train, y_train, X_dev, y_dev, X_test, y_test = load_and_preprocess_data(cfg)
 
-# Metrics (required)
-# - Primary: Accuracy
-# - Secondary: Macro-F1
-# - Also include: confusion matrix + 3–5 sentences interpreting it
+    # Train two classical models (required):
+    #     TF-IDF + Logistic Regression
+    #     TF-IDF + Linear SVM
 
-# Evaluate on test once for the final numbers.
+    param_grids: dict[str, list[dict[str, object]]] = {
+        "Logistic Regression": [{"C": c} for c in [0.01, 0.1, 1.0, 10.0, 100.0]],
+        "Linear SVM": [
+            {"C": c, "loss": loss}
+            for c in [0.01, 0.1, 1.0, 10.0, 100.0]
+            for loss in ["hinge", "squared_hinge"]
+        ],
+    }
 
-# Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    model_classes: dict[str, Callable[[dict[str, Any]], Any]] = {
+        "Logistic Regression": lambda params: LogisticRegression(
+            max_iter=1000, **params
+        ),
+        "Linear SVM": lambda params: LinearSVC(**params),
+    }
+
+    best_models: dict[str, Any] = {}
+
+    # Train both baseline models. Keep the dev split for model selection/tuning.
+    for name, grid in param_grids.items():
+        logger.info("Running grid search for %s...", name)
+        best_score = -1
+        best_clf = None
+        best_params: dict[str, Any] | None = None
+
+        for params in grid:
+            clf = model_classes[name](params)
+            clf.fit(X_train, y_train)
+            y_pred_dev = clf.predict(X_dev)
+
+            score = accuracy_score(y_dev, y_pred_dev)
+            logger.info("  Params: %s -> Dev Accuracy: %.4f", params, score)
+
+            if score > best_score:
+                best_score = score
+                best_clf = clf
+                best_params = params
+
+        assert best_clf is not None, f"No model was trained for {name}"
+        best_models[name] = best_clf
+        logger.info(
+            "Best %s params: %s (Dev Accuracy: %.4f)", name, best_params, best_score
+        )
+
+        # Report Accuracy + Macro-F1 + confusion matrix.
+
+        # Metrics (required)
+        # - Primary: Accuracy
+        # - Secondary: Macro-F1
+        # - Also include: confusion matrix + 3–5 sentences interpreting it
+        y_pred_dev = best_clf.predict(X_dev)
+        report_stats(name, y_dev, y_pred_dev)
+
+    # Evaluate on test once for the final numbers.
+
+    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    breakpoint()
+
+
+def main() -> None:
+    """main function"""
+    cfg = OmegaConf.structured(TrainingConfig)
+    cli_cfg = OmegaConf.from_cli()
+    cfg = OmegaConf.merge(cfg, cli_cfg)
+    cfg = OmegaConf.to_container(cfg, resolve=True)
+    try:
+        cfg = TrainingConfig(**cfg)
+    except TypeError:  # pylint: disable=broad-exception-raised
+        logger.exception("Error\n\nUsage: python main.py")
+        sys.exit(1)
+
+    train_tfidf_classifier(cfg)
+
+
+if __name__ == "__main__":
+    main()

@@ -9,6 +9,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "nltk>=3.9.2",
     "numpy>=2.4.2",
+    "omegaconf>=2.3.0",
     "pandas>=3.0.0",
     "scikit-learn>=1.8.0",
 ]
