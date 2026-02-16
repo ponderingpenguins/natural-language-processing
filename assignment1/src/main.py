@@ -1,29 +1,119 @@
+import logging
+import sys
+from dataclasses import dataclass
+
 from datasets import load_dataset
+from omegaconf import OmegaConf
 
-# Load AG News and create train/dev/test splits (dev from train).
-ds = load_dataset("sh0416/ag_news")
-breakpoint()
+from .utils.preprocessing import preprocess_dataset, text_preprocessing_pipeline
 
-# Use the official train/test split.
-# Fix a random seed and report it.
-# Create a dev split from train (e.g., 90/10). Keep the test set untouched until final reporting.
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
-# Implement preprocessing (tokenization, normalization) and document it.
 
-# Use word-level TF-IDF features (document the preprocessing choices).
-# Train two classical models (required):
-#     TF-IDF + Logistic Regression
-#     TF-IDF + Linear SVM
+# Configuration dataclass
+@dataclass
+class TrainingConfig:
+    """
+    Configuration for training the TF-IDF classifier.
 
-# Train both baseline models. Keep the dev split for model selection/tuning.
+    Attributes:
+        hf_dataset: The Hugging Face dataset to use (default: "sh0416/ag_news").
+        model: The model type to train (default: "logistic_regression").
+        dev_split: The percentage of training data to use as a dev set (default: 0.1 for 10%).
+        max_features: The maximum number of features for TF-IDF vectorization (default: 10000).
+        ngram_range: The n-gram range for TF-IDF vectorization (default: (1, 2) for unigrams and bigrams).
 
-# Report Accuracy + Macro-F1 + confusion matrix.
+    """
 
-# Metrics (required)
-# - Primary: Accuracy
-# - Secondary: Macro-F1
-# - Also include: confusion matrix + 3–5 sentences interpreting it
+    hf_dataset: str = "sh0416/ag_news"
+    model: str = "logistic_regression"
+    dev_split: float = (
+        0.1  # percentage of training data to use as dev set (e.g., 0.1 for 10%)
+    )
+    max_features: int = 10000
+    ngram_range: tuple = (1, 2)
 
-# Evaluate on test once for the final numbers.
 
-# Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+def train_tfidf_classifier(cfg: TrainingConfig) -> None:
+    """
+    Train a TF-IDF classifier.
+
+    Args:
+        cfg: Training configuration.
+    Returns:
+        None
+    """
+
+    # Load AG News and create train/dev/test splits (dev from train).
+    ds = load_dataset(cfg.hf_dataset)
+
+    # Use the official train/test split.
+    # Fix a random seed and report it.
+    # Create a dev split from train (e.g., 90/10).
+    # Keep the test set untouched until final reporting.
+    train_ds = ds["train"]
+    dev_size = int(len(train_ds) * cfg.dev_split)
+    dev_ds = train_ds.select(range(dev_size))
+    train_ds = train_ds.select(range(dev_size, len(train_ds)))
+
+    # Implement preprocessing (tokenization, normalization) and document it.
+
+    # Preprocess the datasets using the defined pipeline.
+    train_ds = preprocess_dataset(train_ds, text_preprocessing_pipeline)
+    dev_ds = preprocess_dataset(dev_ds, text_preprocessing_pipeline)
+    test_ds = preprocess_dataset(ds["test"], text_preprocessing_pipeline)
+
+    # print examples from the preprocessed datasets to verify the preprocessing steps.
+    logger.info("(Before preprocessing) Example from original training set:")
+    logger.info(ds["train"][len(ds["train"]) - 1])
+    logger.info("Example from preprocessed training set:")
+    logger.info(train_ds[len(train_ds) - 1])
+
+    # Use word-level TF-IDF features (document the preprocessing choices).
+    # Train two classical models (required):
+    #     TF-IDF + Logistic Regression
+    #     TF-IDF + Linear SVM
+
+    # TF-IDF + Logistic Regression
+
+    # TF-IDF + Linear SVM
+
+    # Train both baseline models. Keep the dev split for model selection/tuning.
+
+    # Report Accuracy + Macro-F1 + confusion matrix.
+
+    # Metrics (required)
+    # - Primary: Accuracy
+    # - Secondary: Macro-F1
+    # - Also include: confusion matrix + 3–5 sentences interpreting it
+
+    # Evaluate on test once for the final numbers.
+
+    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    breakpoint()
+
+
+def main() -> None:
+    """main function"""
+    cfg = OmegaConf.structured(TrainingConfig)
+    cli_cfg = OmegaConf.from_cli()
+    cfg = OmegaConf.merge(cfg, cli_cfg)
+    cfg = OmegaConf.to_container(cfg, resolve=True)
+    try:
+        cfg = TrainingConfig(**cfg)
+    except TypeError:  # pylint: disable=broad-exception-raised
+        logger.exception("Error\n\nUsage: python main.py")
+        sys.exit(1)
+
+    train_tfidf_classifier(cfg)
+
+
+if __name__ == "__main__":
+    main()
