@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import nltk
 from datasets import load_dataset
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 from omegaconf import OmegaConf
 
 # Configure logging
@@ -16,13 +17,29 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# download stopwords if not already downloaded
-nltk.download("stopwords", quiet=True)
+# Download necessary NLTK resources
+nltk.download("stopwords", quiet=True)  # for stopword removal
+nltk.download("wordnet", quiet=True)  # for lemmatization
+
+# Initialize the lemmatizer
+LEMMATIZER = WordNetLemmatizer()
 
 
 # Configuration dataclass
 @dataclass
 class TrainingConfig:
+    """
+    Configuration for training the TF-IDF classifier.
+
+    Attributes:
+        hf_dataset: The Hugging Face dataset to use (default: "sh0416/ag_news").
+        model: The model type to train (default: "logistic_regression").
+        dev_split: The percentage of training data to use as a dev set (default: 0.1 for 10%).
+        max_features: The maximum number of features for TF-IDF vectorization (default: 10000).
+        ngram_range: The n-gram range for TF-IDF vectorization (default: (1, 2) for unigrams and bigrams).
+
+    """
+
     hf_dataset: str = "sh0416/ag_news"
     model: str = "logistic_regression"
     dev_split: float = (
@@ -46,17 +63,22 @@ def remove_punctuation(text):
     return text.translate(str.maketrans("", "", string.punctuation))
 
 
-def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
-    """Apply a preprocessing pipeline to the text."""
-    for name, func in pipeline.items():
-        text = func(text)
-    return text
-
-
 def remove_stopwords(text: str) -> str:
     """Remove stopwords from the text."""
     stop_words = set(stopwords.words("english"))
     return " ".join(word for word in text.split() if word not in stop_words)
+
+
+def lemmatize_text(text: str) -> str:
+    """Lemmatize the text."""
+    return " ".join(LEMMATIZER.lemmatize(word) for word in text.split())
+
+
+def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
+    """Apply a preprocessing pipeline to the text."""
+    for _, func in pipeline.items():
+        text = func(text)
+    return text
 
 
 def preprocess_dataset(dataset, pipeline):
@@ -84,7 +106,8 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     # Use the official train/test split.
     # Fix a random seed and report it.
-    # Create a dev split from train (e.g., 90/10). Keep the test set untouched until final reporting.
+    # Create a dev split from train (e.g., 90/10).
+    # Keep the test set untouched until final reporting.
     train_ds = ds["train"]
     dev_size = int(len(train_ds) * cfg.dev_split)
     dev_ds = train_ds.select(range(dev_size))
@@ -97,6 +120,7 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         "remove_whitespace": remove_whitespace,  # Remove extra whitespace
         "remove_punctuation": remove_punctuation,  # Remove punctuation
         "remove_stopwords": remove_stopwords,  # Remove stopwords
+        "lemmatization": lemmatize_text,  # Lemmatize the text
     }
 
     # Preprocess the datasets using the defined pipeline.
@@ -114,6 +138,10 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
     # Train two classical models (required):
     #     TF-IDF + Logistic Regression
     #     TF-IDF + Linear SVM
+
+    # TF-IDF + Logistic Regression
+
+    # TF-IDF + Linear SVM
 
     # Train both baseline models. Keep the dev split for model selection/tuning.
 
