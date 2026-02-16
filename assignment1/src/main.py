@@ -26,26 +26,21 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
     #     TF-IDF + Logistic Regression
     #     TF-IDF + Linear SVM
 
-    # TF-IDF + Logistic Regression
+    models = {
+        "Logistic Regression": LogisticRegression(max_iter=1000),
+        "Linear SVM": LinearSVC(),
+    }
 
-    clf = LogisticRegression(max_iter=1000)
-    clf.fit(X_train, y_train)
-    y_pred_dev = clf.predict(X_dev)
+    for name, clf in models.items():
+        logger.info(f"Training {name}...")
+        clf.fit(X_train, y_train)
+        y_pred_dev = clf.predict(X_dev)
 
-    logger.info("Logistic Regression, Dev Set Performance:")
-    logger.info(classification_report(y_dev, y_pred_dev))
-    logger.info("Confusion Matrix:")
-    logger.info(confusion_matrix(y_dev, y_pred_dev))
+        logger.info(f"{name}, Dev Set Performance:")
+        logger.info(classification_report(y_dev, y_pred_dev))
 
-    # TF-IDF + Linear SVM
-
-    clf = LinearSVC()
-    clf.fit(X_train, y_train)
-    y_pred_dev = clf.predict(X_dev)
-    logger.info("Linear SVM, Dev Set Performance:")
-    logger.info(classification_report(y_dev, y_pred_dev))
-    logger.info("Confusion Matrix:")
-    logger.info(confusion_matrix(y_dev, y_pred_dev))
+        logger.info("Confusion Matrix:")
+        logger.info(confusion_matrix(y_dev, y_pred_dev))
 
     # Train both baseline models. Keep the dev split for model selection/tuning.
 
