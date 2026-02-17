@@ -9,6 +9,7 @@ from sklearn.svm import LinearSVC
 
 from .utils.config import TrainingConfig
 from .utils.data import load_and_preprocess_data
+from .utils.evaluate_models import evaluate_models_on_test_set
 from .utils.helpers import logger, report_stats
 
 
@@ -24,9 +25,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     X_train, y_train, X_dev, y_dev, X_test, y_test = load_and_preprocess_data(cfg)
 
-    # Train two classical models (required):
-    #     TF-IDF + Logistic Regression
-    #     TF-IDF + Linear SVM
+    # Train two classical models
+    # 1. TF-IDF + Logistic Regression
+    # 2. TF-IDF + Linear SVM
 
     param_grids: dict[str, list[dict[str, object]]] = {
         "Logistic Regression": [{"C": c} for c in [0.01, 0.1, 1.0, 10.0, 100.0]],
@@ -81,11 +82,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         y_pred_dev = best_clf.predict(X_dev)
         report_stats(name, y_dev, y_pred_dev)
 
-    # Evaluate on test once for the final numbers.
-
-    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
-    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
-    breakpoint()
+    # Collect more than 20 misclassified examples from test
+    # and categorize them into 3–5 error types.
+    evaluate_models_on_test_set(cfg, best_models, X_test, y_test)
 
 
 def main() -> None:
