@@ -7,9 +7,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.svm import LinearSVC
 
-from .utils.config import TrainingConfig
-from .utils.data import load_and_preprocess_data
-from .utils.helpers import logger, report_stats
+from utils.config import TrainingConfig
+from utils.data import load_and_preprocess_data
+from utils.helpers import logger, report_stats
 
 
 def train_tfidf_classifier(cfg: TrainingConfig) -> None:
@@ -82,9 +82,23 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         report_stats(name, y_dev, y_pred_dev)
 
     # Evaluate on test once for the final numbers.
-
-    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
-    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types.
+    # Collect ≥20 misclassified examples from test and categorize them into 3–5 error types for each model.
+    missclassified: dict[str, list[tuple[str, str, str]]] = {name: [] for name in best_models}
+    for name, model in best_models.items():
+        logger.info("Evaluating %s on test set...", name)
+        
+        # Report the same metrics on the test set.
+        y_pred_test = model.predict(X_test)
+        report_stats(name, y_test, y_pred_test)
+        
+        # Collect misclassified examples
+        for i, (pred, true) in enumerate(zip(y_pred_test, y_test)):
+            # Collect 25 misclassified examples per model for error analysis
+            if i >= 25:
+                break
+            if pred != true:
+                missclassified[name].append((X_test[i], pred, true))
+    
     breakpoint()
 
 
@@ -95,7 +109,7 @@ def main() -> None:
     cfg = OmegaConf.merge(cfg, cli_cfg)
     cfg = OmegaConf.to_container(cfg, resolve=True)
     try:
-        cfg = TrainingConfig(**cfg)
+        cfg = TrainingConfig(**cfg)  # type: ignore
     except TypeError:  # pylint: disable=broad-exception-raised
         logger.exception("Error\n\nUsage: python main.py")
         sys.exit(1)
