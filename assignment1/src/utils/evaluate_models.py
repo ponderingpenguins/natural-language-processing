@@ -1,3 +1,7 @@
+"""
+Functions to evaluate trained models on the test set and save misclassified examples.
+"""
+
 import json
 import os
 from typing import Any
@@ -11,7 +15,7 @@ def evaluate_models_on_test_set(
     best_models: dict[str, Any],
     X_test: Any,
     y_test: Any,
-) -> dict[str, list[int]]:
+) -> dict[str, tuple[Any, list[int]]]:
     """
     Evaluate the best models on the test set and return misclassified indices.
 

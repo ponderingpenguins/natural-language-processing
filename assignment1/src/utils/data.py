@@ -1,5 +1,9 @@
-from datasets import load_dataset
-from sklearn.feature_extraction.text import TfidfVectorizer
+"""
+Data loading and preprocessing for the AG News dataset.
+"""
+
+from datasets import load_dataset  # type: ignore
+from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
 
 from .config import TrainingConfig
 from .helpers import logger

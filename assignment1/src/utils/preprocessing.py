@@ -1,8 +1,12 @@
+"""
+Text preprocessing functions for the AG News dataset.
+"""
+
 import string
 
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+import nltk  # type: ignore
+from nltk.corpus import stopwords  # type: ignore
+from nltk.stem import WordNetLemmatizer  # type: ignore
 
 # Download necessary NLTK resources
 nltk.download("stopwords", quiet=True)  # for stopword removal

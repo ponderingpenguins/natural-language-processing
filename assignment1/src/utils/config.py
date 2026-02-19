@@ -1,3 +1,7 @@
+"""
+Configuration dataclass for training the TF-IDF classifier.
+"""
+
 from dataclasses import dataclass, field
 
 

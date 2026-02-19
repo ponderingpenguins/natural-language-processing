@@ -1,16 +1,30 @@
+"""
+Main training script for TF-IDF classifiers.
+
+This script loads the AG News dataset, preprocesses it,
+trains two classical models (Logistic Regression and Linear SVM)
+using TF-IDF features, evaluates them on a dev set for model selection,
+and then evaluates the best models on the test set, reporting misclassified examples.
+"""
+
 import sys
 from collections.abc import Callable
 from typing import Any
 
 from omegaconf import OmegaConf
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression  # type: ignore
+from sklearn.metrics import accuracy_score  # type: ignore
+from sklearn.svm import LinearSVC  # type: ignore
 
 from .utils.config import TrainingConfig
 from .utils.data import load_and_preprocess_data
 from .utils.evaluate_models import evaluate_models_on_test_set, save_misclassified
-from .utils.helpers import logger, report_stats
+from .utils.helpers import (
+    logger,
+    plot_confusion_matrix,
+    plot_tfidf_clusters,
+    report_stats,
+)
 
 
 def train_tfidf_classifier(cfg: TrainingConfig) -> None:
@@ -23,8 +37,17 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         None
     """
 
-    X_train, y_train, X_dev, y_dev, X_test, y_test, test_ds = load_and_preprocess_data(
+    x_train, y_train, x_dev, y_dev, x_test, y_test, test_ds = load_and_preprocess_data(
         cfg
+    )
+
+    # Visualise TF-IDF clusters (uses training data)
+    plot_tfidf_clusters(
+        x_train,
+        y_train,
+        label_names=cfg.label_names,
+        output_dir=cfg.output_dir,
+        seed=cfg.seed,
     )
 
     # Train two classical models
@@ -58,8 +81,8 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
         for params in grid:
             clf = model_classes[name](params)
-            clf.fit(X_train, y_train)
-            y_pred_dev = clf.predict(X_dev)
+            clf.fit(x_train, y_train)
+            y_pred_dev = clf.predict(x_dev)
 
             score = accuracy_score(y_dev, y_pred_dev)
             logger.info("  Params: %s -> Dev Accuracy: %.4f", params, score)
@@ -81,12 +104,20 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         # - Primary: Accuracy
         # - Secondary: Macro-F1
         # - Also include: confusion matrix + 3–5 sentences interpreting it
-        y_pred_dev = best_clf.predict(X_dev)
+        y_pred_dev = best_clf.predict(x_dev)
         report_stats(name, y_dev, y_pred_dev)
+
+        plot_confusion_matrix(
+            y_dev,
+            y_pred_dev,
+            label_names=cfg.label_names,
+            title=f"Confusion Matrix for {name} (Dev Set)",
+            output_path=f"{cfg.output_dir}/{name}_confusion_matrix.png",
+        )
 
     # Collect more than 20 misclassified examples from test
     # and categorize them into 3–5 error types.
-    results = evaluate_models_on_test_set(cfg, best_models, X_test, y_test)
+    results = evaluate_models_on_test_set(cfg, best_models, x_test, y_test)
     save_misclassified(cfg, results, y_test, test_ds)
 
 
@@ -97,7 +128,7 @@ def main() -> None:
     cfg = OmegaConf.merge(cfg, cli_cfg)
     cfg = OmegaConf.to_container(cfg, resolve=True)
     try:
-        cfg = TrainingConfig(**cfg)
+        cfg = TrainingConfig(**cfg)  # type: ignore
     except TypeError:  # pylint: disable=broad-exception-raised
         logger.exception("Error\n\nUsage: python main.py")
         sys.exit(1)
