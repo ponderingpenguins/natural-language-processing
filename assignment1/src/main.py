@@ -9,7 +9,7 @@ from sklearn.svm import LinearSVC
 
 from .utils.config import TrainingConfig
 from .utils.data import load_and_preprocess_data
-from .utils.evaluate_models import evaluate_models_on_test_set
+from .utils.evaluate_models import evaluate_models_on_test_set, save_misclassified
 from .utils.helpers import logger, report_stats
 
 
@@ -23,7 +23,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         None
     """
 
-    X_train, y_train, X_dev, y_dev, X_test, y_test = load_and_preprocess_data(cfg)
+    X_train, y_train, X_dev, y_dev, X_test, y_test, test_ds = load_and_preprocess_data(
+        cfg
+    )
 
     # Train two classical models
     # 1. TF-IDF + Logistic Regression
@@ -84,7 +86,8 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     # Collect more than 20 misclassified examples from test
     # and categorize them into 3–5 error types.
-    evaluate_models_on_test_set(cfg, best_models, X_test, y_test)
+    results = evaluate_models_on_test_set(cfg, best_models, X_test, y_test)
+    save_misclassified(cfg, results, y_test, test_ds)
 
 
 def main() -> None:
@@ -99,6 +102,7 @@ def main() -> None:
         logger.exception("Error\n\nUsage: python main.py")
         sys.exit(1)
 
+    logger.info("Training configuration:\n%s", OmegaConf.to_yaml(cfg))
     train_tfidf_classifier(cfg)
 
 

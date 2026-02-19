@@ -24,6 +24,7 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     # Implement preprocessing (tokenization, normalization) and document it.
 
     # Preprocess the datasets using the defined pipeline.
+    # Each dataset now has both 'raw_text' and 'text' fields.
     train_ds = preprocess_dataset(train_ds, text_preprocessing_pipeline)
     dev_ds = preprocess_dataset(dev_ds, text_preprocessing_pipeline)
     test_ds = preprocess_dataset(ds["test"], text_preprocessing_pipeline)
@@ -52,4 +53,4 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     X_test = tfidf.transform(test_ds["text"])
     y_test = test_ds["label"]
 
-    return X_train, y_train, X_dev, y_dev, X_test, y_test
+    return X_train, y_train, X_dev, y_dev, X_test, y_test, test_ds
