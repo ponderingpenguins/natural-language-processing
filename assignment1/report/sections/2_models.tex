@@ -26,7 +26,3 @@ The model architecture is shown in Figure \ref{fig:model_architecture}. The inpu
     \caption{Model architecture for TF-IDF + Logistic Regression and TF-IDF + LinearSVM. The figure shows a random sample from the training set, which is preprocessed and transformed into TF-IDF features before being fed into the classifiers.}
     \label{fig:model_architecture}
 \end{figure}
-
-For the TF-IDF + Logistic Regression model, we performed a hyperparameter search over the regularization strength parameter \( C \) with the values [0.01, 0.1, 1.0, 100.0]. The best hyperparameters for this model were found to be \( C = XXX \), which yielded a development accuracy of approximately XXX\%.
-
-For the TF-IDF + LinearSVM model, we conducted a more extensive hyperparameter search over both the regularization strength \( C \) and the loss function. The values for \( C \) were [0.01, 0.1, 1.0, 10.0, 100.0], and the loss functions considered were "hinge" and "squared\_hinge". The best hyperparameters for this model were \( C = XXX \) and loss function = "XXX", resulting in a development accuracy of approximately XXX\%.
