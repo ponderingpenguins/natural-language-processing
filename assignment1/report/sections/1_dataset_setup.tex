@@ -8,18 +8,29 @@ Dataset for this text classification by topic task is the textual AG News datase
 % split sizes
 % split seed
 
-The dataset is split into 3: Training, test, and dev. Using the official split from Hugging Face, training and test sets were pre-split. We generated the dev set from the training set (90/10).
-The split seed is 67.
+We use the official Hugging face split (120,000 train and 7,600 test).
+We use stratified sampling (90/10) with seed 67 to create a development set:
+\begin{itemize}
+    \item Train: 108,000
+    \item Dev: 12,000
+    \item Test: 7,600
+\end{itemize}
 
-\subsection{Normalization}
+\subsection{Preprocessing}
 % Preprocessing (Normalization & Tokenization)
 % Lowercasing
 % Removing whitespace
 % Removing punctuation
-First, the input text is lowercased, followed by the removal of whitespaces and all punctuation characthers. 
+The input is the title and description concatenated. We used the following preprocessing steps:
+\begin{itemize}
+    \item Lowercasing
+    \item Whitespace removal
+    \item Punctuation removal
+    \item English stopword removal (using NLTK library)
+    \item Lemmatization (with WordNetLemmatizer)
+\end{itemize}
 
-% Removing stop words (maybe a bit loinger explanation here)
-Later, we removed stop words, common words frequently used that carry minimal information regarding the text. We used the English stopwords corpus from NLTK library to identify these words.
+The reason why we remove stop words, is because common words often carry less information and carry noise into our classifier.
 
 % Lemazation (vs. stemming)
 The last step in the normalization is lemmatization, the act of reducing words into their dictionary form (e.g. "running" to "run"). Using the NLTK's WordNetLemmatizer, we reduced each word in the text to their dictionary forms to reduce the computational complexity. In this way, different forms of the same word are reduced to a single form. 
@@ -27,5 +38,13 @@ The last step in the normalization is lemmatization, the act of reducing words i
 % Vectorization through IT-IDF
 
 \subsection{Tokenization}
+Even though there is no explicit tokenization in our code, texts are vectorized with word-level TF-IDF. After the normalization steps, TF-IDF vectorizes, and thus tokenizes, the input text into numerical data:
+\begin{itemize}
+    \item n-gram range: (1, 2)
+    \item max_features = 10,000
+    \item min_df = 2
+\end{itemize}
 
-Even though there is no explicit tokenization in our code, it was implemented as a part of TF-IDF. After the normalization steps, TF-IDF vectorizes, and thus tokenizes, the input text into numerical data.
+\subsection{Reproducibility}
+All experiments make use of the fixed random seed 67.
+We use it for teh data split and model initialization where it is applicable.
