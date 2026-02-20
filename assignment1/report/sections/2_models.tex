@@ -14,44 +14,28 @@
 %     C: [0.01, 0.1, 1.0, 10.0, 100.0]
 %     loss: ["hinge", "squared_hinge"]
 
-% Mention what was the best hyperparameters, and what was the dev accuracy, for each model
+% Mention what was the best hyperparameters, and what was the dev accuracy, for each model (only in the result section, not here)
 
-In this section, we describe the two models we implemented for the text classification task:
-\begin{itemize}
-    \item TF-IDF + Logistic Regression
-    \item TF-IDF + LinearSVM.
-\end{itemize}
+In this section, we describe the two models we implemented for the text classification task: Logistic Regression and Linear Support Vector Machine (SVM), both using Term Frequency-Inverse Document Frequency (TF-IDF) for feature extraction. The architecture of both models is similar, with the main difference being the linear classifier used for classification. The input text is first preprocessed and then transformed into TF-IDF features, which are then fed into either a Logistic Regression classifier or a Linear SVM for classification (see Figure \ref{fig:model_architecture} for a visual representation of the architecture).
 
-Both models utilize Term Frequency-Inverse Document Frequency (TF-IDF) for feature extraction,
-which transforms the textual data into a numerical representation based on the importance of words in the documents.
+% \subsubsection{Logistic Regression Grid}
+% \begin{itemize}
+%     \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
+%     \item \texttt{max\_iter} = 1,000
+% \end{itemize}
 
-The only difference between them is in the linear classifier head.
+% \subsubsection{Linear SVM Grid}
+% \begin{itemize}
+%     \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
+%     \item loss $\in \{$hinge, squared\_hinge$\}$
+% \end{itemize}
 
-\subsection{Hyperparameter Search}
-Model selection was done only on the dev split.
-
-\subsubsection{Logistic Regression Grid}
-\begin{itemize}
-    \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
-    \item \texttt{max\_iter} = 1,000
-\end{itemize}
-
-\subsubsection{Linear SVM Grid}
-\begin{itemize}
-    \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
-    \item loss $\in \{$hinge, squared\_hinge$\}$
-\end{itemize}
-
-\subsubsection{Best Dev Split Settings}
-The best settings selected on the dev split were:
-\begin{itemize}
-    \item Logistic Regression: $C=1.0$ (Dev Accuracy: 0.9145)
-    \item Linear SVM: $C=1.0$, loss=hinge (Dev Accuracy: 0.9163)
-\end{itemize}
-
-The model architecture is shown in Figure \ref{fig:model_architecture}.
-The input text is first preprocessed and then transformed into TF-IDF features.
-These features are then fed into either a Logistic Regression classifier or a Linear Support Vector Machine (SVM) for classification.
+% \subsubsection{Best Dev Split Settings}
+% The best settings selected on the dev split were:
+% \begin{itemize}
+%     \item Logistic Regression: $C=1.0$ (Dev Accuracy: 0.9145)
+%     \item Linear SVM: $C=1.0$, loss=hinge (Dev Accuracy: 0.9163)
+% \end{itemize}
 
 \begin{figure}[ht]
     \centering

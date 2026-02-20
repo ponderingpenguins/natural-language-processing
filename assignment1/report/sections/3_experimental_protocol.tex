@@ -1,61 +1,11 @@
-In this section, we describe the experimental protocol we followed for
-tuning our models and selecting the best hyperparameters.
+In this section, we describe the experimental protocol we followed for training our models and selecting the best hyperparameters.
 
-\subsection{Model Selection Protocol}
-We followed this procedure for model selection:
-\begin{enumerate}
-    \item Build vocabulary for TF-IDF on training split only.
-    \item Train each model on train/dev splits.
-    \item Select the best hyperparameters based on our dev split accuracy.
-    \item Do a final evaluation on the test split for final results.
-\end{enumerate}
+We first built the vocabulary for the TF-IDF vectorizer using only the training split to avoid data leakage. Then, we trained each model on the training split and evaluated their performance on the development split to select the best hyperparameters based on accuracy. Finally, we performed a final evaluation on the test split using the best hyperparameters selected from the development set to report our final results.
 
-This protocal ensures that we do not have any data leakage from
-our test data into our model selection.
+\subsection{Hyperparameter Search}
 
-\subsection{Training and Reproducibility}
-We set max\_iter = 1,000 for Logistic Regression and Linear SVM as early stopping.
-This is to prevent unnecessary optimization steps and promote convergence.
+We performed hyperparameter tuning for both models, selecting the best parameters based on the highest accuracy on the development set. For Logistic Regression, we searched over the regularization strength parameter $C$ with values in $\{0.01, 0.1, 1.0, 10.0, 100.0\}$. For Linear SVM, we searched over both the regularization strength parameter $C$ with values in $\{0.01, 0.1, 1.0, 10.0, 100.0\}$ and the loss function with options "hinge" and "squared\_hinge". Both models were trained with a maximum of 1,000 iterations to ensure convergence.
 
-During training, we kept the random seed at 67 (same as for data splitting) for reproducibility purposes.
+We recorded the accuracy, macro-F1 score, and confusion matrix for both models on the test set for the final evaluation.
 
-\subsection{Hyperparameter Tuning}
-Hyperparameters were tuned with grid search on just the dev split.
-The exact details are defined in Section 2.
-
-\subsection{Evaluation and Fair Comparison}
-For each model, we look at:
-\begin{itemize}
-    \item Accuracy
-    \item Macro-F1
-    \item Confusion matrix
-\end{itemize}
-
-Macro-F1 is used to show performance for all four classes.
-
-To make sure there is a fair comparison between the models, both have:
-\begin{itemize}
-    \item The same train/dev/test splits
-    \item The same preprocessing and TF-IDF feature settings
-    \item The same random seed (67)
-    \item Tuning only on the dev split and a final test eval
-\end{itemize}
-
-
-% We employed early stopping based on max iterations to prevent overfitting
-% and ensure that our models converged properly.
-% For the Logistic Regression model, we set a maximum of 1000 iterations,
-% while for the Linear SVM model, we also set a maximum of 1000 iterations.
-% While training we fixed the random seed to $67$, the same one used for
-% data splitting, to ensure reproducibility of our results.
-
-% For hyperparameter tuning, we performed a grid search over a predefined
-% set of hyperparameters for both models.
-% For the TF-IDF + Logistic Regression model, we searched over the regularization
-% parameter \( C \) with values [0.01, 0.1, 1.0, 100.0].
-% For the TF-IDF + LinearSVM model, we searched over both the regularization
-% parameter \( C \) with values [0.01, 0.1, 1.0, 10.0, 100.0] and the loss
-% function with options \texttt{["hinge", "squared\_hinge"]}.
-% We selected the best hyperparameters based on the development set accuracy.
-% The best hyperparameters and their corresponding development accuracies for
-% each model are reported in the Results section.
+Both models were trained and evaluated using the same train/dev/test splits, the same preprocessing and TF-IDF feature settings, and the same random seed (67) to ensure a fair comparison between the models.
