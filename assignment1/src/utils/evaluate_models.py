@@ -33,7 +33,7 @@ def evaluate_models_on_test_set(
     for name, clf in best_models.items():
         logger.info("Evaluating %s on test set...", name)
         y_pred_test = clf.predict(X_test)
-        report_stats(name + " (Test)", y_test, y_pred_test)
+        report_stats(cfg, name + " (Test)", y_test, y_pred_test)
 
         misclassified_indices = [
             i
