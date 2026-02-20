@@ -1,9 +1,12 @@
+"""
+Text preprocessing functions for the AG News dataset.
+"""
+
 import string
 
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-from nltk.stem import PorterStemmer
+import nltk  # type: ignore
+from nltk.corpus import stopwords  # type: ignore
+from nltk.stem import WordNetLemmatizer  # type: ignore
 
 # Download necessary NLTK resources
 nltk.download("stopwords", quiet=True)  # for stopword removal
@@ -49,12 +52,18 @@ def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
 
 
 def preprocess_dataset(dataset, pipeline):
-    """Preprocess the dataset using the provided pipeline."""
+    """Preprocess the dataset using the provided pipeline.
+
+    Creates two fields:
+        - raw_text: title + description combined, no transformations.
+        - text: title + description after the preprocessing pipeline.
+    """
     return dataset.map(
         lambda x: {
+            "raw_text": x["title"] + " " + x["description"],
             "text": apply_preprocessing_pipeline(x["title"], pipeline)
             + " "
-            + apply_preprocessing_pipeline(x["description"], pipeline)
+            + apply_preprocessing_pipeline(x["description"], pipeline),
         }
     )
 
