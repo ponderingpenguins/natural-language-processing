@@ -1,0 +1,31 @@
+% to reference the datset: \cite{zhang2015character}
+
+% Dataset info (where, size, type, classes, etc.)
+
+Dataset for this text classification by topic task is the textual AG News dataset from Hugging Face \cite{zhang2015character}. Each data point has an associated label, the new's title and its description. There are 4 classes, all of which has 30000 training and 1900 testing samples: world, sports, business, and sci/tech.
+
+% Split details
+% split sizes
+% split seed
+
+The dataset is split into 3: Training, test, and dev. Using the official split from Hugging Face, training and test sets were pre-split. We generated the dev set from the training set (90/10).
+The split seed is 67.
+
+\subsection{Normalization}
+% Preprocessing (Normalization & Tokenization)
+% Lowercasing
+% Removing whitespace
+% Removing punctuation
+First, the input text is lowercased, followed by the removal of whitespaces and all punctuation characthers. 
+
+% Removing stop words (maybe a bit loinger explanation here)
+Later, we removed stop words, common words frequently used that carry minimal information regarding the text. We used the English stopwords corpus from NLTK library to identify these words.
+
+% Lemazation (vs. stemming)
+The last step in the normalization is lemmatization, the act of reducing words into their dictionary form (e.g. "running" to "run"). Using the NLTK's WordNetLemmatizer, we reduced each word in the text to their dictionary forms to reduce the computational complexity. In this way, different forms of the same word are reduced to a single form. 
+
+% Vectorization through IT-IDF
+
+\subsection{Tokenization}
+
+Even though there is no explicit tokenization in our code, it was implemented as a part of TF-IDF. After the normalization steps, TF-IDF vectorizes, and thus tokenizes, the input text into numerical data.
