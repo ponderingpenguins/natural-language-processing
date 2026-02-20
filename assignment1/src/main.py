@@ -22,6 +22,7 @@ from .utils.evaluate_models import evaluate_models_on_test_set, save_misclassifi
 from .utils.helpers import (
     logger,
     plot_confusion_matrix,
+    plot_prediction_map,
     plot_tfidf_clusters,
     report_stats,
 )
@@ -48,6 +49,7 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         label_names=cfg.label_names,
         output_dir=cfg.output_dir,
         seed=cfg.seed,
+        file_name_prefix="dev",
     )
 
     # Train two classical models
@@ -105,7 +107,7 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         # - Secondary: Macro-F1
         # - Also include: confusion matrix + 3–5 sentences interpreting it
         y_pred_dev = best_clf.predict(x_dev)
-        report_stats(name, y_dev, y_pred_dev)
+        report_stats(cfg, name, y_dev, y_pred_dev)
 
         plot_confusion_matrix(
             y_dev,
@@ -115,10 +117,43 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
             output_path=f"{cfg.output_dir}/{name}_confusion_matrix.png",
         )
 
+        # Also for the test set (only the best model)
+        y_pred_test = best_clf.predict(x_test)
+        report_stats(cfg, name, y_test, y_pred_test)
+
+        plot_confusion_matrix(
+            y_test,
+            y_pred_test,
+            label_names=cfg.label_names,
+            title=f"Confusion Matrix for {name} (Test Set)",
+            output_path=f"{cfg.output_dir}/{name}_confusion_matrix_test.png",
+        )
+
+        # Prediction map: colour = predicted class, shape = true class
+        plot_prediction_map(
+            x_data=x_test,
+            y_true=y_test,
+            y_pred=y_pred_test,
+            label_names=cfg.label_names,
+            title=f"Prediction Map for {name} (Test Set, t-SNE)",
+            output_path=f"{cfg.output_dir}/{name}_prediction_map.png",
+            seed=cfg.seed,
+        )
+
     # Collect more than 20 misclassified examples from test
     # and categorize them into 3–5 error types.
     results = evaluate_models_on_test_set(cfg, best_models, x_test, y_test)
     save_misclassified(cfg, results, y_test, test_ds)
+
+    # Visualise TF-IDF clusters (uses test data)
+    plot_tfidf_clusters(
+        x_test,
+        y_test,
+        label_names=cfg.label_names,
+        output_dir=cfg.output_dir,
+        seed=cfg.seed,
+        file_name_prefix="test",
+    )
 
 
 def main() -> None:
