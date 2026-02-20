@@ -65,9 +65,9 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
 
     model_classes: dict[str, Callable[[dict[str, Any]], Any]] = {
         "Logistic Regression": lambda params: LogisticRegression(
-            max_iter=1000, **params
+            max_iter=1000, random_state=cfg.seed, **params
         ),
-        "Linear SVM": lambda params: LinearSVC(**params),
+        "Linear SVM": lambda params: LinearSVC(random_state=cfg.seed, **params),
     }
 
     best_models: dict[str, Any] = {}

@@ -43,3 +43,5 @@ class TrainingConfig:
     ngram_min: int = 1
     ngram_max: int = 2
     min_df: int = 2  # filter rare n-grams
+    remove_stopwords: bool = True  # whether to remove stopwords during preprocessing
+    stopword_language: str = "english"  # language for stopword removal

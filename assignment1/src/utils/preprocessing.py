@@ -29,9 +29,9 @@ def remove_punctuation(text):
     return text.translate(str.maketrans("", "", string.punctuation))
 
 
-def remove_stopwords(text: str) -> str:
+def remove_stopwords(text: str, language: str = "english") -> str:
     """Remove stopwords from the text."""
-    stop_words = set(stopwords.words("english"))
+    stop_words = set(stopwords.words(language))
     return " ".join(word for word in text.split() if word not in stop_words)
 
 
@@ -68,11 +68,16 @@ def preprocess_dataset(dataset, pipeline):
     )
 
 
-text_preprocessing_pipeline = {
-    "lowercase": lambda x: x.lower(),  # Convert text to lowercase
-    "remove_whitespace": remove_whitespace,  # Remove extra whitespace
-    "remove_punctuation": remove_punctuation,  # Remove punctuation
-    "remove_stopwords": remove_stopwords,  # Remove stopwords
-    "lemmatization": lemmatize_text,  # Lemmatize the text
-    "stemming": stem_text,  # Stem the text
-}
+def build_preprocessing_pipeline(cfg) -> dict:
+    """Build a preprocessing pipeline based on the training config."""
+    pipeline = {
+        "lowercase": lambda x: x.lower(),  # Convert text to lowercase
+        "remove_whitespace": remove_whitespace,  # Remove extra whitespace
+        "remove_punctuation": remove_punctuation,  # Remove punctuation
+    }
+    if cfg.remove_stopwords:
+        pipeline["remove_stopwords"] = lambda x: remove_stopwords(
+            x, language=cfg.stopword_language
+        )
+    pipeline["lemmatization"] = lemmatize_text  # Lemmatize the text
+    return pipeline
