@@ -12,8 +12,9 @@ from nltk.stem import WordNetLemmatizer  # type: ignore
 nltk.download("stopwords", quiet=True)  # for stopword removal
 nltk.download("wordnet", quiet=True)  # for lemmatization
 
-# Initialize the lemmatizer
+# Initialize the lemmatizer and stemmer
 LEMMATIZER = WordNetLemmatizer()
+STEMMER = PorterStemmer()
 
 
 # Preprocessing functions
@@ -37,6 +38,10 @@ def remove_stopwords(text: str, language: str = "english") -> str:
 def lemmatize_text(text: str) -> str:
     """Lemmatize the text."""
     return " ".join(LEMMATIZER.lemmatize(word) for word in text.split())
+
+def stem_text(text: str) -> str:
+    """Stem the text."""
+    return " ".join(STEMMER.stem(word) for word in text.split())
 
 
 def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
@@ -63,6 +68,7 @@ def preprocess_dataset(dataset, pipeline):
     )
 
 
+<<<<<<< HEAD
 def build_preprocessing_pipeline(cfg) -> dict:
     """Build a preprocessing pipeline based on the training config."""
     pipeline = {
@@ -76,3 +82,13 @@ def build_preprocessing_pipeline(cfg) -> dict:
         )
     pipeline["lemmatization"] = lemmatize_text  # Lemmatize the text
     return pipeline
+=======
+text_preprocessing_pipeline = {
+    "lowercase": lambda x: x.lower(),  # Convert text to lowercase
+    "remove_whitespace": remove_whitespace,  # Remove extra whitespace
+    "remove_punctuation": remove_punctuation,  # Remove punctuation
+    "remove_stopwords": remove_stopwords,  # Remove stopwords
+    "lemmatization": lemmatize_text,  # Lemmatize the text
+    "stemming": stem_text,  # Stem the text
+}
+>>>>>>> a8487ba4d28503544bc7e3d68c17b0c680fc04dc

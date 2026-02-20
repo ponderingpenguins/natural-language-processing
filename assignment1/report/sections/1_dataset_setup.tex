@@ -1,16 +1,20 @@
-% - [ ] Dataset info (where, size, type, classes, etc.)
-% - [ ] Split details
-%      - [ ] split sizes
-%      - [ ] split seed
-
-% - [ ] Preprocessing (Normalization & Tokenization)
-%     - [ ] Lowercasing
-%     - [ ] Removing whitespace
-%     - [ ] Removing punctuation
-%     - [ ] Removing stop words (maybe a bit longer explanation here)
-%     - [ ] Lematization (vs. stemming)
-%     - [ ] Vectorization through TF-IDF
-
 % to reference the datset: \cite{zhang2015character}
 
-In this section, we will discuss the dataset used for our text classification task, including its source, size, type, and classes. We will also detail the preprocessing steps applied to the data, such as normalization and tokenization.
+% Dataset info (where, size, type, classes, etc.)
+
+Dataset for this text classification by topic task is the textual AG News dataset from Hugging Face. Each data point has an associated label, the new's title and its description. There are 4 classes, all of which has 30000 training and 1900 testing samples: world, sports, business, and sci/tech.
+
+% Split details
+% split sizes
+% split seed
+
+The dataset is split into 3: Training, test, and dev. Using the official split from Hugging Face, training and test sets were pre-split. We generated the dev set from the training set (90/10).
+The split seed is 67.
+
+% Preprocessing (Normalization & Tokenization)
+% Lowercasing
+% Removing whitespace
+% Removing punctuation
+% Removing stop words (maybe a bit loinger explanation here)
+% Lemazation (vs. stemming)
+% Vectorization through IT-IDF
