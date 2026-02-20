@@ -1,0 +1,82 @@
+Business predicted as Sci/Tech:
+preprocessed_text: teenage rex monster growth tyrannosaurus rex achieved massive size due enormous growth spurt adolescent year
+
+raw_text: Teenage T. rex's monster growth Tyrannosaurus rex achieved its massive size due to an enormous growth spurt during its adolescent years.
+
+preprocessed_text: people eligible get google ipo google billed ipo way everyday people get process denying wall street usual stranglehold ipo public bidding minimum five share open process 28 underwriter pointed new level public participation isnt case
+
+raw_text: Some People Not Eligible to Get in on Google IPO Google has billed its IPO as a way for everyday people to get in on the process, denying Wall Street the usual stranglehold it's had on IPOs. Public bidding, a minimum of just five shares, an open process with 28 underwriters - all this pointed to a new level of public participation. But this isn't the case.
+
+preprocessed_text: rival try turn table charles schwab michael liedtke san francisco ap low price iconoclastic attitude discount stock broker charles schwab corp sch represented annoying stone wall street wingtipped shoe decade
+
+raw_text: Rivals Try to Turn Tables on Charles Schwab By MICHAEL LIEDTKE     SAN FRANCISCO (AP) -- With its low prices and iconoclastic attitude, discount stock broker Charles Schwab Corp. (SCH) represented an annoying stone in Wall Street's wing-tipped shoes for decades...
+
+preprocessed_text: dell exit lowend china consumer pc market hong kong reuters dell inc ltdellogt world largest pc maker said monday left lowend consumer pc market china cut overall growth target country year due stiff competition segment
+
+raw_text: Dell Exits Low-End China Consumer PC Market  HONG KONG (Reuters) - Dell Inc. &lt;DELL.O&gt;, the world's  largest PC maker, said on Monday it has left the low-end  consumer PC market in China and cut its overall growth target  for the country this year due to stiff competition in the  segment.
+
+preprocessed_text: ibm buy two danish service firm ibm said tuesday acquired pair danish service firm part effort broaden presence scandinavia result move ibm add 3700 staffer global head count financial term
+
+raw_text: IBM Buys Two Danish Services Firms IBM said Tuesday it has acquired a pair of Danish IT services firms as part of its effort to broaden its presence in Scandinavia. As a result of the moves, IBM will add about 3,700 IT staffers to its global head count. Financial terms of ...
+
+preprocessed_text: microsoft finalises threeyear government deal hot heel 10year strategic partnership london borough newham microsoft close signing new broad threeyear public sector agreement government
+
+raw_text: Microsoft finalises three-year government deal Hot on the heels of its 10-year strategic partnership with the London Borough of Newham, Microsoft is close to signing a new broad three-year public sector agreement with the government. 
+
+preprocessed_text: intuit post wider loss charge reuters reuters intuit inc intuo maker ofthe 1 u tax presentation software turbotax wednesdayposted wider quarterly loss taking goodwillimpairment charge seasonally weaker fourth quarter
+
+raw_text: Intuit Posts Wider Loss After Charge (Reuters) Reuters - Intuit Inc. (INTU.O), maker of\the No. 1 U.S. tax presentation software TurboTax, on Wednesday\posted a wider quarterly loss after taking a goodwill\impairment charge during its seasonally weaker fourth quarter.
+
+preprocessed_text: hurricane center 39s projection charley far data show fort lauderdale fla krt despite criticism better anticipated hurricane charley 39s rapid intensification quick turn national hurricane center 39s forecast 39t far preliminary postmortem show
+
+raw_text: Hurricane center #39;s projection on Charley not far off, data show FORT LAUDERDALE, Fla. - (KRT) - Despite criticism that it should have better anticipated Hurricane Charley #39;s rapid intensification and quick turn, the National Hurricane Center #39;s forecast wasn #39;t that far off, a preliminary post-mortem shows. 
+
+preprocessed_text: ciena post loss forecast flat sale ltpgtltpgtltpgt deborah cohenltpgtltpgt chicago reuters telecommunication equipment makerciena corp ltcienogt thursday reported wider loss thefiscal third quarter due slack demand forecast sale inthe current quarter would little changed thirdquarterltpgt
+
+raw_text: Ciena Posts a Loss, Forecasts Flat Sales &lt;p&gt;&lt;/p&gt;&lt;p&gt; By Deborah Cohen&lt;/p&gt;&lt;p&gt; CHICAGO (Reuters) - Telecommunications equipment makerCiena Corp. &lt;CIEN.O&gt; on Thursday reported a wider loss for thefiscal third quarter due to slack demand and forecast sales inthe current quarter would be little changed from the thirdquarter.&lt;/p&gt;
+
+preprocessed_text: report consumer tuning plasma tv firstquarter shipment plasma television united state doubled previous year according research firm isuppli price fell nearly 1000 period
+
+raw_text: Report: Consumers tuning in to plasma TVs First-quarter shipments of plasma televisions in the United States more than doubled from the previous year, according to research firm iSuppli. Prices fell by nearly \$1,000 over the same period. 
+
+Sci/Tech predicted as Business:
+preprocessed_text: intel delay product aimed highdefinition tv san francisco latest series product delay intel corp postponed launch video display chip previously planned introduce year end putting showdown texas instrument inc fastgrowing market highdefinition television display
+
+raw_text: Intel to delay product aimed for high-definition TVs SAN FRANCISCO -- In the latest of a series of product delays, Intel Corp. has postponed the launch of a video display chip it had previously planned to introduce by year end, putting off a showdown with Texas Instruments Inc. in the fast-growing market for high-definition television displays.
+
+preprocessed_text: yahoo ups ante small business web giant yahoo gambling price cut domain name registration web hosting product make competitive discounter space mean small business looking move online get sweeter deal
+
+raw_text: Yahoo! Ups Ante for Small Businesses Web giant Yahoo! is gambling that price cuts on its domain name registration and Web hosting products will make it more competitive with discounters in the space -- which means that small businesses looking to move online get a sweeter deal through ...
+
+preprocessed_text: suv live let die new york newly released traffic crash fatality data something everyone debate safety sport utility vehicle
+
+raw_text: SUVs: Live And Let Die NEW YORK - The newly released traffic crash fatality data have something for everyone in the debate about the safety of sport utility vehicles. 
+
+preprocessed_text: ross store profit plummet 40 percent ap ap discount retailer ross store inc wednesday said profit fell 40 percent latest quarter due problem new computer system limited company ability respond change customer demand
+
+raw_text: Ross Stores Profit Plummets 40 Percent (AP) AP - Discount retailer Ross Stores Inc. Wednesday said its profit fell about 40 percent in the latest quarter due to problems with a new computer system that limited the company's ability to respond to changes in customer demand.
+
+preprocessed_text: ohio sue best buy alleging used sale ap ap ohio authority sued best buy co inc thursday alleging electronics retailer engaged unfair deceptive business practice
+
+raw_text: Ohio Sues Best Buy, Alleging Used Sales (AP) AP - Ohio authorities sued Best Buy Co. Inc. on Thursday, alleging the electronics retailer engaged in unfair and deceptive business practices.
+
+preprocessed_text: amazon snap china largest web retailer newsfactor newsfactor amazoncom nasdaq amzn said buy joyocom limited british virgin island company operates largest internet retail web site china u 3675 million
+
+raw_text: Amazon Snaps Up China's Largest Web Retailer (NewsFactor) NewsFactor - Amazon.com (Nasdaq: AMZN) has said it will buy Joyo.com Limited -- a British Virgin Islands company that operates the largest Internet retail Web site in China -- for US #36;75 million.
+
+preprocessed_text: deal s2io champing gigabit ottawa local firm say help shrink backup time large data centre growing business thanks alliance sun microsystems inc
+
+raw_text: Deal has S2io champing at the gigabit OTTAWA -- A local firm that says it can help shrink backup times at large data centres is growing its business thanks to an alliance with Sun Microsystems Inc.
+
+preprocessed_text: mom 2005 released manufacturing microsoft wednesday announced release manufacturing microsoft operation manager mom 2005 mom 2005 workgroup edition new edition company previously called mom 2005 express
+
+raw_text: MOM 2005 Released to Manufacturing Microsoft on Wednesday announced the release to manufacturing of Microsoft Operations Manager (MOM) 2005 and MOM 2005 Workgroup Edition, a new edition that the company previously called MOM 2005 Express.
+
+preprocessed_text: hp tempt holiday shopper sight sound computerhardware giant best known product pc printer friday laid plan become brandname consumer electronics product flatscreen tv music player device move content
+
+raw_text: HP to tempt holiday shoppers with sights and sounds The computer-hardware giant, best known for products such as PCs and printers, on Friday laid out its plan to become a brand-name in consumer electronics products such as flat-screen TVs, music players and the devices that move content between them.
+
+preprocessed_text: canadian invasion week ago story nortel nyse nt asked people submit canadian joke good place reveal winner
+
+raw_text: A Canadian Invasion A few weeks ago, in a story on Nortel (NYSE: NT), I asked people to submit a Canadian joke to me. This is as good a place as any to reveal the winner.
+

@@ -1,19 +1,35 @@
-
 In this section, we will analyze the errors made by our best-performing models (Linear SVM and Logistic Regression) on the test set. We will look at the confusion matrices and t-SNE projections of the predictions to understand which classes are most often confused and why.
 
+Looking at Figures \ref{fig:linear_svm_test_confusion_matrix} and \ref{fig:logistic_regression_test_confusion_matrix}, we can see that the TF-IDf features form many distinct clusters in the t-SNE projection, the classes seem to be mostly seperable, but there is some overlap in the center of the projection. The confusion matrices show that the most common misclassification is between the sci/tech and business classes, which is reflected in the t-SNE projection where the clusters for these classes overlap more than the others. This suggests that there are some samples in the test set that have features that are similar to both classes, which might explain why they are misclassified.
 
-% linear svm (test) prediction map
+To further analyze this, we recorded 20 misclassified samples for each of the two most common confusions (i.e., business predicted as sci/tech, and sci/tech predicted as business) and looked at the raw text to see if there are any common features that might explain the confusion. We found that the errors can be put into 5 categories: 1) labeling errors, 2) ambiguous samples, 3) samples with overlapping keywords, 4) samples with insufficient context, and 5) samples that are simply difficult to classify.
+
+Labeling errors account for a small but notable portion of the misclassified samples. These are articles that appear to have been assigned the wrong category in the AG News dataset itself, independent of any model behavior. For example, the article "Teenage T. rex's monster growth" describes paleontological research and is clearly a science article, yet it carries a Business label in the dataset. Similarly, the Hurricane Charley article concerns meteorological forecasting accuracy and has no apparent business relevance. Since AG News was constructed through automated web scraping and keyword-based labeling rather than human annotation, a degree of label noise is expected. These errors represent a hard ceiling on achievable accuracy that no model improvement can overcome, as the ground truth itself is incorrect.
+
+Ambiguous samples are articles that could reasonably belong to either category, where even a human annotator might disagree on the correct label. The Amazon/Joyo acquisition is a representative example: it is structurally an M\&A story, which would typically fall under Business, yet it concerns an internet retail platform and involves companies whose primary identity is technological. Similarly, the Yahoo pricing article discusses a commercial strategy decision but centers on web hosting and domain registration products. These cases reflect a fundamental limitation of the AG News label schema, which forces a single category onto articles that genuinely straddle two domains. A model trained on this schema will inevitably produce errors on such samples regardless of its representational capacity.
+
+Samples with overlapping keywords are perhaps the most common error type and the most directly attributable to the TF-IDF representation. These are articles whose true category is clear, but whose vocabulary is dominated by terms strongly associated with the other category. Tech company earnings reports are the clearest example: articles about Intuit, Ciena, and Microsoft contain financial language such as "quarterly loss", "forecast", and "government deal" that the model associates with Business, while the entities themselves (software companies, telecom equipment makers) carry strong Sci/Tech signal. The model has no mechanism to weight the framing of an article over the entities it mentions, so whichever signal is stronger in the term frequency wins.
+
+Samples with insufficient context are short or sparsely worded articles where the preprocessed text does not contain enough discriminative signal to make a confident prediction. The Nortel joke column is an extreme case — after preprocessing, almost no meaningful content remains, and the only signal is a stock ticker. The SUV safety article is similarly sparse after stopword removal, leaving terms like "traffic crash fatality data" and "sport utility vehicle" that do not map cleanly to either Business or Sci/Tech. These errors would likely persist even with a contextual model, since the input itself does not contain sufficient information to determine the correct category.
+
+Finally, some samples are simply difficult to classify and do not fit neatly into any of the above categories. The S2io/Sun Microsystems article, for instance, describes a technology partnership in terms that are equally weighted toward business development and technical infrastructure. The HP holiday shoppers article frames a product strategy announcement in consumer marketing language while discussing flat-screen TVs and media devices. These articles are well-written, correctly labeled, and contain sufficient context, yet the features available to a bag-of-words model do not cleanly distinguish them from the opposite category. Addressing these cases would likely require a model capable of understanding discourse structure and authorial intent, such as a fine-tuned transformer, rather than improvements to the feature representation.
+
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../figures/linear_svm_test_prediction_map.png}
-    \caption{t-SNE Projection of Linear SVM Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
-\end{figure}
-
-% logistic regression (test) prediction map
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../figures/logistic_regression_test_prediction_map.png}
-    \caption{t-SNE Projection of Logistic Regression Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/linear_svm_test_prediction_map.png}
+        \caption{t-SNE Projection of Linear SVM Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
+        \label{fig:linear_svm_test_prediction_map}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/logistic_regression_test_prediction_map.png}
+        \caption{t-SNE Projection of Logistic Regression Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
+        \label{fig:logistic_regression_test_prediction_map}
+    \end{minipage}
 \end{figure}
 
 % speak about the overlapping clusters in the t-SNE projection, and how they relate to the confusion matrix (e.g., which classes are most often confused, and how that is reflected in the projection)
