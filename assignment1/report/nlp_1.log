@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.8)  13 FEB 2026 18:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.8)  20 FEB 2026 14:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/efeoz/New folder/natural-language-processing/assignment1/report/nlp_1.tex"
-(/home/efeoz/New folder/natural-language-processing/assignment1/report/nlp_1.tex
+**/home/efeoz/nlp/natural-language-processing/assignment1/report/nlp_1.tex
+(/home/efeoz/nlp/natural-language-processing/assignment1/report/nlp_1.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -624,14 +624,14 @@ Package rerunfilecheck Info: File `nlp_1.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  23931 strings out of 474222
- 441435 string characters out of 5748734
- 1928975 words of memory out of 5000000
+ 441412 string characters out of 5748734
+ 1930975 words of memory out of 5000000
  45776 multiletter control sequences out of 15000+600000
  563925 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,7n,90p,535b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,7n,90p,526b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on nlp_1.pdf (1 page, 39730 bytes).
+Output written on nlp_1.pdf (1 page, 52426 bytes).
 PDF statistics:
  66 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream
