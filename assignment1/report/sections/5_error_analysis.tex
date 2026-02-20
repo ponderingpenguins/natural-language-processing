@@ -1,16 +1,19 @@
 
+In this section, we will analyze the errors made by our best-performing models (Linear SVM and Logistic Regression) on the test set. We will look at the confusion matrices and t-SNE projections of the predictions to understand which classes are most often confused and why.
+
+
 % linear svm (test) prediction map
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{../figures/linear_svm_test_prediction_map.png}
-    \caption{t-SNE Projection of Linear SVM Predictions on Test Set}
+    \caption{t-SNE Projection of Linear SVM Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
 \end{figure}
 
 % logistic regression (test) prediction map
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{../figures/logistic_regression_test_prediction_map.png}
-    \caption{t-SNE Projection of Logistic Regression Predictions on Test Set}
+    \caption{t-SNE Projection of Logistic Regression Predictions on Test Set. Correctly classified samples are colored according to their true class, while misclassified samples are outlined in black.}
 \end{figure}
 
 % speak about the overlapping clusters in the t-SNE projection, and how they relate to the confusion matrix (e.g., which classes are most often confused, and how that is reflected in the projection)
