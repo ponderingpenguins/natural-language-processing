@@ -30,13 +30,13 @@ The only difference between them is in the linear classifier head.
 \subsection{Hyperparameter Search}
 Model selection was done only on the dev split.
 
-\subsubsection{Logistic Regression Grid:}
+\subsubsection{Logistic Regression Grid}
 \begin{itemize}
     \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
     \item \texttt{max\_iter} = 1,000
 \end{itemize}
 
-\subsubsection{Linear SVM Grid:}
+\subsubsection{Linear SVM Grid}
 \begin{itemize}
     \item $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$
     \item loss $\in \{$hinge, squared\_hinge$\}$

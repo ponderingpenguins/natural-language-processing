@@ -1,19 +1,61 @@
 In this section, we describe the experimental protocol we followed for
 tuning our models and selecting the best hyperparameters.
-We employed early stopping based on max iterations to prevent overfitting
-and ensure that our models converged properly.
-For the Logistic Regression model, we set a maximum of 1000 iterations,
-while for the Linear SVM model, we also set a maximum of 1000 iterations.
-While training we fixed the random seed to $67$, the same one used for
-data splitting, to ensure reproducibility of our results.
 
-For hyperparameter tuning, we performed a grid search over a predefined
-set of hyperparameters for both models.
-For the TF-IDF + Logistic Regression model, we searched over the regularization
-parameter \( C \) with values [0.01, 0.1, 1.0, 100.0].
-For the TF-IDF + LinearSVM model, we searched over both the regularization
-parameter \( C \) with values [0.01, 0.1, 1.0, 10.0, 100.0] and the loss
-function with options \texttt{["hinge", "squared\_hinge"]}.
-We selected the best hyperparameters based on the development set accuracy.
-The best hyperparameters and their corresponding development accuracies for
-each model are reported in the Results section.
+\subsection{Model Selection Protocol}
+We followed this procedure for model selection:
+\begin{enumerate}
+    \item Build vocabulary for TF-IDF on training split only.
+    \item Train each model on train/dev splits.
+    \item Select the best hyperparameters based on our dev split accuracy.
+    \item Do a final evaluation on the test split for final results.
+\end{enumerate}
+
+This protocal ensures that we do not have any data leakage from
+our test data into our model selection.
+
+\subsection{Training and Reproducibility}
+We set max\_iter = 1,000 for Logistic Regression and Linear SVM as early stopping.
+This is to prevent unnecessary optimization steps and promote convergence.
+
+During training, we kept the random seed at 67 (same as for data splitting) for reproducibility purposes.
+
+\subsection{Hyperparameter Tuning}
+Hyperparameters were tuned with grid search on just the dev split.
+The exact details are defined in Section 2.
+
+\subsection{Evaluation and Fair Comparison}
+For each model, we look at:
+\begin{itemize}
+    \item Accuracy
+    \item Macro-F1
+    \item Confusion matrix
+\end{itemize}
+
+Macro-F1 is used to show performance for all four classes.
+
+To make sure there is a fair comparison between the models, both have:
+\begin{itemize}
+    \item The same train/dev/test splits
+    \item The same preprocessing and TF-IDF feature settings
+    \item The same random seed (67)
+    \item Tuning only on the dev split and a final test eval
+\end{itemize}
+
+
+% We employed early stopping based on max iterations to prevent overfitting
+% and ensure that our models converged properly.
+% For the Logistic Regression model, we set a maximum of 1000 iterations,
+% while for the Linear SVM model, we also set a maximum of 1000 iterations.
+% While training we fixed the random seed to $67$, the same one used for
+% data splitting, to ensure reproducibility of our results.
+
+% For hyperparameter tuning, we performed a grid search over a predefined
+% set of hyperparameters for both models.
+% For the TF-IDF + Logistic Regression model, we searched over the regularization
+% parameter \( C \) with values [0.01, 0.1, 1.0, 100.0].
+% For the TF-IDF + LinearSVM model, we searched over both the regularization
+% parameter \( C \) with values [0.01, 0.1, 1.0, 10.0, 100.0] and the loss
+% function with options \texttt{["hinge", "squared\_hinge"]}.
+% We selected the best hyperparameters based on the development set accuracy.
+% The best hyperparameters and their corresponding development accuracies for
+% each model are reported in the Results section.
