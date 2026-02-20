@@ -42,6 +42,13 @@ Model selection was done only on the dev split.
     \item loss $\in \{$hinge, squared\_hinge$\}$
 \end{itemize}
 
+\subsubsection{Best Dev Split Settings}
+The best settings selected on the dev split were:
+\begin{itemize}
+    \item Logistic Regression: $C=1.0$ (Dev Accuracy: 0.9145)
+    \item Linear SVM: $C=1.0$, loss=hinge (Dev Accuracy: 0.9163)
+\end{itemize}
+
 The model architecture is shown in Figure \ref{fig:model_architecture}.
 The input text is first preprocessed and then transformed into TF-IDF features.
 These features are then fed into either a Logistic Regression classifier or a Linear Support Vector Machine (SVM) for classification.
