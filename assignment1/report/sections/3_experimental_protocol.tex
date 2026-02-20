@@ -1,3 +1,19 @@
-In this section, we describe the experimental protocol we followed for tuning our models and selecting the best hyperparameters. We employed early stopping based on max iterations to prevent overfitting and ensure that our models converged properly. For the Logistic Regression model, we set a maximum of 1000 iterations, while for the Linear SVM model, we also set a maximum of 1000 iterations. While training we fixed the random seed to $67$, the same one used for data splitting, to ensure reproducibility of our results.
+In this section, we describe the experimental protocol we followed for
+tuning our models and selecting the best hyperparameters.
+We employed early stopping based on max iterations to prevent overfitting
+and ensure that our models converged properly.
+For the Logistic Regression model, we set a maximum of 1000 iterations,
+while for the Linear SVM model, we also set a maximum of 1000 iterations.
+While training we fixed the random seed to $67$, the same one used for
+data splitting, to ensure reproducibility of our results.
 
-For hyperparameter tuning, we performed a grid search over a predefined set of hyperparameters for both models. For the TF-IDF + Logistic Regression model, we searched over the regularization parameter \( C \) with values [0.01, 0.1, 1.0, 100.0]. For the TF-IDF + LinearSVM model, we searched over both the regularization parameter \( C \) with values [0.01, 0.1, 1.0, 10.0, 100.0] and the loss function with options \texttt{["hinge", "squared\_hinge"]}. We selected the best hyperparameters based on the development set accuracy. The best hyperparameters and their corresponding development accuracies for each model are reported in the Results section.
+For hyperparameter tuning, we performed a grid search over a predefined
+set of hyperparameters for both models.
+For the TF-IDF + Logistic Regression model, we searched over the regularization
+parameter \( C \) with values [0.01, 0.1, 1.0, 100.0].
+For the TF-IDF + LinearSVM model, we searched over both the regularization
+parameter \( C \) with values [0.01, 0.1, 1.0, 10.0, 100.0] and the loss
+function with options \texttt{["hinge", "squared\_hinge"]}.
+We selected the best hyperparameters based on the development set accuracy.
+The best hyperparameters and their corresponding development accuracies for
+each model are reported in the Results section.
