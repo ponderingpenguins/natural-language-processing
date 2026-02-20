@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
 
 from .config import TrainingConfig
 from .helpers import logger
-from .preprocessing import preprocess_dataset, text_preprocessing_pipeline
+from .preprocessing import build_preprocessing_pipeline, preprocess_dataset
 
 
 def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
@@ -29,9 +29,10 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
 
     # Preprocess the datasets using the defined pipeline.
     # Each dataset now has both 'raw_text' and 'text' fields.
-    train_ds = preprocess_dataset(train_ds, text_preprocessing_pipeline)
-    dev_ds = preprocess_dataset(dev_ds, text_preprocessing_pipeline)
-    test_ds = preprocess_dataset(ds["test"], text_preprocessing_pipeline)
+    pipeline = build_preprocessing_pipeline(cfg)
+    train_ds = preprocess_dataset(train_ds, pipeline)
+    dev_ds = preprocess_dataset(dev_ds, pipeline)
+    test_ds = preprocess_dataset(ds["test"], pipeline)
 
     # print examples from the preprocessed datasets to verify the preprocessing steps.
     logger.info("(Before preprocessing) Example from original training set:")
@@ -41,7 +42,7 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
 
     # Use word-level TF-IDF features (document the preprocessing choices).
     tfidf = TfidfVectorizer(
-        stop_words="english",
+        stop_words=None,  # we handle stopword removal in the preprocessing pipeline, so we set this to None
         ngram_range=(
             cfg.ngram_min,
             cfg.ngram_max,

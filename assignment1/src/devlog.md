@@ -421,3 +421,47 @@ Linear SVM:
 - Unigram+Bigram: 92% accuracy, 643 misclassifications
 
 Difference: Actually 2 MORE errors with bigrams
+
+# remove_stopwords=True vs. remove_stopwords=False 20.02.26
+
+## With stopword removal (remove_stopwords=True)
+
+Best hyperparameters (dev):
+- Logistic Regression: C=1.0, Dev Accuracy: 0.8838
+- Linear SVM: C=0.1, loss=squared_hinge, Dev Accuracy: 0.8861
+
+Test results:
+
+| Model               | Accuracy | Macro F1 | Misclassified |
+|----------------------|----------|----------|---------------|
+| Logistic Regression  | 0.91     | 0.91     | 653           |
+| Linear SVM           | 0.92     | 0.91     | 646           |
+
+## Without stopword removal (remove_stopwords=False)
+
+Best hyperparameters (dev):
+- Logistic Regression: C=1.0, Dev Accuracy: 0.8818
+- Linear SVM: C=1.0, loss=hinge, Dev Accuracy: 0.8814
+
+Test results:
+
+| Model               | Accuracy | Macro F1 | Misclassified |
+|----------------------|----------|----------|---------------|
+| Logistic Regression  | 0.91     | 0.91     | 715           |
+| Linear SVM           | 0.91     | 0.91     | 664           |
+
+## Key Findings
+
+Stopword removal provides a small but consistent benefit across both models.
+
+**Dev accuracy:** Removing stopwords improves dev accuracy by +0.20 pp for Logistic Regression (0.8838 vs 0.8818) and +0.47 pp for Linear SVM (0.8861 vs 0.8814).
+
+**Test misclassifications:** The effect is more visible in raw error counts:
+- Logistic Regression: 653 vs 715 errors — **62 fewer misclassifications** (8.7% relative reduction) with stopword removal.
+- Linear SVM: 646 vs 664 errors — **18 fewer misclassifications** (2.7% relative reduction) with stopword removal.
+
+**Hyperparameter sensitivity:** Keeping stopwords shifts the optimal SVM configuration from C=0.1/squared_hinge to C=1.0/hinge, suggesting the model needs a higher regularisation strength to cope with the noisier, higher-dimensional feature space introduced by function words.
+
+**Interpretation:** Stopwords (e.g., "the", "is", "of") add little discriminative signal for topic classification but inflate the feature space and dilute the TF-IDF weights of informative terms. Removing them lets the models focus on content words that distinguish World, Sports, Business, and Sci/Tech. The benefit is modest because TF-IDF already down-weights frequent terms, but the reduction in misclassifications (especially for Logistic Regression) confirms that explicit stopword removal is still worthwhile as a preprocessing step for this task.
+
+**Decision:** Keep `remove_stopwords=True` as the default.
