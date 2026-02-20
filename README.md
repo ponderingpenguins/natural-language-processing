@@ -1,5 +1,7 @@
 # Natural Language Processing - Group 15
 
+## Overview
+
 Includes the following assignments:
 
 - Assignment 1 — Classical Baselines + Evaluation Pack
@@ -13,3 +15,15 @@ Includes the following assignments:
 - [ ] All hyperparameters listed
 - [ ] One command to reproduce main results
 - [ ] Runtime notes (approximate) included
+
+## Assignment 1
+
+For reproducibility see [Assignment 1](./assignment1/assignment1.md).
+
+## Assignment 2
+
+Intentionally left blank for now, will be added in the future.
+
+## Assignment 3
+
+Intentionally left blank for now, will be added in the future.
