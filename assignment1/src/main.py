@@ -91,6 +91,7 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         y_pred_test = model.predict(X_test)
         report_stats(name, y_test, y_pred_test)
         
+        logger.info("Collecting misclassified examples for %s...", name)
         # Collect misclassified examples
         for i, (pred, true) in enumerate(zip(y_pred_test, y_test)):
             # Collect 25 misclassified examples per model for error analysis
