@@ -4,6 +4,7 @@ Data loading and preprocessing for the AG News dataset.
 
 from datasets import load_dataset  # type: ignore
 from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
+from sklearn.model_selection import train_test_split  # type: ignore
 
 from .config import TrainingConfig
 from .helpers import logger
@@ -20,10 +21,17 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     # Fix a random seed and report it.
     # Create a dev split from train (e.g., 90/10).
     # Keep the test set untouched until final reporting.
-    train_ds = ds["train"]
-    dev_size = int(len(train_ds) * cfg.dev_split)
-    dev_ds = train_ds.select(range(dev_size))
-    train_ds = train_ds.select(range(dev_size, len(train_ds)))
+    # Even though AG News is balanced across classes, we use stratified sampling
+    # to guarantee the dev set preserves the label distribution.
+    full_train_ds = ds["train"]
+    train_indices, dev_indices = train_test_split(
+        range(len(full_train_ds)),
+        test_size=cfg.dev_split,
+        random_state=cfg.seed,
+        stratify=full_train_ds["label"],
+    )
+    train_ds = full_train_ds.select(train_indices)
+    dev_ds = full_train_ds.select(dev_indices)
 
     # Implement preprocessing (tokenization, normalization) and document it.
 
