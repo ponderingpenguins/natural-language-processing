@@ -3,6 +3,4 @@ We first built the vocabulary for the TF-IDF vectorizer using only the training 
 
 \paragraph{Hyperparameter Search.} We performed hyperparameter tuning for both models, selecting the best parameters based on the highest accuracy on the development set. For Logistic Regression, we searched over the regularization strength parameter $C$ with values in $\{0.01, 0.1, 1.0, 10.0, 100.0\}$. For Linear SVM, we searched over both the regularization strength parameter $C$ with values in $\{0.01, 0.1, 1.0, 10.0, 100.0\}$ and the loss function with options `hinge' and `squared\_hinge'. Both models were trained with a maximum of 1,000 iterations to ensure convergence.
 
-We recorded the accuracy, macro-F1 score, and confusion matrix for both models on the test set for the final evaluation.
-
-Both models were trained and evaluated using the same train/dev/test splits, the same preprocessing and TF-IDF feature settings, and the same random seed (67) to ensure a fair comparison between the models.
+We recorded the accuracy, macro-F1 score, and confusion matrix for both models on the test set for the final evaluation. Both models were trained and evaluated using the same train/dev/test splits, the same preprocessing and TF-IDF feature settings, and the same random seed (67) to ensure a fair comparison between the models.

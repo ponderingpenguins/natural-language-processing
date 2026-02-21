@@ -1,6 +1,6 @@
 % mention that tf-idf features of this dataset are quite effective for both linear SVM and logistic regression, as evidenced by the high accuracy and macro-F1 scores on the test set (both around 0.91–0.92). However, as can be seen in the t-sne projections the classes are not perfectly separable, and have significant overlap in the center of the projection, which likely contributes to the misclassifications seen in the confusion matrices.
 
-It is evident from the results that both models perform quite well on the test set, with accuracies and macro-F1 scores above 0.90. This indicates that the TF-IDF features are effective for this classification task. However, the t-SNE projections of the test set predictions (Figures \ref{fig:linear_svm_test_prediction_map} and \ref{fig:logistic_regression_test_prediction_map}) reveal that the classes are not perfectly separable. The confusion matrices (Figures \ref{fig:linear_svm_test_confusion_matrix} and \ref{fig:logistic_regression_test_confusion_matrix}) show that there are some misclassifications, particularly between the `business' and `sci/tech' classes, which is also reflected in the t-SNE projections where the clusters for these classes overlap more than the others.
+It is evident from the results that both models perform quite well on the test set, with accuracies and macro-F1 scores above 0.90. This indicates that the TF-IDF features are effective for this classification task. However, the t-SNE projections of the test set predictions (Figures \ref{fig:linear_svm_test_prediction_map} and \ref{fig:logistic_regression_test_prediction_map}) reveal there is a lot of overlap between classes. The confusion matrices (Figures \ref{fig:linear_svm_test_confusion_matrix} and \ref{fig:logistic_regression_test_confusion_matrix}) show that there are some misclassifications, particularly between the `business' and `sci/tech' classes, which is also reflected in the t-SNE projections where the clusters for these classes overlap more than the others.
 
 After our error analysis, we performed three ablation studies on the dev set to explore the impact
 of different preprocessing and feature extraction choices on model performance, with full results
@@ -50,7 +50,7 @@ margin, they are not the primary drivers of classification accuracy for this tas
                                            & Linear SVM          & 0.91 & 0.91 & 664 \\
 \bottomrule
 \end{tabular}
-\caption{Ablation study results on the test set. Misclassification counts are reported alongside accuracy and macro-F1 to highlight differences that aggregate metrics obscure. Bold indicates the best value per column.}
+\caption{Ablation study results on the dev set. Misclassification counts are reported alongside accuracy and macro-F1 to highlight differences that aggregate metrics obscure. Bold indicates the best value per column.}
 \label{tab:ablation}
 \end{table}
 
