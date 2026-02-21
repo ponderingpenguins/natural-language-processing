@@ -1,8 +1,3 @@
-% from hyperparameter tuning (selecting for highest accuracy on the dev set)
-% - [17:04:30] Best Linear SVM params: {'C': 1.0, 'loss': 'hinge'} (Dev Accuracy: 0.9165)
-% - [17:03:58] Best Logistic Regression params: {'C': 1.0} (Dev Accuracy: 0.9155)
-
-
 We hyperparameter tuned both models on the dev set, selecting the best parameters based on the highest accuracy. For the Linear SVM, the best parameters were C=1.0 and loss=`hinge', while for Logistic Regression, the best parameter was C=1.0. We then evaluated both models on the test set using these best parameters and report the results below.
 
 In Table \ref{tab:linear_svm_test_classification_report}, we can see that the Linear SVM model achieved an overall accuracy of 0.92 and a macro-F1 score of 0.92 on the test set. The Logistic Regression model, as shown in the subsequent table (Table \ref{tab:logistic_regression_test_classification_report}), achieved an overall accuracy of 0.91 and a macro-F1 score of 0.91 on the test set.
@@ -87,9 +82,3 @@ Logistic Regression & 0.91 & 0.91 \\
 \caption{Comparison of Accuracy and Macro-F1 for Linear SVM and Logistic Regression on Test Set}
 \label{tab:comparison_test_set}
 \end{table}
-
-% mention that the linear SVM performs slightly better than logistic regression on both accuracy and macro-F1, but the difference is not very large (e.g., 0.01 in accuracy and macro-F1)
-
-% they also perform the same type of errors, as seen in the confusion matrices (e.g., both models get confused between sci/tech and business, which is reflected in the confusion matrices where there are more misclassifications between these classes than between the others)
-
-% mention that for both models, sport is the easiest class to classify (highest precision, recall, and F1-score), while sci/tech is the hardest (lowest precision, recall, and F1-score), which is also reflected in the confusion matrices where there are more misclassifications involving sci/tech than the other classes
