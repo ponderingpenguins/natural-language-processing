@@ -1,4 +1,3 @@
-In this section, we describe the experimental protocol we followed for training our models and selecting the best hyperparameters.
 
 We first built the vocabulary for the TF-IDF vectorizer using only the training split to avoid data leakage. Then, we trained each model on the training split and evaluated their performance on the development split to select the best hyperparameters based on accuracy. Finally, we performed a final evaluation on the test split using the best hyperparameters selected from the development set to report our final results.
 

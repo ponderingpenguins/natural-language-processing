@@ -2,7 +2,6 @@
 % - [17:04:30] Best Linear SVM params: {'C': 1.0, 'loss': 'hinge'} (Dev Accuracy: 0.9165)
 % - [17:03:58] Best Logistic Regression params: {'C': 1.0} (Dev Accuracy: 0.9155)
 
-In this section, we present the results of our experiments on the test set for both the Linear SVM and Logistic Regression models. We report the classification reports (precision, recall, F1-score, and support) for each class, as well as the confusion matrices for both models. Additionally, we provide a comparison of the overall accuracy and macro-F1 scores for both models on the test set.
 
 We hyperparameter tuned both models on the dev set, selecting the best parameters based on the highest accuracy. For the Linear SVM, the best parameters were C=1.0 and loss=`hinge', while for Logistic Regression, the best parameter was C=1.0. We then evaluated both models on the test set using these best parameters and report the results below.
 

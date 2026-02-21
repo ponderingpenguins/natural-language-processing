@@ -23,7 +23,7 @@ misclassified_lr = load_jsonl(jsonl_lr)
 
 # {'index': 15, 'true_label': 4, 'true_class': 'Sci/Tech', 'predicted_label': 3, 'predicted_class': 'Business', 'raw_text': "Teenage T. rex's monster growth Tyrannosaurus rex achieved its massive size due to an enormous growth spurt during its adolescent years.", 'preprocessed_text': 'teenage rex monster growth tyrannosaurus rex achieved massive size due enormous growth spurt adolescent year'}
 
-# print samples that have predicted class as buisness and true class as sci/tech for logistic regression
+# print samples that have predicted class as business and true class as sci/tech for logistic regression
 max_n = 10
 count = 0
 print("Business predicted as Sci/Tech:")
