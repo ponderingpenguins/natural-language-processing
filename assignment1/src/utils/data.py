@@ -66,4 +66,4 @@ def load_and_preprocess_data(cfg: TrainingConfig) -> tuple:
     X_test = tfidf.transform(test_ds["text"])
     y_test = test_ds["label"]
 
-    return X_train, y_train, X_dev, y_dev, X_test, y_test, test_ds
+    return X_train, y_train, X_dev, y_dev, X_test, y_test, test_ds, tfidf

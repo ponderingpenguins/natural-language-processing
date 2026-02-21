@@ -24,6 +24,7 @@ from .utils.helpers import (
     plot_confusion_matrix,
     plot_prediction_map,
     plot_tfidf_clusters,
+    plot_top_features,
     report_stats,
 )
 
@@ -38,8 +39,8 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         None
     """
 
-    x_train, y_train, x_dev, y_dev, x_test, y_test, test_ds = load_and_preprocess_data(
-        cfg
+    x_train, y_train, x_dev, y_dev, x_test, y_test, test_ds, tfidf = (
+        load_and_preprocess_data(cfg)
     )
 
     # Visualise TF-IDF clusters (uses training data)
@@ -99,6 +100,17 @@ def train_tfidf_classifier(cfg: TrainingConfig) -> None:
         logger.info(
             "Best %s params: %s (Dev Accuracy: %.4f)", name, best_params, best_score
         )
+
+        if name == "Linear SVM":
+            # plot top features for each class (requires coef_ attribute)
+            feature_names = tfidf.get_feature_names_out().tolist()
+            if hasattr(best_clf, "coef_"):
+                plot_top_features(
+                    best_clf,
+                    feature_names,
+                    label_names=cfg.label_names,
+                    output_path=f"{cfg.output_dir}/{name}_top_features.png",
+                )
 
         # Report Accuracy + Macro-F1 + confusion matrix.
 

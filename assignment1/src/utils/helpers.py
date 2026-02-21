@@ -77,6 +77,44 @@ def plot_confusion_matrix(
     plt.close(fig)
 
 
+def plot_top_features(
+    clf,
+    feature_names: list[str],
+    label_names: dict[int, str],
+    output_path: str | Path,
+    top_n: int = 20,
+) -> None:
+    """Plot the top positive and negative features for each class in a linear model."""
+    if not hasattr(clf, "coef_"):
+        logger.warning("Model does not have coef_ attribute, cannot plot top features.")
+        return
+
+    coef = clf.coef_
+    n_classes = coef.shape[0]
+    fig, axes = plt.subplots(1, n_classes, figsize=(5 * n_classes, 8))
+
+    for i in range(n_classes):
+        class_coef = coef[i]
+        top_pos_idx = np.argsort(class_coef)[-top_n:]
+        top_neg_idx = np.argsort(class_coef)[:top_n]
+
+        top_features = [
+            feature_names[j] for j in np.concatenate([top_neg_idx, top_pos_idx])
+        ]
+        top_values = np.concatenate([class_coef[top_neg_idx], class_coef[top_pos_idx]])
+
+        ax = axes[i] if n_classes > 1 else axes
+        sns.barplot(x=top_values, y=top_features, ax=ax)
+        ax.set_title(
+            f"Top features for {label_names[i + 1]}"
+        )  # Assuming labels are 1-indexed
+
+    plt.tight_layout()
+    fig.savefig(output_path)
+    plt.close(fig)
+    logger.info("Saved top features plot to %s", output_path)
+
+
 def plot_tfidf_clusters(
     X,
     y,

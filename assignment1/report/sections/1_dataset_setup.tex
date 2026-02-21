@@ -1,50 +1,9 @@
-% to reference the datset: \cite{zhang2015character}
+To classify news articles into one of four categories (world, sports, business, and sci/tech), we use the AG News dataset from Hugging Face \cite{zhang2015character}. This dataset consists of news articles with associated labels, titles, and descriptions. Each class contains 30,000 training samples and 1,900 testing samples, resulting in a total of 120,000 training samples and 7,600 testing samples.
 
-% Dataset info (where, size, type, classes, etc.)
+We used the official Hugging Face split (120,000 train and 7,600 test). The training set was split into a new training set (of size 108,000) and a development set (of size 12,000) using stratified sampling with a fixed random seed of 67 to ensure reproducibility. The final split sizes are: train 108,000, dev 12,000, and test 7,600.
 
-Dataset for this text classification by topic task is the textual AG News dataset from Hugging Face \cite{zhang2015character}. Each data point has an associated label, the new's title and its description. There are 4 classes, all of which has 30000 training and 1900 testing samples: world, sports, business, and sci/tech.
+\paragraph{Preprocessing.} We combined the title and description of each news article into a single text input, which was then preprocessed. First we lowercased the text, removed extra whitespace, and removed punctuation. We also removed English stopwords using the NLTK library, as they often carry less information and can introduce noise into the model. Finally, we applied lemmatization using NLTK's WordNetLemmatizer to reduce words to their dictionary forms, which helps to reduce the dimensionality of the feature space and improve model performance.
 
-% Split details
-% split sizes
-% split seed
 
-We use the official Hugging face split (120,000 train and 7,600 test).
-We use stratified sampling (90/10) with seed 67 to create a development set:
-\begin{itemize}
-    \item Train: 108,000
-    \item Dev: 12,000
-    \item Test: 7,600
-\end{itemize}
 
-\subsection{Preprocessing}
-% Preprocessing (Normalization & Tokenization)
-% Lowercasing
-% Removing whitespace
-% Removing punctuation
-The input is the title and description concatenated. We used the following preprocessing steps:
-\begin{itemize}
-    \item Lowercasing
-    \item Whitespace removal
-    \item Punctuation removal
-    \item English stopword removal (using NLTK library)
-    \item Lemmatization (with WordNetLemmatizer)
-\end{itemize}
-
-The reason why we remove stop words, is because common words often carry less information and carry noise into our classifier.
-
-% Lemazation (vs. stemming)
-The last step in the normalization is lemmatization, the act of reducing words into their dictionary form (e.g. "running" to "run"). Using the NLTK's WordNetLemmatizer, we reduced each word in the text to their dictionary forms to reduce the computational complexity. In this way, different forms of the same word are reduced to a single form. 
-
-% Vectorization through IT-IDF
-
-\subsection{Tokenization}
-Even though there is no explicit tokenization in our code, texts are vectorized with word-level TF-IDF. After the normalization steps, TF-IDF vectorizes, and thus tokenizes, the input text into numerical data:
-\begin{itemize}
-    \item n-gram range: (1, 2)
-    \item max_features = 10,000
-    \item min_df = 2
-\end{itemize}
-
-\subsection{Reproducibility}
-All experiments make use of the fixed random seed 67.
-We use it for teh data split and model initialization where it is applicable.
+\paragraph{Feature extraction.} Tokenization is implicitly handled by the TF-IDF vectorizer, which converts the preprocessed text into a matrix of TF-IDF features. We configured the vectorizer to consider both unigrams and bigrams (n-gram range of (1, 2)) to capture more contextual information than unigrams alone while still being less sparse than bigrams alone. We also set a maximum feature limit of 10,000 and a minimum document frequency of 2 to further reduce noise and focus on more informative features. The TF-IDF features were computed based on the training set vocabulary to avoid data leakage, and then applied to the development and test sets using the same fitted vectorizer.

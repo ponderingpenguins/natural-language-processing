@@ -1,24 +1,5 @@
-% Mention the two models, and describe the architecture
 
-% the two models:
-
-%     TF-IDF + Logistic Regression
-%     TF-IDF + LinearSVM
-
-% The hyperparameter search for TF-IDF + Logistic Regression
-
-%     C: [0.01, 0.1, 1.0, 100.0]
-
-% The hyperparameter search for TF-IDF + LinearSVM
-
-%     C: [0.01, 0.1, 1.0, 10.0, 100.0]
-%     loss: ["hinge", "squared_hinge"]
-
-% Mention what was the best hyperparameters, and what was the dev accuracy, for each model
-
-In this section, we describe the two models we implemented for the text classification task: TF-IDF + Logistic Regression and TF-IDF + LinearSVM. Both models utilize Term Frequency-Inverse Document Frequency (TF-IDF) for feature extraction, which transforms the textual data into a numerical representation based on the importance of words in the documents.
-
-The model architecture is shown in Figure \ref{fig:model_architecture}. The input text is first preprocessed and then transformed into TF-IDF features. These features are then fed into either a Logistic Regression classifier or a Linear Support Vector Machine (SVM) for classification.
+We implemented two models for the text classification task: Logistic Regression and Linear Support Vector Machine (SVM), both using Term Frequency-Inverse Document Frequency (TF-IDF) for feature extraction. The architecture of both models is similar, with the main difference being the linear classifier used for classification. The input text is first preprocessed and then transformed into TF-IDF features, which are then fed into either a Logistic Regression classifier or a Linear SVM for classification (see Figure \ref{fig:model_architecture} for a visual representation of the architecture).
 
 \begin{figure}[ht]
     \centering
