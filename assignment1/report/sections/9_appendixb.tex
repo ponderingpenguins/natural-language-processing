@@ -1,0 +1,229 @@
+\subsection*{Linear SVM Misclassifications}
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{Business} and \textit{Sci/Tech} confusion (Linear SVM, 9 examples).}
+\label{tab:linsvm-biz-scitech}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+people eligible get google ipo google billed ipo way everyday people\ldots &
+Some People Not Eligible to Get in on Google IPO: Google has billed its IPO as a way for everyday people to get in on the process, denying Wall Street the usual stranglehold\ldots \\
+\addlinespace
+rival try turn table charles schwab michael liedtke san francisco ap low price iconoclastic attitude discount stock broker\ldots &
+Rivals Try to Turn Tables on Charles Schwab: With its low prices and iconoclastic attitude, discount stock broker Charles Schwab Corp.\ represented an annoying stone in Wall Street's wing-tipped shoes\ldots \\
+\addlinespace
+intel delay product aimed highdefinition tv san francisco latest series product delay intel corp postponed launch video display chip\ldots &
+Intel to delay product aimed for high-definition TVs: In the latest of a series of product delays, Intel Corp.\ has postponed the launch of a video display chip\ldots \\
+\addlinespace
+yahoo ups ante small business web giant yahoo gambling price cut domain name registration web hosting product make competitive discounter\ldots &
+Yahoo! Ups Ante for Small Businesses: Web giant Yahoo! is gambling that price cuts on domain name registration and Web hosting products will make it more competitive\ldots \\
+\addlinespace
+ibm buy two danish service firm ibm said tuesday acquired pair danish service firm part effort broaden presence scandinavia\ldots &
+IBM Buys Two Danish Services Firms: IBM said Tuesday it has acquired a pair of Danish IT services firms as part of its effort to broaden its presence in Scandinavia\ldots \\
+\addlinespace
+suv live let die new york newly released traffic crash fatality data something everyone debate safety sport utility vehicle &
+SUVs: Live And Let Die: The newly released traffic crash fatality data have something for everyone in the debate about the safety of sport utility vehicles. \\
+\addlinespace
+microsoft finalises threeyear government deal hot heel 10year strategic partnership london borough newham\ldots &
+Microsoft finalises three-year government deal: Hot on the heels of its 10-year strategic partnership with the London Borough of Newham, Microsoft is close to signing\ldots \\
+\addlinespace
+intuit post wider loss charge reuters intuit inc maker ofthe 1 u tax presentation software turbotax wednesdayposted wider quarterly loss\ldots &
+Intuit Posts Wider Loss After Charge: Intuit Inc., maker of the No.\ 1 U.S.\ tax presentation software TurboTax, posted a wider quarterly loss after taking a goodwill impairment charge\ldots \\
+\addlinespace
+ciena post loss forecast flat sale chicago reuters telecommunication equipment maker ciena corp reported wider loss thefiscal third quarter\ldots &
+Ciena Posts a Loss, Forecasts Flat Sales: Telecommunications equipment maker Ciena Corp.\ reported a wider loss for the fiscal third quarter due to slack demand\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{World} articles predicted as \textit{Business} (Linear SVM, 6 examples).}
+\label{tab:linsvm-world-biz}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+venezuela prepares chavez recall vote supporter rival warn possible fraud government say chavez defeat could produce turmoil world oil market &
+Venezuela Prepares for Chavez Recall Vote: Supporters and rivals warn of possible fraud; government says Chavez's defeat could produce turmoil in world oil market. \\
+\addlinespace
+india tata expands regional footprint via natsteel buyout afp india tata iron steel company ltd took strategic step expand asian footprint\ldots &
+India's Tata expands regional footprint via NatSteel buyout: India's Tata Iron and Steel Company Ltd.\ took a strategic step to expand its Asian footprint with the announcement it will buy the Asia-Pacific steel operations\ldots \\
+\addlinespace
+stock climb drop consumer price new york stock rose second straight session tuesday drop consumer price allowed investor put aside worry inflation\ldots &
+Stocks Climb on Drop in Consumer Prices: Stocks rose for a second straight session Tuesday as a drop in consumer prices allowed investors to put aside worries about inflation\ldots \\
+\addlinespace
+oil price bubble record high price oil continued sharp rise overnight closing record high main contract new york light sweet crude\ldots &
+Oil prices bubble to record high: The price of oil has continued its sharp rise overnight, closing at a record high. The main contract in New York, light sweet crude for delivery next month, has closed at a record \$US46.75 a barrel\ldots \\
+\addlinespace
+google lower ipo price range san jose calif sign google inc initial public offering isnt popular expected company lowered estimated price range\ldots &
+Google Lowers Its IPO Price Range: In a sign that Google Inc.'s initial public offering isn't as popular as expected, the company lowered its estimated price range to between \$85 and \$95 per share\ldots \\
+\addlinespace
+stock price climb ahead google ipo new york investor shrugged rising crude future wednesday capture wellpriced share sending nasdaq\ldots &
+Stock Prices Climb Ahead of Google IPO: Investors shrugged off rising crude futures Wednesday to capture well-priced shares, sending the Nasdaq composite index up 1.6 percent ahead of Google Inc.'s much-anticipated initial public offering\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{World} articles predicted as \textit{Sports} (Linear SVM, 2 examples).}
+\label{tab:linsvm-world-sports}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+live olympics day four richard fauld stephen parry going gold great britain day four athens &
+Live: Olympics day four: Richard Faulds and Stephen Parry are going for gold for Great Britain on day four in Athens. \\
+\addlinespace
+u miss cut olympic 100 free athens greece top american sprinter jason lezak ian crocker missed cut olympic 100meter freestyle preliminary\ldots &
+U.S.\ Misses Cut in Olympic 100 Free: Top American sprinters Jason Lezak and Ian Crocker missed the cut in the Olympic 100-meter freestyle preliminaries Tuesday, a stunning blow for a country that had always done well in the event\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: Other confusion types (Linear SVM, 3 examples).}
+\label{tab:linsvm-other}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+teenage rex monster growth tyrannosaurus rex achieved massive size due enormous growth spurt adolescent year &
+Teenage T.\ rex's monster growth: Tyrannosaurus rex achieved its massive size due to an enormous growth spurt during its adolescent years. \\
+\addlinespace
+hurricane center 39s projection charley far data show fort lauderdale fla krt despite criticism better anticipated hurricane charley\ldots &
+Hurricane center's projection on Charley not far off, data show: Despite criticism that it should have better anticipated Hurricane Charley's rapid intensification and quick turn, the National Hurricane Center's forecast wasn't that far off\ldots \\
+\addlinespace
+selling houston wart especially wart description urban affliction image giant mosquito cockroach convey sense houston nevertheless beloved many resident &
+Selling Houston Warts and All, Especially Warts: Descriptions of urban afflictions and images of giant mosquitoes and cockroaches to convey a sense of how Houston is nevertheless beloved by many residents. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsection*{Logistic Regression Misclassifications}
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{Business} and \textit{Sci/Tech} confusion (Logistic Regression, 8 examples).}
+\label{tab:logreg-biz-scitech}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+people eligible get google ipo google billed ipo way everyday people\ldots &
+Some People Not Eligible to Get in on Google IPO: Google has billed its IPO as a way for everyday people to get in on the process, denying Wall Street the usual stranglehold\ldots \\
+\addlinespace
+rival try turn table charles schwab michael liedtke san francisco ap low price iconoclastic attitude discount stock broker\ldots &
+Rivals Try to Turn Tables on Charles Schwab: With its low prices and iconoclastic attitude, discount stock broker Charles Schwab Corp.\ represented an annoying stone in Wall Street's wing-tipped shoes\ldots \\
+\addlinespace
+intel delay product aimed highdefinition tv san francisco latest series product delay intel corp postponed launch video display chip\ldots &
+Intel to delay product aimed for high-definition TVs: In the latest of a series of product delays, Intel Corp.\ has postponed the launch of a video display chip\ldots \\
+\addlinespace
+yahoo ups ante small business web giant yahoo gambling price cut domain name registration web hosting product make competitive discounter\ldots &
+Yahoo! Ups Ante for Small Businesses: Web giant Yahoo! is gambling that price cuts on domain name registration and Web hosting products will make it more competitive\ldots \\
+\addlinespace
+ibm buy two danish service firm ibm said tuesday acquired pair danish service firm part effort broaden presence scandinavia\ldots &
+IBM Buys Two Danish Services Firms: IBM said Tuesday it has acquired a pair of Danish IT services firms as part of its effort to broaden its presence in Scandinavia\ldots \\
+\addlinespace
+suv live let die new york newly released traffic crash fatality data something everyone debate safety sport utility vehicle &
+SUVs: Live And Let Die: The newly released traffic crash fatality data have something for everyone in the debate about the safety of sport utility vehicles. \\
+\addlinespace
+ross store profit plummet 40 percent ap discount retailer ross store inc wednesday said profit fell 40 percent latest quarter due problem new computer system\ldots &
+Ross Stores Profit Plummets 40 Percent: Discount retailer Ross Stores Inc.\ said its profit fell about 40 percent in the latest quarter due to problems with a new computer system\ldots \\
+\addlinespace
+microsoft finalises threeyear government deal hot heel 10year strategic partnership london borough newham\ldots &
+Microsoft finalises three-year government deal: Hot on the heels of its 10-year strategic partnership with the London Borough of Newham, Microsoft is close to signing\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{World} articles predicted as \textit{Business} (Logistic Regression, 6 examples).}
+\label{tab:logreg-world-biz}
+\small
+\begin{tabular}{p{0.65\textheight} p{0.65\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+venezuela prepares chavez recall vote supporter rival warn possible fraud government say chavez defeat could produce turmoil world oil market &
+Venezuela Prepares for Chavez Recall Vote: Supporters and rivals warn of possible fraud; government says Chavez's defeat could produce turmoil in world oil market. \\
+\addlinespace
+india tata expands regional footprint via natsteel buyout afp india tata iron steel company ltd took strategic step expand asian footprint\ldots &
+India's Tata expands regional footprint via NatSteel buyout: India's Tata Iron and Steel Company Ltd.\ took a strategic step to expand its Asian footprint with the announcement it will buy the Asia-Pacific steel operations\ldots \\
+\addlinespace
+stock climb drop consumer price new york stock rose second straight session tuesday drop consumer price allowed investor put aside worry inflation\ldots &
+Stocks Climb on Drop in Consumer Prices: Stocks rose for a second straight session Tuesday as a drop in consumer prices allowed investors to put aside worries about inflation\ldots \\
+\addlinespace
+oil price bubble record high price oil continued sharp rise overnight closing record high main contract new york light sweet crude\ldots &
+Oil prices bubble to record high: The price of oil has continued its sharp rise overnight, closing at a record high. The main contract in New York, light sweet crude for delivery next month, has closed at a record \$US46.75 a barrel\ldots \\
+\addlinespace
+google lower ipo price range san jose calif sign google inc initial public offering isnt popular expected company lowered estimated price range\ldots &
+Google Lowers Its IPO Price Range: In a sign that Google Inc.'s initial public offering isn't as popular as expected, the company lowered its estimated price range to between \$85 and \$95 per share\ldots \\
+\addlinespace
+stock price climb ahead google ipo new york investor shrugged rising crude future wednesday capture wellpriced share sending nasdaq\ldots &
+Stock Prices Climb Ahead of Google IPO: Investors shrugged off rising crude futures Wednesday to capture well-priced shares, sending the Nasdaq composite index up 1.6 percent ahead of Google Inc.'s much-anticipated initial public offering\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: \textit{World} articles predicted as \textit{Sports} (Logistic Regression, 2 examples).}
+\label{tab:logreg-world-sports}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+live olympics day four richard fauld stephen parry going gold great britain day four athens &
+Live: Olympics day four: Richard Faulds and Stephen Parry are going for gold for Great Britain on day four in Athens. \\
+\addlinespace
+u miss cut olympic 100 free athens greece top american sprinter jason lezak ian crocker missed cut olympic 100meter freestyle preliminary\ldots &
+U.S.\ Misses Cut in Olympic 100 Free: Top American sprinters Jason Lezak and Ian Crocker missed the cut in the Olympic 100-meter freestyle preliminaries Tuesday, a stunning blow for a country that had always done well in the event\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[htbp]
+\centering
+\caption{Misclassified samples: Other confusion types (Logistic Regression, 4 examples).}
+\label{tab:logreg-other}
+\small
+\begin{tabular}{p{0.6\textheight} p{0.6\textheight}}
+\toprule
+\textbf{Preprocessed Text} & \textbf{Raw Text (Excerpt)} \\
+\midrule
+teenage rex monster growth tyrannosaurus rex achieved massive size due enormous growth spurt adolescent year &
+Teenage T.\ rex's monster growth: Tyrannosaurus rex achieved its massive size due to an enormous growth spurt during its adolescent years. \\
+\addlinespace
+security scare intruder dive canadian husband 39s love wife led tightening security olympic venue athens &
+Security scare as intruder dives in: A Canadian husband's love for his wife has led to a tightening of security at all Olympic venues in Athens. \\
+\addlinespace
+future doctor crossing border student mount sinai school medicine learn diet culture shape health east harlem &
+Future Doctors, Crossing Borders: Students at the Mount Sinai School of Medicine learn that diet and culture shape health in East Harlem. \\
+\addlinespace
+dell exit lowend china consumer pc market hong kong reuters dell inc world largest pc maker said monday left lowend consumer pc market china\ldots &
+Dell Exits Low-End China Consumer PC Market: Dell Inc., the world's largest PC maker, said on Monday it has left the low-end consumer PC market in China and cut its overall growth target for the country\ldots \\
+\bottomrule
+\end{tabular}
+\end{table}

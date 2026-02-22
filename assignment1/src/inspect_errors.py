@@ -44,3 +44,30 @@ for sample in misclassified_lr:  # print first 5 samples
         count += 1
         if count >= max_n:
             break
+
+
+print("-------------------------------")
+print("Table of 20 misclassified samples for each models:")
+print("Linear SVM:")
+for sample in misclassified_svm[:20]:  # print first 20 samples
+    print(sample["index"])
+    print(sample["raw_text"])
+    print(sample["preprocessed_text"])
+    print(
+        "True class: "
+        + sample["true_class"]
+        + ", Predicted class: "
+        + sample["predicted_class"]
+    )
+
+print("Logistic Regression:")
+for sample in misclassified_lr[:20]:  # print first 20 samples
+    print(sample["index"])
+    print(sample["raw_text"])
+    print(sample["preprocessed_text"])
+    print(
+        "True class: "
+        + sample["true_class"]
+        + ", Predicted class: "
+        + sample["predicted_class"]
+    )
