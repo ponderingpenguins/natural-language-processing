@@ -42,19 +42,28 @@
 % references apa
 \bibliographystyle{apalike}
 \bibliography{references}
+\newpage
 
 \appendix
+\newpage
+\newgeometry{margin=1.4cm}
+\begin{landscape}
+
 \section{Curated Misclassified Examples for Error Analysis}
 \label{sec:appendix-misclassified-examples}
 \import{sections/}{8_appendix.tex}
 
-\newgeometry{margin=1cm} % reduce margins for landscape pages
+\end{landscape}
+\restoregeometry
+
+\newpage
+\newgeometry{margin=1.4cm} % reduce margins for landscape pages
 \begin{landscape}
 
 \section{Misclassified Examples}
 \label{sec:appendix-misclassified-examples-full}
-
 \import{sections/}{9_appendixb.tex}
+
 \end{landscape}
 \restoregeometry
 
