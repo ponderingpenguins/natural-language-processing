@@ -4,7 +4,7 @@ After our error analysis, we performed three ablation studies on the dev set to 
 of different preprocessing and feature extraction choices on model performance, with full results
 reported in Table \ref{tab:ablation}.
 
-The most impactful ablation was stopword removal, which reduced misclassifications by 62 for
+\paragraph{Ablation 1.} The most impactful ablation was stopword removal, which reduced misclassifications by 62 for
 Logistic Regression (653 vs.\ 715) and 18 for Linear SVM (646 vs.\ 664). This is likely because
 stopwords such as ``the'', ``is'', and ``of'' carry no discriminative signal for topic classification,
 and their removal allows TF-IDF to assign higher relative weights to informative content words.
@@ -12,13 +12,13 @@ Notably, keeping stopwords also shifted the optimal SVM hyperparameters from $C=
 squared hinge loss to $C=1.0$ with hinge loss, suggesting the model requires stronger regularisation
 to cope with the noisier, higher-dimensional feature space introduced by function words.
 
-The n-gram range ablation showed that unigrams alone and unigrams combined with bigrams perform
+\paragraph{Ablation 2.} The n-gram range ablation showed that unigrams alone and unigrams combined with bigrams perform
 nearly identically. For Logistic Regression, adding bigrams reduced misclassifications by only 22
 (673 vs.\ 651), while for Linear SVM, bigrams actually increased errors marginally (641 vs.\ 643).
 This suggests that for this classification task, individual words already provide sufficient
 discriminative signal, and the additional sparsity introduced by bigrams does not yield meaningful gains.
 
-Finally, lowercasing had a negligible effect on both models, with differences of fewer than 10
+\paragraph{Ablation 3.} Finally, lowercasing had a negligible effect on both models, with differences of fewer than 10
 misclassifications in either direction. Overall, the modest scale of these differences across all
 three ablations suggests that while preprocessing choices can influence model performance at the
 margin, they are not the primary drivers of classification accuracy for this task.
@@ -52,7 +52,7 @@ margin, they are not the primary drivers of classification accuracy for this tas
 \label{tab:ablation}
 \end{table}
 
-We also analyzed the most important features for each class in the Linear SVM model (Figure \ref{fig:linear_svm_top_features}). We found that the feature weights largely make sense: NASA, space, scientist, linux, robot, cybersecurity on the Sci/Tech side. Championship, nba, baseball, olympic, stadium on Sports. Economy, bank, finance, investing, enron, mutual fund on Business. Iraqi, nuclear, arafat, palestinian, darfur on World. The model has genuinely learned meaningful discriminative vocabulary.
+We also analyzed the most important features for each class in the Linear SVM model (Figure \ref{fig:linear_svm_top_features}). We found that the feature weights largely make sense: NASA, space, scientist, linux, robot, cybersecurity on the Sci/Tech side. Championship, nba, baseball, olympic, stadium on Sports. Economy, bank, finance, investing, enron, mutual fund on Business. Iraqi, nuclear, arafat, palestinian, darfur on World. The model has learned meaningful discriminative vocabulary.
 
 It is worth mentioning that we can see clear artifacts from our preprocessing pipeline, such as \verb|ltpgtltpgtltpgt|, a residual from HTML paragraph tags (\verb|<p>|) where the entity encoding (\verb|&lt;p&gt;|) was not resolved before punctuation removal, and \verb|oracle 39s|, which originates from the numeric HTML entity \verb|&#39;| for an apostrophe in \verb|Oracle's|. These tokens carry no linguistic meaning and could be eliminated by applying \verb|html.unescape()| prior to preprocessing.
 
