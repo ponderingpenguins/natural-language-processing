@@ -1,8 +1,12 @@
+"""
+Text preprocessing functions for the AG News dataset.
+"""
+
 import string
 
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+import nltk  # type: ignore
+from nltk.corpus import stopwords  # type: ignore
+from nltk.stem import WordNetLemmatizer  # type: ignore
 
 # Download necessary NLTK resources
 nltk.download("stopwords", quiet=True)  # for stopword removal
@@ -24,9 +28,9 @@ def remove_punctuation(text):
     return text.translate(str.maketrans("", "", string.punctuation))
 
 
-def remove_stopwords(text: str) -> str:
+def remove_stopwords(text: str, language: str = "english") -> str:
     """Remove stopwords from the text."""
-    stop_words = set(stopwords.words("english"))
+    stop_words = set(stopwords.words(language))
     return " ".join(word for word in text.split() if word not in stop_words)
 
 
@@ -43,19 +47,32 @@ def apply_preprocessing_pipeline(text: str, pipeline: dict) -> str:
 
 
 def preprocess_dataset(dataset, pipeline):
-    """Preprocess the dataset using the provided pipeline."""
+    """Preprocess the dataset using the provided pipeline.
+
+    Creates two fields:
+        - raw_text: title + description combined, no transformations.
+        - text: title + description after the preprocessing pipeline.
+    """
     return dataset.map(
         lambda x: {
-            "title": apply_preprocessing_pipeline(x["title"], pipeline),
-            "description": apply_preprocessing_pipeline(x["description"], pipeline),
+            "raw_text": x["title"] + " " + x["description"],
+            "text": apply_preprocessing_pipeline(x["title"], pipeline)
+            + " "
+            + apply_preprocessing_pipeline(x["description"], pipeline),
         }
     )
 
 
-text_preprocessing_pipeline = {
-    "lowercase": lambda x: x.lower(),  # Convert text to lowercase
-    "remove_whitespace": remove_whitespace,  # Remove extra whitespace
-    "remove_punctuation": remove_punctuation,  # Remove punctuation
-    "remove_stopwords": remove_stopwords,  # Remove stopwords
-    "lemmatization": lemmatize_text,  # Lemmatize the text
-}
+def build_preprocessing_pipeline(cfg) -> dict:
+    """Build a preprocessing pipeline based on the training config."""
+    pipeline = {
+        "lowercase": lambda x: x.lower(),  # Convert text to lowercase
+        "remove_whitespace": remove_whitespace,  # Remove extra whitespace
+        "remove_punctuation": remove_punctuation,  # Remove punctuation
+    }
+    if cfg.remove_stopwords:
+        pipeline["remove_stopwords"] = lambda x: remove_stopwords(
+            x, language=cfg.stopword_language
+        )
+    pipeline["lemmatization"] = lemmatize_text  # Lemmatize the text
+    return pipeline

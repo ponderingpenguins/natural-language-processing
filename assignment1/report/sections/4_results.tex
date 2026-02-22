@@ -1,0 +1,84 @@
+We hyperparameter tuned both models on the dev set, selecting the best parameters based on the highest accuracy. For the Linear SVM, the best parameters were C=1.0 and loss=`hinge', while for Logistic Regression, the best parameter was C=1.0. We then evaluated both models on the test set using these best parameters and report the results below.
+
+In Table \ref{tab:linear_svm_test_classification_report}, we can see that the Linear SVM model achieved an overall accuracy of 0.92 and a macro-F1 score of 0.92 on the test set. The Logistic Regression model, as shown in the subsequent table (Table \ref{tab:logistic_regression_test_classification_report}), achieved an overall accuracy of 0.91 and a macro-F1 score of 0.91 on the test set.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+World            & 0.94 & 0.90 & 0.92 & 1900 \\
+Sports            & \textbf{0.95} & \textbf{0.98} & \textbf{0.97} & 1900 \\
+Business            & 0.89 & 0.88 & 0.89 & 1900 \\
+Sci/Tech            & 0.89 & 0.90 & 0.90 & 1900 \\
+\midrule
+Accuracy     & \multicolumn{2}{c}{} & 0.92 & 7600 \\
+Macro avg    & 0.92 & 0.92 & 0.92 & 7600 \\
+Weighted avg & 0.92 & 0.92 & 0.92 & 7600 \\
+\bottomrule
+\end{tabular}
+\caption{Classification report for Linear SVM on test set.}
+\label{tab:linear_svm_test_classification_report}
+\end{table}
+
+
+
+% logistic regression (test) classification report
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+World            & 0.93 & 0.91 & 0.92 & 1900 \\
+Sports            & \textbf{0.95} & \textbf{0.98} & \textbf{0.96} & 1900 \\
+Business            & 0.88 & 0.89 & 0.88 & 1900 \\
+Sci/Tech            & 0.89 & 0.89 & 0.89 & 1900 \\
+\midrule
+Accuracy     & \multicolumn{2}{c}{} & 0.91 & 7600 \\
+Macro avg    & 0.91 & 0.91 & 0.91 & 7600 \\
+Weighted avg & 0.91 & 0.91 & 0.91 & 7600 \\
+\bottomrule
+\end{tabular}
+\caption{Classification report for Logistic Regression on test set.}
+\label{tab:logistic_regression_test_classification_report}
+\end{table}
+
+In the confusion matrices (Figures \ref{fig:linear_svm_test_confusion_matrix} and \ref{fig:logistic_regression_test_confusion_matrix}), we can observe that both models have similar patterns of misclassification, with the most common confusion occurring between the sci/tech and business classes. This is reflected in the classification reports where the precision, recall, and F1-scores for these classes are lower compared to the sport and world classes. Overall, the Linear SVM model performs slightly better than the Logistic Regression model on both accuracy and macro-F1, but the difference is not very large (e.g., 0.01 in accuracy and macro-F1).
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/linear_svm_test_confusion_matrix.png}
+        \caption{Confusion Matrix for Linear SVM on Test Set}
+        \label{fig:linear_svm_test_confusion_matrix}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/logistic_regression_test_confusion_matrix.png}
+        \caption{Confusion Matrix for Logistic Regression on Test Set}
+        \label{fig:logistic_regression_test_confusion_matrix}
+    \end{minipage}
+\end{figure}
+
+
+
+Comparing the two models in Table \ref{tab:comparison_test_set}, we can see that the Linear SVM model has a slightly higher accuracy and macro-F1 score compared to the Logistic Regression model on the test set. However, both models perform quite well, with accuracies and macro-F1 scores above 0.90, indicating that the TF-IDF features are effective for this classification task.
+
+% table of comparison of accuracy and macro-F1 for linear svm and logistic regression on the test set
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{Accuracy} & \textbf{Macro-F1} \\
+\midrule
+Linear SVM & \textbf{0.92} & \textbf{0.92} \\
+Logistic Regression & 0.91 & 0.91 \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of Accuracy and Macro-F1 for Linear SVM and Logistic Regression on Test Set}
+\label{tab:comparison_test_set}
+\end{table}

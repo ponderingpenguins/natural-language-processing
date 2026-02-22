@@ -1,0 +1,67 @@
+It is evident from the results that both models perform quite well on the test set, with accuracies and macro-F1 scores above 0.90. This indicates that the TF-IDF features are effective for this classification task. However, the t-SNE projections of the test set predictions (Figures \ref{fig:linear_svm_test_prediction_map} and \ref{fig:logistic_regression_test_prediction_map}) reveal there is a lot of overlap between classes. The confusion matrices (Figures \ref{fig:linear_svm_test_confusion_matrix} and \ref{fig:logistic_regression_test_confusion_matrix}) show that there are some misclassifications, particularly between the `business' and `sci/tech' classes, which is also reflected in the t-SNE projections where the clusters for these classes overlap more than the others.
+
+After our error analysis, we performed three ablation studies on the dev set to explore the impact
+of different preprocessing and feature extraction choices on model performance, with full results
+reported in Table \ref{tab:ablation}.
+
+The most impactful ablation was stopword removal, which reduced misclassifications by 62 for
+Logistic Regression (653 vs.\ 715) and 18 for Linear SVM (646 vs.\ 664). This is likely because
+stopwords such as ``the'', ``is'', and ``of'' carry no discriminative signal for topic classification,
+and their removal allows TF-IDF to assign higher relative weights to informative content words.
+Notably, keeping stopwords also shifted the optimal SVM hyperparameters from $C=0.1$ with
+squared hinge loss to $C=1.0$ with hinge loss, suggesting the model requires stronger regularisation
+to cope with the noisier, higher-dimensional feature space introduced by function words.
+
+The n-gram range ablation showed that unigrams alone and unigrams combined with bigrams perform
+nearly identically. For Logistic Regression, adding bigrams reduced misclassifications by only 22
+(673 vs.\ 651), while for Linear SVM, bigrams actually increased errors marginally (641 vs.\ 643).
+This suggests that for this classification task, individual words already provide sufficient
+discriminative signal, and the additional sparsity introduced by bigrams does not yield meaningful gains.
+
+Finally, lowercasing had a negligible effect on both models, with differences of fewer than 10
+misclassifications in either direction. Overall, the modest scale of these differences across all
+three ablations suggests that while preprocessing choices can influence model performance at the
+margin, they are not the primary drivers of classification accuracy for this task.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llccc}
+\toprule
+\textbf{Ablation} & \textbf{Model} & \textbf{Accuracy} & \textbf{Macro-F1} & \textbf{Misclassified} \\
+\midrule
+\multirow{2}{*}{With lowercasing} & Logistic Regression & 0.91 & 0.91 & 653 \\
+                                   & Linear SVM          & \textbf{0.92} & 0.91 & 646 \\
+\midrule
+\multirow{2}{*}{Without lowercasing} & Logistic Regression & \textbf{0.92} & 0.91 & 646 \\
+                                      & Linear SVM          & \textbf{0.92} & \textbf{0.92} & 643 \\
+\midrule
+\multirow{2}{*}{Unigram only} & Logistic Regression & 0.91 & 0.91 & 673 \\
+                               & Linear SVM          & \textbf{0.92} & \textbf{0.92} & \textbf{641} \\
+\midrule
+\multirow{2}{*}{Unigram + Bigram} & Logistic Regression & 0.91 & 0.91 & 651 \\
+                                   & Linear SVM          & \textbf{0.92} & \textbf{0.92} & 643 \\
+\midrule
+\multirow{2}{*}{With stopword removal} & Logistic Regression & 0.91 & 0.91 & 653 \\
+                                        & Linear SVM          & \textbf{0.92} & 0.91 & 646 \\
+\midrule
+\multirow{2}{*}{Without stopword removal} & Logistic Regression & 0.91 & 0.91 & 715 \\
+                                           & Linear SVM          & 0.91 & 0.91 & 664 \\
+\bottomrule
+\end{tabular}
+\caption{Ablation study results on the dev set. Misclassification counts are reported alongside accuracy and macro-F1 to highlight differences that aggregate metrics obscure. Bold indicates the best value per column.}
+\label{tab:ablation}
+\end{table}
+
+We also analyzed the most important features for each class in the Linear SVM model (Figure \ref{fig:linear_svm_top_features}). We found that the feature weights largely make sense: NASA, space, scientist, linux, robot, cybersecurity on the Sci/Tech side. Championship, nba, baseball, olympic, stadium on Sports. Economy, bank, finance, investing, enron, mutual fund on Business. Iraqi, nuclear, arafat, palestinian, darfur on World. The model has genuinely learned meaningful discriminative vocabulary.
+
+It is worth mentioning that we can see clear artifacts from our preprocessing pipeline, such as \verb|ltpgtltpgtltpgt|, a residual from HTML paragraph tags (\verb|<p>|) where the entity encoding (\verb|&lt;p&gt;|) was not resolved before punctuation removal, and \verb|oracle 39s|, which originates from the numeric HTML entity \verb|&#39;| for an apostrophe in \verb|Oracle's|. These tokens carry no linguistic meaning and could be eliminated by applying \verb|html.unescape()| prior to preprocessing.
+
+It gets tricky when trying to explain why business and sci/tech are confused. The top features are meaningful for both classes, and there is no overlap in the top features for these classes, so it is not a case that a word like "technology" is pulling an article into both classes. Instead, it must be that some articles have a mix of features from both classes. For example, an article about ``nasa'' (a top feature for sci/tech) that also mentions ``investing'' or ``economy'' (top features for business) might be difficult for the model to classify correctly, especially if the TF-IDF scores for the business-related terms are higher than those for the sci/tech-related terms. This is one of the main limitations of the TF-IDF representation, which does not capture the context in which words are used, and can lead to misclassifications when articles contain a mix of features from different classes.
+
+% most important features per class in the SVM
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../figures/linear_svm_top_features.png}
+    \caption{Top 40 discriminative features per class for the Linear SVM model, ranked by coefficient magnitude. Positive values (right) indicate features strongly associated with the given class, while negative values (left) indicate features that push predictions away from that class.}
+    \label{fig:linear_svm_top_features}
+\end{figure}

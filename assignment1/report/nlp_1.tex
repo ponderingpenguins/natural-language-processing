@@ -2,7 +2,6 @@
 
 % import preamble
 \input{preamble.tex}
-
 \setlength{\droptitle}{-5em}
 \title{\textbf{Natural Language Processing\\
 Assignment 1}}
@@ -41,9 +40,23 @@ Assignment 1}}
 % (required in Assignment 3)
 \import{sections/}{7_limitations.tex}
 
+% references apa
+\bibliographystyle{plainnat}
+\bibliography{references}
+
 \appendix
-\section{Appendix}
-% (AI-use statement, extra plots)
+\section{Curated Misclassified Examples for Error Analysis}
+\label{sec:appendix-misclassified-examples}
 \import{sections/}{8_appendix.tex}
+
+\newgeometry{margin=1cm} % reduce margins for landscape pages
+\begin{landscape}
+
+\section{Misclassified Examples}
+\label{sec:appendix-misclassified-examples-full}
+
+\import{sections/}{9_appendixb.tex}
+\end{landscape}
+\restoregeometry
 
 \end{document}

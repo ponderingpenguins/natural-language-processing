@@ -1,0 +1,9 @@
+
+We implemented two models for the text classification task: Logistic Regression and Linear Support Vector Machine (SVM), both using Term Frequency-Inverse Document Frequency (TF-IDF) for feature extraction. The architecture of both models is similar, with the main difference being the linear classifier used for classification. The input text is first preprocessed and then transformed into TF-IDF features, which are then fed into either a Logistic Regression classifier or a Linear SVM for classification (see Figure \ref{fig:model_architecture} for a visual representation of the architecture).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/model_architecture.png}
+    \caption{Model architecture for TF-IDF + Logistic Regression and TF-IDF + LinearSVM. The figure shows a random sample from the training set, which is preprocessed and transformed into TF-IDF features before being fed into the classifiers.}
+    \label{fig:model_architecture}
+\end{figure}
