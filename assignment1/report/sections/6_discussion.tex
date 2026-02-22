@@ -4,7 +4,7 @@ After our error analysis, we performed three ablation studies on the dev set to 
 of different preprocessing and feature extraction choices on model performance, with full results
 reported in Table \ref{tab:ablation}.
 
-\paragraph{Ablation 1.} The most impactful ablation was stopword removal, which reduced misclassifications by 62 for
+\paragraph{Ablation: stopword removal.} The most impactful ablation was stopword removal, which reduced misclassifications by 62 for
 Logistic Regression (653 vs.\ 715) and 18 for Linear SVM (646 vs.\ 664). This is likely because
 stopwords such as ``the'', ``is'', and ``of'' carry no discriminative signal for topic classification,
 and their removal allows TF-IDF to assign higher relative weights to informative content words.
@@ -12,13 +12,13 @@ Notably, keeping stopwords also shifted the optimal SVM hyperparameters from $C=
 squared hinge loss to $C=1.0$ with hinge loss, suggesting the model requires stronger regularisation
 to cope with the noisier, higher-dimensional feature space introduced by function words.
 
-\paragraph{Ablation 2.} The n-gram range ablation showed that unigrams alone and unigrams combined with bigrams perform
+\paragraph{Ablation: n-gram range.} The n-gram range ablation showed that unigrams alone and unigrams combined with bigrams perform
 nearly identically. For Logistic Regression, adding bigrams reduced misclassifications by only 22
 (673 vs.\ 651), while for Linear SVM, bigrams actually increased errors marginally (641 vs.\ 643).
 This suggests that for this classification task, individual words already provide sufficient
 discriminative signal, and the additional sparsity introduced by bigrams does not yield meaningful gains.
 
-\paragraph{Ablation 3.} Finally, lowercasing had a negligible effect on both models, with differences of fewer than 10
+\paragraph{Ablation: lowercasing.} Finally, lowercasing had a negligible effect on both models, with differences of fewer than 10
 misclassifications in either direction. Overall, the modest scale of these differences across all
 three ablations suggests that while preprocessing choices can influence model performance at the
 margin, they are not the primary drivers of classification accuracy for this task.
