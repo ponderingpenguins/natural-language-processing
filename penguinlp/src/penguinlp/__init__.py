@@ -1,2 +1,5 @@
+from .helpers import logger
+
+
 def hello() -> str:
-    return "Hello from penguinlp!"
+    logger.info("Called hello function")

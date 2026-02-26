@@ -1,5 +1,8 @@
+from penguinlp.helpers import logger
+
+
 def main():
-    print("Hello from assignment2!")
+    logger.info("Starting assignment2...")
 
 
 if __name__ == "__main__":
