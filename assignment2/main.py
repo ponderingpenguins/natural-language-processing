@@ -2,7 +2,6 @@
 
 import sys
 
-from models.rnn import rnn
 from omegaconf import OmegaConf
 from penguinlp.config import TrainingConfig
 from penguinlp.helpers import logger
@@ -17,7 +16,6 @@ def fooberino(cfg: TrainingConfig) -> None:
     Returns:
         None
     """
-    rnn()
     # TODO: Implement the training logic here
     breakpoint()
 
