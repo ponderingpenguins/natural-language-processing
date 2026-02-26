@@ -1,5 +1,7 @@
 """Model training entry points."""
 
+import json
+
 from config import ModelConfig
 from data_utils import create_dataloaders
 from models.cnn import CNN
@@ -10,6 +12,32 @@ from penguinlp.helpers import logger
 from seed import set_seed
 from tokenizer_utils import setup_tokenizer
 from training import run_training_pipeline
+
+
+def save_misclassified_examples(
+    cfg: TrainingConfig,
+    model_name: str,
+    misclassified_indices: list,
+    misclassified_labels: list,
+    test_data,
+) -> None:
+    """Save misclassified examples to a file."""
+    output_path = f"{cfg.output_dir}/misclassified_examples_{model_name}.jsonl"
+    with open(output_path, "w", encoding="utf-8") as f:
+        for idx, label in zip(misclassified_indices, misclassified_labels):
+            example = test_data[idx]
+            record = {
+                "index": int(idx),
+                "text": example["text"],
+                "true_label": int(example["label"]),
+                "misclassified_as": int(label),
+            }
+            f.write(json.dumps(record) + "\n")
+    logger.info(
+        "Saved %d misclassified examples to %s",
+        len(misclassified_indices),
+        output_path,
+    )
 
 
 def train_cnn_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
@@ -55,13 +83,21 @@ def train_cnn_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     )
     logger.info("Created CNN model")
 
-    return run_training_pipeline(
+    results = run_training_pipeline(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
         cfg=cfg,
     )
+    save_misclassified_examples(
+        cfg,
+        "cnn",
+        results["misclassified_examples"],
+        results["misclassified_labels"],
+        data["test"],
+    )
+    return results
 
 
 def train_lstm_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
@@ -107,10 +143,18 @@ def train_lstm_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     )
     logger.info("Created LSTM model")
 
-    return run_training_pipeline(
+    results = run_training_pipeline(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
         cfg=cfg,
     )
+    save_misclassified_examples(
+        cfg,
+        "lstm",
+        results["misclassified_examples"],
+        results["misclassified_labels"],
+        data["test"],
+    )
+    return results

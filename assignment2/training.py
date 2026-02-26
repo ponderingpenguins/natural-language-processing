@@ -3,7 +3,12 @@
 import numpy as np
 import torch
 from penguinlp.helpers import logger
-from sklearn.metrics import accuracy_score, classification_report, f1_score
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+)
 from torch import nn
 from torch.utils.data import DataLoader
 
@@ -202,8 +207,39 @@ def run_training_pipeline(
         classification_report(test_metrics["y_true"], test_metrics["y_pred"], digits=4)
     )
 
+    cm = confusion_matrix(test_metrics["y_true"], test_metrics["y_pred"])
+
+    # Collect misclassified examples
+    misclassified_indices = np.where(test_metrics["y_true"] != test_metrics["y_pred"])[
+        0
+    ]
+    misclassified_labels = test_metrics["y_pred"][misclassified_indices]
+    num_to_report = min(
+        cfg.max_misclassifications_to_report, len(misclassified_indices)
+    )
+    logger.info(
+        "Reporting %d misclassified examples (out of %d total misclassifications)",
+        num_to_report,
+        len(misclassified_indices),
+    )
+    for i in range(num_to_report):
+        idx = misclassified_indices[i]
+        true_label = test_metrics["y_true"][idx]
+        pred_label = test_metrics["y_pred"][idx]
+        prob = test_metrics["probs"][idx][pred_label]
+        logger.info(
+            "Misclassified example %d: true=%d, pred=%d, prob=%.4f",
+            i + 1,
+            true_label,
+            pred_label,
+            prob,
+        )
+
     return {
         "history": history,
         "val_metrics": val_metrics,
         "test_metrics": test_metrics,
+        "confusion_matrix": cm,
+        "misclassified_examples": misclassified_indices[:num_to_report],
+        "misclassified_labels": misclassified_labels[:num_to_report],
     }
