@@ -17,6 +17,8 @@ class TrainingConfig:
             (default: 20).
         label_names: Mapping from integer label to human-readable class name.
         seed: The random seed for reproducibility (default: 67).
+        tokenizer_type: The type of tokenizer to use ("word", "bpe", or "char", default: "bpe").
+        tokenizer_path: The path to save/load the tokenizer (default: "tokenizer.pkl").
     """
 
     hf_dataset: str = "sh0416/ag_news"
@@ -34,3 +36,7 @@ class TrainingConfig:
         }
     )
     seed: int = 67
+
+    # Assignment 2 specific parameters
+    tokenizer_type: str = "bpe"  # type of tokenizer to use ("word", "bpe", or "char")
+    tokenizer_path: str = "tokenizer.pkl"  # path to save/load the tokenizer
