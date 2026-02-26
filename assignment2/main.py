@@ -6,6 +6,7 @@ import sys
 import numpy as np
 import torch
 from models.cnn import CNN
+from models.lstm import LSTM
 from omegaconf import OmegaConf
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
@@ -131,50 +132,39 @@ def train_one_epoch(
     return {"loss": total_loss / max(n, 1), "acc": correct / max(n, 1)}
 
 
-def fit_with_early_stopping(
+def train(
     model: nn.Module,
     train_loader: DataLoader,
     val_loader: DataLoader,
     lr: float = 1e-3,
-    max_epochs: int = 20,
-    patience: int = 3,
+    num_epochs: int = 20,
 ) -> list:
     """
-    Train with early stopping on validation loss.
+    Train the model for a fixed number of epochs.
 
-    We track the best validation loss seen so far. If it does not improve for `patience`
-    consecutive epochs, we stop training and restore the best model parameters.
+    Args:
+        model: The model to train.
+        train_loader: DataLoader for training data.
+        val_loader: DataLoader for validation data.
+        lr: Learning rate.
+        num_epochs: Number of epochs to train.
+
+    Returns:
+        List of training history metrics.
     """
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    best_state = None
-    best_val = float("inf")
-    best_epoch = None
-    bad_epochs = 0
-
     history = []
-    print("Training with early stopping on validation loss")
-    print(f"max_epochs={max_epochs}, patience={patience}, lr={lr}")
-    print(
-        f"{'epoch':>5}  {'train_loss':>10}  {'train_acc':>9}  {'val_loss':>8}  {'val_acc':>7}  {'note':>18}"
-    )
-    print("-" * 70)
 
-    for epoch in range(1, max_epochs + 1):
+    logger.info("Starting training")
+    logger.info(f"num_epochs={num_epochs}, lr={lr}")
+    print(
+        f"{'epoch':>5}  {'train_loss':>10}  {'train_acc':>9}  {'val_loss':>8}  {'val_acc':>7}"
+    )
+    print("-" * 60)
+
+    for epoch in range(1, num_epochs + 1):
         train_metrics = train_one_epoch(model, train_loader, optimizer)
         val_metrics = evaluate(model, val_loader)
-
-        improved = val_metrics["loss"] < best_val - 1e-4
-        if improved:
-            best_val = val_metrics["loss"]
-            best_epoch = epoch
-            best_state = {
-                k: v.detach().cpu().clone() for k, v in model.state_dict().items()
-            }
-            bad_epochs = 0
-            note = "new best val_loss"
-        else:
-            bad_epochs += 1
-            note = f"no improve ({bad_epochs}/{patience})"
 
         history.append(
             {
@@ -189,24 +179,10 @@ def fit_with_early_stopping(
 
         print(
             f"{epoch:5d}  {train_metrics['loss']:10.4f}  {train_metrics['acc']:9.4f}  "
-            f"{val_metrics['loss']:8.4f}  {val_metrics['acc']:7.4f}  {note:>18}"
+            f"{val_metrics['loss']:8.4f}  {val_metrics['acc']:7.4f}"
         )
 
-        if bad_epochs >= patience:
-            print()
-            print(
-                f"Early stopping triggered at epoch {epoch} because validation loss did not improve "
-                f"for {patience} consecutive epochs."
-            )
-            print(f"Best validation loss was {best_val:.4f} at epoch {best_epoch}.")
-            break
-
-    if best_state is not None:
-        model.load_state_dict(best_state)
-        print(
-            f"Restored model parameters from epoch {best_epoch} (best val_loss={best_val:.4f})."
-        )
-
+    logger.info("Training completed")
     return history
 
 
@@ -224,88 +200,232 @@ def collate_fn(batch: list, vocab: dict[str, int]) -> Batch:
     return Batch(x=x, lengths=lengths, y=y)
 
 
-def fooberino(cfg: TrainingConfig) -> None:
-    """
-    Placeholder function for the main training logic.
+def setup_tokenizer(cfg: TrainingConfig, train_data) -> object:
+    """Setup and return tokenizer, either by loading or building new one.
 
     Args:
         cfg: Training configuration.
-    Returns:
-        None
-    """
-    # TODO: Implement the training logic here
-    data = load_data(cfg)
+        train_data: Training dataset for building tokenizer if needed.
 
-    # load tokenizer if it exists, otherwise build and save a new one
+    Returns:
+        Tokenizer object.
+    """
     try:
         tokenizer = load_tokenizer(cfg.tokenizer_path)
         logger.info("Tokenizer loaded successfully.")
     except FileNotFoundError:
         logger.warning("Tokenizer not found. Building a new one.")
-
         tokenizer = build_tokenizer(
-            data["train"], tokenizer_type=cfg.tokenizer_type, vocab_size=1000
+            train_data, tokenizer_type=cfg.tokenizer_type, vocab_size=1000
         )
         logger.info("Vocabulary built with %d tokens", len(tokenizer.vocab))
-
         save_tokenizer(tokenizer, cfg.tokenizer_path)
 
-    # Tokenize and collate data here (e.g., create DataLoader)
+    return tokenizer
 
-    # subsample for quick testing
-    data["train"] = data["train"].select(range(10))
-    data["dev"] = data["dev"].select(range(10))
-    data["test"] = data["test"].select(range(10))
 
+def create_dataloaders(
+    data: dict, tokenizer: object, batch_size: int
+) -> tuple[DataLoader, DataLoader, DataLoader]:
+    """Create DataLoaders for train, validation, and test sets.
+
+    Args:
+        data: Dictionary with 'train', 'dev', and 'test' datasets.
+        tokenizer: Tokenizer object.
+        batch_size: Batch size for dataloaders.
+
+    Returns:
+        Tuple of (train_loader, val_loader, test_loader).
+    """
     train_ds = TokenizedDataset(data["train"], tokenizer)
     val_ds = TokenizedDataset(data["dev"], tokenizer)
     test_ds = TokenizedDataset(data["test"], tokenizer)
 
     train_loader = DataLoader(
         train_ds,
-        batch_size=cfg.batch_size,
+        batch_size=batch_size,
         shuffle=True,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )
     val_loader = DataLoader(
         val_ds,
-        batch_size=cfg.batch_size,
+        batch_size=batch_size,
         shuffle=False,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )
     test_loader = DataLoader(
         test_ds,
-        batch_size=cfg.batch_size,
+        batch_size=batch_size,
         shuffle=False,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )
 
-    # Train CNN model here using the tokenizer and data
-    model = CNN(
-        vocab_size=len(tokenizer.vocab), embed_dim=128, num_classes=cfg.num_classes
-    )
-    set_seed(13)
+    logger.info("DataLoaders created successfully")
+    return train_loader, val_loader, test_loader
 
-    MAX_EPOCHS = 20
-    PATIENCE = 3
-    LEARNING_RATE = 1e-3
 
-    model_base = CNN(
-        vocab_size=len(tokenizer.vocab), embed_dim=128, num_classes=cfg.num_classes
-    ).to(DEVICE)
-    hist_base = fit_with_early_stopping(
-        model_base,
+def run_training_pipeline(
+    model: nn.Module,
+    train_loader: DataLoader,
+    val_loader: DataLoader,
+    test_loader: DataLoader,
+    num_epochs: int = 20,
+    learning_rate: float = 1e-3,
+) -> dict:
+    """Run the complete training pipeline.
+
+    Args:
+        model: The model to train.
+        train_loader: DataLoader for training data.
+        val_loader: DataLoader for validation data.
+        test_loader: DataLoader for test data.
+        num_epochs: Number of epochs to train.
+        learning_rate: Learning rate for optimizer.
+
+    Returns:
+        Dictionary containing training history and metrics.
+    """
+    # Move model to device
+    model = model.to(DEVICE)
+    logger.info("Model moved to %s", DEVICE)
+
+    # Train model
+    history = train(
+        model,
         train_loader,
         val_loader,
-        lr=LEARNING_RATE,
-        max_epochs=MAX_EPOCHS,
-        patience=PATIENCE,
+        lr=learning_rate,
+        num_epochs=num_epochs,
     )
 
-    base_val = evaluate(model_base, val_loader)
-    base_test = evaluate(model_base, test_loader)
+    # TODO: plot training history (loss and accuracy curves) using matplotlib or seaborn
 
-    breakpoint()
+    # Evaluate on validation and test sets
+    logger.info("Evaluating model...")
+    val_metrics = evaluate(model, val_loader)
+    test_metrics = evaluate(model, test_loader)
+
+    logger.info(
+        "Validation metrics: loss=%.4f, acc=%.4f, f1=%.4f",
+        val_metrics["loss"],
+        val_metrics["acc"],
+        val_metrics["f1"],
+    )
+    logger.info(
+        "Test metrics: loss=%.4f, acc=%.4f, f1=%.4f",
+        test_metrics["loss"],
+        test_metrics["acc"],
+        test_metrics["f1"],
+    )
+
+    # Print classification report
+    print("\n" + "=" * 60)
+    print("Test Set Classification Report:")
+    print("=" * 60)
+    print(
+        classification_report(test_metrics["y_true"], test_metrics["y_pred"], digits=4)
+    )
+
+    return {
+        "history": history,
+        "val_metrics": val_metrics,
+        "test_metrics": test_metrics,
+    }
+
+
+def train_cnn_model(cfg: TrainingConfig) -> dict:
+    """Train a CNN model.
+
+    Args:
+        cfg: Training configuration.
+
+    Returns:
+        Dictionary containing training results.
+    """
+    # Set seed for reproducibility
+    set_seed(cfg.seed if hasattr(cfg, "seed") else 42)
+
+    # Load data
+    logger.info("Loading data...")
+    data = load_data(cfg)
+
+    # Subsample for quick testing (remove or adjust for full training)
+    data["train"] = data["train"].select(range(10))
+    data["dev"] = data["dev"].select(range(10))
+    data["test"] = data["test"].select(range(10))
+
+    # Setup tokenizer
+    tokenizer = setup_tokenizer(cfg, data["train"])
+
+    # Create dataloaders
+    train_loader, val_loader, test_loader = create_dataloaders(
+        data, tokenizer, cfg.batch_size
+    )
+
+    # Create CNN model with actual vocab size
+    model = CNN(
+        vocab_size=len(tokenizer.vocab),
+        embed_dim=128,
+        num_classes=cfg.num_classes,
+    )
+    logger.info("Created CNN model")
+
+    return run_training_pipeline(
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        test_loader=test_loader,
+        num_epochs=20,
+        learning_rate=1e-3,
+    )
+
+
+def train_lstm_model(cfg: TrainingConfig) -> dict:
+    """Train an LSTM model.
+
+    Args:
+        cfg: Training configuration.
+
+    Returns:
+        Dictionary containing training results.
+    """
+    # Set seed for reproducibility
+    set_seed(cfg.seed if hasattr(cfg, "seed") else 42)
+
+    # Load data
+    logger.info("Loading data...")
+    data = load_data(cfg)
+
+    # Subsample for quick testing (remove or adjust for full training)
+    data["train"] = data["train"].select(range(10))
+    data["dev"] = data["dev"].select(range(10))
+    data["test"] = data["test"].select(range(10))
+
+    # Setup tokenizer
+    tokenizer = setup_tokenizer(cfg, data["train"])
+
+    # Create dataloaders
+    train_loader, val_loader, test_loader = create_dataloaders(
+        data, tokenizer, cfg.batch_size
+    )
+
+    # Create LSTM model
+    model = LSTM(
+        vocab_size=len(tokenizer.vocab),
+        embed_dim=128,
+        hidden_dim=256,
+        num_classes=cfg.num_classes,
+    )
+    logger.info("Created LSTM model")
+
+    return run_training_pipeline(
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        test_loader=test_loader,
+        num_epochs=20,
+        learning_rate=1e-3,
+    )
 
 
 def main() -> None:
@@ -322,8 +442,23 @@ def main() -> None:
         sys.exit(1)
 
     logger.info("Training configuration:\n%s", OmegaConf.to_yaml(cfg))
-    logger.info("Data loaded successfully. Starting training...")
-    fooberino(cfg)  # TODO: Replace with actual training function
+    logger.info("Starting training pipeline...")
+
+    # Train CNN model
+    logger.info("\n" + "=" * 60)
+    logger.info("Training CNN model")
+    logger.info("=" * 60)
+    cnn_results = train_cnn_model(cfg)
+    logger.info(
+        "CNN training completed. Final test F1: %.4f", cnn_results["test_metrics"]["f1"]
+    )
+
+    # Uncomment to train LSTM model later
+    # logger.info("\n" + "="*60)
+    # logger.info("Training LSTM model")
+    # logger.info("="*60)
+    # lstm_results = train_lstm_model(cfg)
+    # logger.info("LSTM training completed. Final test F1: %.4f", lstm_results["test_metrics"]["f1"])
 
 
 if __name__ == "__main__":
