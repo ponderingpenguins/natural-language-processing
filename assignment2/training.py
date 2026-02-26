@@ -55,7 +55,10 @@ def evaluate(model: nn.Module, loader: DataLoader) -> dict:
 
 
 def train_one_epoch(
-    model: nn.Module, loader: DataLoader, optimizer: torch.optim.Optimizer
+    model: nn.Module,
+    loader: DataLoader,
+    optimizer: torch.optim.Optimizer,
+    gradient_clip_norm: float,
 ) -> dict:
     """Train for one epoch and return average loss and accuracy."""
     model.train()
@@ -72,7 +75,7 @@ def train_one_epoch(
         logits = model(x)
         loss = loss_fn(logits, y)
         loss.backward()
-        nn.utils.clip_grad_norm_(model.parameters(), 5.0)
+        nn.utils.clip_grad_norm_(model.parameters(), gradient_clip_norm)
         optimizer.step()
 
         total_loss += float(loss.item()) * y.size(0)
@@ -87,8 +90,9 @@ def train(
     model: nn.Module,
     train_loader: DataLoader,
     val_loader: DataLoader,
-    lr: float = 1e-3,
-    num_epochs: int = 20,
+    lr: float,
+    num_epochs: int,
+    gradient_clip_norm: float,
 ) -> list:
     """
     Train the model for a fixed number of epochs.
@@ -114,7 +118,9 @@ def train(
     print("-" * 60)
 
     for epoch in range(1, num_epochs + 1):
-        train_metrics = train_one_epoch(model, train_loader, optimizer)
+        train_metrics = train_one_epoch(
+            model, train_loader, optimizer, gradient_clip_norm
+        )
         val_metrics = evaluate(model, val_loader)
 
         history.append(
@@ -142,8 +148,7 @@ def run_training_pipeline(
     train_loader: DataLoader,
     val_loader: DataLoader,
     test_loader: DataLoader,
-    num_epochs: int = 20,
-    learning_rate: float = 1e-3,
+    cfg,
 ) -> dict:
     """Run the complete training pipeline.
 
@@ -152,8 +157,7 @@ def run_training_pipeline(
         train_loader: DataLoader for training data.
         val_loader: DataLoader for validation data.
         test_loader: DataLoader for test data.
-        num_epochs: Number of epochs to train.
-        learning_rate: Learning rate for optimizer.
+        cfg: Training configuration object.
 
     Returns:
         Dictionary containing training history and metrics.
@@ -167,8 +171,9 @@ def run_training_pipeline(
         model,
         train_loader,
         val_loader,
-        lr=learning_rate,
-        num_epochs=num_epochs,
+        lr=cfg.learning_rate,
+        num_epochs=cfg.num_epochs,
+        gradient_clip_norm=cfg.gradient_clip_norm,
     )
 
     # Evaluate on validation and test sets

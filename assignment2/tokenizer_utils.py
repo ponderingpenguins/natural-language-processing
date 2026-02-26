@@ -21,7 +21,10 @@ def setup_tokenizer(cfg: TrainingConfig, train_data) -> object:
     except FileNotFoundError:
         logger.warning("Tokenizer not found. Building a new one.")
         tokenizer = build_tokenizer(
-            train_data, tokenizer_type=cfg.tokenizer_type, vocab_size=1000
+            train_data,
+            tokenizer_type=cfg.tokenizer_type,
+            vocab_size=cfg.vocab_size,
+            min_freq=cfg.min_freq,
         )
         logger.info("Vocabulary built with %d tokens", len(tokenizer.vocab))
         save_tokenizer(tokenizer, cfg.tokenizer_path)

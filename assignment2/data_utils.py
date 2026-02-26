@@ -16,7 +16,7 @@ class Batch:
 class TokenizedDataset(Dataset):
     """A PyTorch Dataset that tokenizes text examples on the fly."""
 
-    def __init__(self, data, tokenizer, max_seq_len=512):
+    def __init__(self, data, tokenizer, max_seq_len: int):
         self.data = data
         self.tokenizer = tokenizer
         self.max_seq_len = max_seq_len
@@ -49,37 +49,37 @@ def collate_fn(batch: list, vocab: dict[str, int]) -> Batch:
 
 
 def create_dataloaders(
-    data: dict, tokenizer: object, batch_size: int
+    data: dict, tokenizer: object, cfg
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Create DataLoaders for train, validation, and test sets.
 
     Args:
         data: Dictionary with 'train', 'dev', and 'test' datasets.
         tokenizer: Tokenizer object.
-        batch_size: Batch size for dataloaders.
+        cfg: Training configuration object.
 
     Returns:
         Tuple of (train_loader, val_loader, test_loader).
     """
-    train_ds = TokenizedDataset(data["train"], tokenizer)
-    val_ds = TokenizedDataset(data["dev"], tokenizer)
-    test_ds = TokenizedDataset(data["test"], tokenizer)
+    train_ds = TokenizedDataset(data["train"], tokenizer, cfg.max_seq_len)
+    val_ds = TokenizedDataset(data["dev"], tokenizer, cfg.max_seq_len)
+    test_ds = TokenizedDataset(data["test"], tokenizer, cfg.max_seq_len)
 
     train_loader = DataLoader(
         train_ds,
-        batch_size=batch_size,
+        batch_size=cfg.batch_size,
         shuffle=True,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )
     val_loader = DataLoader(
         val_ds,
-        batch_size=batch_size,
+        batch_size=cfg.batch_size,
         shuffle=False,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )
     test_loader = DataLoader(
         test_ds,
-        batch_size=batch_size,
+        batch_size=cfg.batch_size,
         shuffle=False,
         collate_fn=lambda batch: collate_fn(batch, tokenizer.vocab),
     )

@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "matplotlib>=3.10.8",
     "omegaconf>=2.3.0",
     "penguinlp",
     "torch>=2.10.0",

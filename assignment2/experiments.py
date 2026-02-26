@@ -1,5 +1,6 @@
 """Model training entry points."""
 
+from config import ModelConfig
 from data_utils import create_dataloaders
 from models.cnn import CNN
 from models.lstm import LSTM
@@ -11,11 +12,12 @@ from tokenizer_utils import setup_tokenizer
 from training import run_training_pipeline
 
 
-def train_cnn_model(cfg: TrainingConfig) -> dict:
+def train_cnn_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     """Train a CNN model.
 
     Args:
         cfg: Training configuration.
+        model_cfg: Model architecture configuration.
 
     Returns:
         Dictionary containing training results.
@@ -27,23 +29,28 @@ def train_cnn_model(cfg: TrainingConfig) -> dict:
     logger.info("Loading data...")
     data = load_data(cfg)
 
-    # Subsample for quick testing (remove or adjust for full training)
-    data["train"] = data["train"].select(range(10))
-    data["dev"] = data["dev"].select(range(10))
-    data["test"] = data["test"].select(range(10))
+    # Subsample for quick testing if sample_size is set
+    if cfg.sample_size is not None:
+        data["train"] = data["train"].select(
+            range(min(cfg.sample_size, len(data["train"])))
+        )
+        data["dev"] = data["dev"].select(range(min(cfg.sample_size, len(data["dev"]))))
+        data["test"] = data["test"].select(
+            range(min(cfg.sample_size, len(data["test"])))
+        )
 
     # Setup tokenizer
     tokenizer = setup_tokenizer(cfg, data["train"])
 
     # Create dataloaders
-    train_loader, val_loader, test_loader = create_dataloaders(
-        data, tokenizer, cfg.batch_size
-    )
+    train_loader, val_loader, test_loader = create_dataloaders(data, tokenizer, cfg)
 
     # Create CNN model with actual vocab size
     model = CNN(
         vocab_size=len(tokenizer.vocab),
-        embed_dim=128,
+        embed_dim=model_cfg.embed_dim,
+        num_filters=model_cfg.cnn_num_filters,
+        kernel_size=model_cfg.cnn_kernel_size,
         num_classes=cfg.num_classes,
     )
     logger.info("Created CNN model")
@@ -53,16 +60,16 @@ def train_cnn_model(cfg: TrainingConfig) -> dict:
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
-        num_epochs=20,
-        learning_rate=1e-3,
+        cfg=cfg,
     )
 
 
-def train_lstm_model(cfg: TrainingConfig) -> dict:
+def train_lstm_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     """Train an LSTM model.
 
     Args:
         cfg: Training configuration.
+        model_cfg: Model architecture configuration.
 
     Returns:
         Dictionary containing training results.
@@ -74,25 +81,29 @@ def train_lstm_model(cfg: TrainingConfig) -> dict:
     logger.info("Loading data...")
     data = load_data(cfg)
 
-    # Subsample for quick testing (remove or adjust for full training)
-    data["train"] = data["train"].select(range(10))
-    data["dev"] = data["dev"].select(range(10))
-    data["test"] = data["test"].select(range(10))
+    # Subsample for quick testing if sample_size is set
+    if cfg.sample_size is not None:
+        data["train"] = data["train"].select(
+            range(min(cfg.sample_size, len(data["train"])))
+        )
+        data["dev"] = data["dev"].select(range(min(cfg.sample_size, len(data["dev"]))))
+        data["test"] = data["test"].select(
+            range(min(cfg.sample_size, len(data["test"])))
+        )
 
     # Setup tokenizer
     tokenizer = setup_tokenizer(cfg, data["train"])
 
     # Create dataloaders
-    train_loader, val_loader, test_loader = create_dataloaders(
-        data, tokenizer, cfg.batch_size
-    )
+    train_loader, val_loader, test_loader = create_dataloaders(data, tokenizer, cfg)
 
     # Create LSTM model
     model = LSTM(
         vocab_size=len(tokenizer.vocab),
-        embed_dim=128,
-        hidden_dim=256,
+        embed_dim=model_cfg.embed_dim,
+        hidden_dim=model_cfg.lstm_hidden_dim,
         num_classes=cfg.num_classes,
+        bidirectional=model_cfg.lstm_bidirectional,
     )
     logger.info("Created LSTM model")
 
@@ -101,6 +112,5 @@ def train_lstm_model(cfg: TrainingConfig) -> dict:
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
-        num_epochs=20,
-        learning_rate=1e-3,
+        cfg=cfg,
     )
