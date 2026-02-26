@@ -16,9 +16,11 @@ class TrainingConfig:
         max_misclassifications_to_report: The maximum number of misclassified examples to report
             (default: 20).
         label_names: Mapping from integer label to human-readable class name.
+        num_classes: The number of classes in the dataset (default: 4).
         seed: The random seed for reproducibility (default: 67).
         tokenizer_type: The type of tokenizer to use ("word", "bpe", or "char", default: "bpe").
         tokenizer_path: The path to save/load the tokenizer (default: "tokenizer.pkl").
+        batch_size: The batch size for training (default: 4).
     """
 
     hf_dataset: str = "sh0416/ag_news"
@@ -35,8 +37,11 @@ class TrainingConfig:
             4: "Sci/Tech",
         }
     )
+    num_classes: int = 4
     seed: int = 67
 
     # Assignment 2 specific parameters
     tokenizer_type: str = "bpe"  # type of tokenizer to use ("word", "bpe", or "char")
     tokenizer_path: str = "tokenizer.pkl"  # path to save/load the tokenizer
+
+    batch_size: int = 4  # batch size for training

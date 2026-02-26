@@ -69,6 +69,9 @@ class WordTokenizer(BaseTokenizer):
     def tokenize(self, text: str) -> list[str]:
         return text.split()
 
+    def __call__(self, text: str) -> list[int]:
+        return self.encode(text)
+
 
 class CharTokenizer(BaseTokenizer):
     """
@@ -84,6 +87,9 @@ class CharTokenizer(BaseTokenizer):
 
     def tokenize(self, text: str) -> list[str]:
         return list(text)
+
+    def __call__(self, text: str) -> list[int]:
+        return self.encode(text)
 
 
 class BPETokenizer(BaseTokenizer):
@@ -167,6 +173,9 @@ class BPETokenizer(BaseTokenizer):
                 splits[idx] = split
 
         return sum(splits, [])
+
+    def __call__(self, text: str) -> list[int]:
+        return self.encode(text)
 
 
 def build_tokenizer(
