@@ -24,6 +24,7 @@ class TrainingConfig:
         num_epochs: The number of training epochs (default: 20).
         gradient_clip_norm: The maximum norm for gradient clipping (default: 5.0).
         batch_size: The batch size for training (default: 4).
+        weighted_decay: The weight decay for the optimizer (default: 1e-4).
         max_seq_len: The maximum sequence length for tokenization (default: 512).
         vocab_size: The vocabulary size for the tokenizer (default: 1000).
         min_freq: The minimum frequency for tokens to be included in the vocabulary (default: 2).
@@ -56,6 +57,7 @@ class TrainingConfig:
     num_epochs: int = 20  # number of training epochs
     gradient_clip_norm: float = 5.0  # max norm for gradient clipping
     batch_size: int = 4  # batch size for training
+    weighted_decay: float = 1e-4  # weight decay for optimizer
 
     # Data processing parameters
     max_seq_len: int = 512  # maximum sequence length for tokenization

@@ -98,6 +98,7 @@ def train(
     lr: float,
     num_epochs: int,
     gradient_clip_norm: float,
+    weight_decay: float,
 ) -> list:
     """
     Train the model for a fixed number of epochs.
@@ -108,11 +109,12 @@ def train(
         val_loader: DataLoader for validation data.
         lr: Learning rate.
         num_epochs: Number of epochs to train.
+        weight_decay: Weight decay for optimizer.
 
     Returns:
         List of training history metrics.
     """
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     history = []
 
     logger.info("Starting training")
@@ -179,6 +181,7 @@ def run_training_pipeline(
         lr=cfg.learning_rate,
         num_epochs=cfg.num_epochs,
         gradient_clip_norm=cfg.gradient_clip_norm,
+        weight_decay=cfg.weighted_decay,
     )
 
     # Evaluate on validation and test sets
