@@ -1,17 +1,51 @@
 # Assignment 2 — Neural Model Comparison + Ablation
 
 
-## 1) Overview
+## Shared setup (applies to all assignments)
+
+Task:
+
+- 4-way news topic classification on AG News (classes: World, Sports, Business, Sci/Tech).
+- Data: https://huggingface.co/datasets/sh0416/ag_news
+
+Data split policy:
+
+- Use the official train/test split.
+- Create a dev split from train (e.g., 90/10). Keep the test set untouched until final reporting.
+- Fix a random seed and report it.
+
+Metrics (required):
+
+- Primary: Accuracy
+- Secondary: Macro-F1
+- Also include: confusion matrix + 3–5 sentences interpreting it
+
+Academic integrity and AI tools:
+
+- Group work: all code and writing must be your own.
+- External code: you may use libraries (sklearn, PyTorch, Hugging Face), but you must cite any reused code snippets and explain what they do.
+- LLM assistance: if you use an LLM for debugging or writing support, include an “AI-use statement” in the report appendix describing what you used it for.
+
+Submission format (all assignments):
+
+- PDF report (as specified per assignment)
+- Repository link (GitHub/GitLab) + commit hash/tag
+- Reproducibility: README with exact run commands + environment info
+
+
+## Assignment 2 specific instructions
+
+### 1) Overview
 
 Implement two neural text classifiers for AG News (CNN and LSTM), compare them under controlled conditions, and run a small ablation study to test a specific hypothesis about representation or training.
 
-## 2) Learning outcomes
+### 2) Learning outcomes
 
 - Implement neural encoders for text classification.
 - Run controlled comparisons and interpret learning curves.
 - Design and analyze an ablation that isolates one factor.
 
-## 3) Requirements
+### 3) Requirements
 
 - Train two neural models (required):
     - CNN text classifier (convolution + pooling)
@@ -20,14 +54,14 @@ Implement two neural text classifiers for AG News (CNN and LSTM), compare them u
 - Report Accuracy + Macro-F1 + confusion matrix for both models.
 - Include learning curves (train loss + dev metric) for both models.
 
-## 4) Ablation (choose ONE, required)
+### 4) Ablation (choose ONE, required)
 
 - [ ] Embeddings: pretrained vs random initialization
 - [ ] Max length: e.g., 64 vs 128 vs 256 tokens
 - [ ] Regularization: dropout 0 vs 0.3 (or another controlled value)
 - [ ] Capacity: hidden size small vs medium (keep all else fixed)
 
-## 5) Instructions
+### 5) Instructions
 
 1. Reuse the same AG News split from Assignment 1.
 2. Implement CNN and LSTM models with documented hyperparameters.
@@ -36,7 +70,7 @@ Implement two neural text classifiers for AG News (CNN and LSTM), compare them u
 5. Evaluate on test once for final numbers.
 6. Update error analysis: ≥10 errors, highlight differences vs Assignment 1 baseline failures.
 
-## 6) Deliverables
+### 6) Deliverables
 
 - Report (3–4 pages, PDF) including:
     - [ ] Model descriptions (diagrams optional but encouraged)
@@ -47,7 +81,7 @@ Implement two neural text classifiers for AG News (CNN and LSTM), compare them u
     - [ ] Error analysis + comparison to Assignment 1
 - Code repository with training + evaluation scripts/notebooks and reproducible runs.
 
-## 7) Student checklist
+### 7) Student checklist
 
 - [ ] CNN implemented and trained
 - [ ] LSTM/BiLSTM implemented and trained
@@ -56,7 +90,7 @@ Implement two neural text classifiers for AG News (CNN and LSTM), compare them u
 - [ ] Learning curves included and interpreted
 - [ ] >=10 errors analyzed
 
-## 8) Submission (Brightspace)
+### 8) Submission (Brightspace)
 
 - Assignment 2 Submission Folder
     - [ ] Report PDF
