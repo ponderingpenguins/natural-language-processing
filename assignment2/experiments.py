@@ -3,7 +3,7 @@
 import json
 
 from config import ModelConfig
-from data_utils import create_dataloaders
+from data_utils import create_dataloaders, preprocess_data
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
@@ -56,6 +56,7 @@ def train_cnn_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     # Load data
     logger.info("Loading data...")
     data = load_data(cfg)
+    data = preprocess_data(data)
 
     # Subsample for quick testing if sample_size is set
     if cfg.sample_size is not None:
@@ -116,6 +117,7 @@ def train_lstm_model(cfg: TrainingConfig, model_cfg: ModelConfig) -> dict:
     # Load data
     logger.info("Loading data...")
     data = load_data(cfg)
+    data = preprocess_data(data)
 
     # Subsample for quick testing if sample_size is set
     if cfg.sample_size is not None:

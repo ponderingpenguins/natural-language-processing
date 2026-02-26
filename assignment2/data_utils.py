@@ -1,7 +1,67 @@
 """Dataset and DataLoader utilities."""
 
+import html
+
 import torch
 from torch.utils.data import DataLoader, Dataset
+
+
+def preprocess_sample(sample):
+    """Preprocess a single sample if needed."""
+    text = sample["text"]
+
+    # html unescaping
+    text = html.unescape(text)
+
+    # Handle malformed HTML entities (missing leading &)
+    text = text.replace("#36;", "$")  # &#36; = $
+    text = text.replace("#38;", "&")  # &#38; = &
+    text = text.replace("#39;", "'")  # &#39; = '
+    text = text.replace("#34;", '"')  # &#34; = "
+    text = text.replace("#35;", "#")  # &#35; = #
+    text = text.replace("#37;", "%")  # &#37; = %
+
+    # latex escape sequences - handle specific ones first
+    text = text.replace('\\"', '"')
+    text = text.replace("\\'", "'")
+    text = text.replace("\\&", "&")
+    text = text.replace("\\%", "%")
+    text = text.replace("\\$", "$")
+    text = text.replace("\\#", "#")
+    text = text.replace("\\_", "_")
+    text = text.replace("\\{", "{")
+    text = text.replace("\\}", "}")
+    text = text.replace("\\~", "~")
+    text = text.replace("\\^", "^")
+
+    # Replace double backslash with single backslash
+    text = text.replace("\\\\", "\\")
+
+    # Replace remaining single backslashes (line continuations) with space
+    text = text.replace("\\", " ")
+
+    # Normalize whitespace
+    text = " ".join(text.split())
+
+    sample["text"] = text
+    return sample
+
+
+def preprocess_data(data):
+    """Preprocess raw data if needed."""
+    # Assuming data is already in the form of list of dicts with 'text' and 'label'
+
+    data["train"] = data["train"].map(
+        preprocess_sample, batched=False, load_from_cache_file=False
+    )
+    data["dev"] = data["dev"].map(
+        preprocess_sample, batched=False, load_from_cache_file=False
+    )
+    data["test"] = data["test"].map(
+        preprocess_sample, batched=False, load_from_cache_file=False
+    )
+
+    return data
 
 
 class Batch:
