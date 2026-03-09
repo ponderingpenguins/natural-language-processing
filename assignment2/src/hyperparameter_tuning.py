@@ -5,7 +5,7 @@ from itertools import product
 from typing import Any, Dict, List
 
 import torch
-from data_utils import create_dataloaders
+from utils.data_utils import create_dataloaders
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig

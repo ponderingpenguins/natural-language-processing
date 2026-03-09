@@ -16,8 +16,8 @@ python3 main.py sample_size=10000 batch_size=8 vocab_size=20000 tuning_num_epoch
 import os
 import sys
 
-from config import ModelConfig
-from data_utils import clear_cache_dirs, preprocess_data, setup_tokenizer
+from utils.config import ModelConfig
+from utils.data_utils import clear_cache_dirs, preprocess_data, setup_tokenizer
 from experiments import train_cnn_model, train_lstm_model
 from hyperparameter_tuning import save_tuning_results, tune_hyperparameters
 from omegaconf import OmegaConf

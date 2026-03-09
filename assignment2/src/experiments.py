@@ -2,8 +2,8 @@
 
 import json
 
-from config import ModelConfig
-from data_utils import create_dataloaders, preprocess_data, setup_tokenizer
+from utils.config import ModelConfig
+from utils.data_utils import create_dataloaders, preprocess_data, setup_tokenizer
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
