@@ -17,3 +17,7 @@
 # ignore data
 **data/
 **__pycache__/
+**output/
+
+# ignore pickles (tokenizer, model checkpoints, etc.)
+**.pkl
