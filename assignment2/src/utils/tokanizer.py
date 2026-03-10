@@ -1,5 +1,6 @@
 """Tokenizer module for building a vocabulary from text data."""
 
+import heapq
 import pickle
 from abc import ABC, abstractmethod
 from collections import Counter, defaultdict
@@ -142,49 +143,87 @@ class BPETokenizer(BaseTokenizer):
         vocab_list = SPECIAL_TOKENS + alphabet
         splits: dict[str, list[str]] = {word: list(word) for word in word_counts}
 
-        # Build pair freqs once
+        # Build initial pair frequencies and inverted index
         pair_freqs: dict[tuple[str, str], int] = defaultdict(int)
+        pair_to_words: dict[tuple[str, str], set[str]] = defaultdict(set)
         for word, freq in word_counts.items():
             s = splits[word]
             for i in range(len(s) - 1):
-                pair_freqs[(s[i], s[i + 1])] += freq
+                pair = (s[i], s[i + 1])
+                pair_freqs[pair] += freq
+                pair_to_words[pair].add(word)
+
+        # Build max-heap (negate freq for max behavior)
+        heap = [(-freq, pair) for pair, freq in pair_freqs.items()]
+        heapq.heapify(heap)
 
         pbar = tqdm(total=self.vocab_size - len(vocab_list), desc="BPE Training")
         while len(vocab_list) < self.vocab_size:
-            if not pair_freqs:
+            # Pop stale entries until we find a valid one
+            best_pair = None
+            while heap:
+                neg_freq, candidate = heapq.heappop(heap)
+                if pair_freqs.get(candidate, 0) == -neg_freq and -neg_freq > 0:
+                    best_pair = candidate
+                    break
+            if best_pair is None:
                 break
-            best_pair = max(pair_freqs, key=pair_freqs.get)
+
             a, b = best_pair
             merged = a + b
 
-            # Merge and incrementally update pair_freqs
-            for word, freq in word_counts.items():
+            # Only iterate over words that actually contain this pair
+            changed_pairs: set[tuple[str, str]] = set()
+            for word in list(pair_to_words.get(best_pair, set())):
+                freq = word_counts[word]
                 s = splits[word]
                 i = 0
                 while i < len(s) - 1:
                     if s[i] == a and s[i + 1] == b:
-                        # Remove old pairs touching this position
+                        # Remove old neighboring pairs
                         if i > 0:
-                            pair_freqs[(s[i - 1], a)] -= freq
+                            old_left = (s[i - 1], a)
+                            pair_freqs[old_left] -= freq
+                            pair_to_words[old_left].discard(word)
+                            changed_pairs.add(old_left)
                         if i + 2 < len(s):
-                            pair_freqs[(b, s[i + 2])] -= freq
-                        # Merge
+                            old_right = (b, s[i + 2])
+                            pair_freqs[old_right] -= freq
+                            pair_to_words[old_right].discard(word)
+                            changed_pairs.add(old_right)
+
+                        # Apply merge
                         s = s[:i] + [merged] + s[i + 2 :]
-                        # Add new pairs
+
+                        # Add new neighboring pairs
                         if i > 0:
-                            pair_freqs[(s[i - 1], merged)] += freq
+                            new_left = (s[i - 1], merged)
+                            pair_freqs[new_left] += freq
+                            pair_to_words[new_left].add(word)
+                            changed_pairs.add(new_left)
                         if i + 1 < len(s):
-                            pair_freqs[(merged, s[i + 1])] += freq
-                        # Don't increment i — check for consecutive merges
+                            new_right = (merged, s[i + 1])
+                            pair_freqs[new_right] += freq
+                            pair_to_words[new_right].add(word)
+                            changed_pairs.add(new_right)
                     else:
                         i += 1
                 splits[word] = s
 
+            # Clean up merged pair
             del pair_freqs[best_pair]
-            # Clean up zero entries periodically
+            del pair_to_words[best_pair]
+
+            # Push changed pairs onto the heap
+            for pair in changed_pairs:
+                freq = pair_freqs.get(pair, 0)
+                if freq > 0:
+                    heapq.heappush(heap, (-freq, pair))
+
             self.merges[best_pair] = merged
             vocab_list.append(merged)
             pbar.update(1)
+
         pbar.close()
         self.vocab = {token: idx for idx, token in enumerate(vocab_list)}
 
