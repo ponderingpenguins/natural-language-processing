@@ -22,7 +22,7 @@ For reproducibility see [Assignment 1](./assignment1/assignment1.md).
 
 ## Assignment 2
 
-Intentionally left blank for now, will be added in the future.
+For reproducibility see [Assignment 2](./assignment2/README.md).
 
 ## Assignment 3
 
