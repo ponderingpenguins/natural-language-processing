@@ -104,6 +104,8 @@ class BPETokenizer(BaseTokenizer):
     def __init__(self, min_freq: int = 2, vocab_size: int = 100):
         super().__init__(min_freq, vocab_size)
         self.merges: dict[tuple[str, str], str] = {}
+        self._merge_priority: dict[tuple[str, str], int] = {}
+        self._word_cache: dict[str, tuple[str, ...]] = {}
 
     @staticmethod
     def _compute_pair_freqs(
@@ -227,6 +229,12 @@ class BPETokenizer(BaseTokenizer):
         pbar.close()
         self.vocab = {token: idx for idx, token in enumerate(vocab_list)}
 
+        # Cache merge priority for faster inference
+        self._merge_priority = {pair: i for i, pair in enumerate(self.merges)}
+
+        # Cache pre-computed tokenizations for training vocabulary words
+        self._word_cache = {word: tuple(split) for word, split in splits.items()}
+
     def tokenize(self, text: str) -> list[str]:
         """
         Tokenize text using the learned merges.
@@ -238,7 +246,7 @@ class BPETokenizer(BaseTokenizer):
         """
         return [token for w in text.split() for token in self._tokenize_word(w)]
 
-    @lru_cache(maxsize=8192)
+    @lru_cache(maxsize=65536)
     def _tokenize_word(self, word: str) -> tuple[str, ...]:
         """
         Tokenize a single word using the learned merges.
@@ -248,8 +256,13 @@ class BPETokenizer(BaseTokenizer):
         Returns:
             A tuple of tokens resulting from applying the BPE merges to the input word.
         """
-        # Map pairs to their merge priority (lower = earlier = higher priority)
-        merge_priority = {pair: i for i, pair in enumerate(self.merges)}
+        # Check if word was seen during training (O(1) lookup)
+        cached = self._word_cache.get(word)
+        if cached is not None:
+            return cached
+
+        # Use pre-computed merge priority instead of rebuilding
+        merge_priority = self._merge_priority
         split = list(word)
         while len(split) > 1:
             # Find the pair with the highest priority (lowest index)

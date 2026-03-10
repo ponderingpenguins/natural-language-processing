@@ -163,7 +163,7 @@ dependencies = [
 requires-dist = [
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "omegaconf", specifier = ">=2.3.0" },
-    { name = "penguinlp", editable = "../penguinlp" },
+    { name = "penguinlp", editable = "../../penguinlp" },
     { name = "plotly", specifier = ">=6.6.0" },
     { name = "seaborn", specifier = ">=0.13.2" },
     { name = "torch", specifier = ">=2.10.0" },
@@ -1296,7 +1296,7 @@ wheels = [
 [[package]]
 name = "penguinlp"
 version = "0.1.0"
-source = { editable = "../penguinlp" }
+source = { editable = "../../penguinlp" }
 dependencies = [
     { name = "datasets" },
     { name = "scikit-learn" },

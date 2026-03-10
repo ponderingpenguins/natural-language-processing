@@ -8,7 +8,7 @@ python main.py sample_size=100
 
 Final training:
 ```bash
-python3 main.py sample_size=10000 batch_size=8 vocab_size=20000 tuning_num_epochs=1 early_stopping_patience=3
+python3 main.py sample_size=1000 batch_size=64 vocab_size=20000 tuning_num_epochs=5 early_stopping_patience=3
 ```
 
 """
@@ -16,16 +16,20 @@ python3 main.py sample_size=10000 batch_size=8 vocab_size=20000 tuning_num_epoch
 import os
 import sys
 
-from utils.config import ModelConfig
-from utils.data_utils import clear_cache_dirs, preprocess_data, setup_tokenizer
-from utils.experiments import train_cnn_model, train_lstm_model
-from utils.hyperparameter_tuning import save_tuning_results, tune_hyperparameters
 from omegaconf import OmegaConf
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
 from penguinlp.helpers import logger
-from utils.plots import plot_confusion_matrix, plot_parallel_coordinates, plot_training_curves
 from sklearn.model_selection import train_test_split
+from utils.config import ModelConfig
+from utils.data_utils import clear_cache_dirs, preprocess_data, setup_tokenizer
+from utils.experiments import train_cnn_model, train_lstm_model
+from utils.hyperparameter_tuning import save_tuning_results, tune_hyperparameters
+from utils.plots import (
+    plot_confusion_matrix,
+    plot_parallel_coordinates,
+    plot_training_curves,
+)
 from utils.training import set_seed
 
 
@@ -191,17 +195,11 @@ def tune_model_hyperparameters(model_type: str = "cnn") -> None:
 if __name__ == "__main__":
     try:
         # hyperparmeter tuning
-        tune_model_hyperparameters("cnn")  # or "lstm"
-        # tune_hyperparameters("lstm")
+        # tune_model_hyperparameters("cnn")  # or "lstm"
+        tune_model_hyperparameters("lstm")
 
         # reconfigure for final training
         # main()
     except KeyboardInterrupt:
-        logger.warning("Interrupted by user (Ctrl+C). Exiting.")
-        sys.exit(130)
-        logger.warning("Interrupted by user (Ctrl+C). Exiting.")
-        sys.exit(130)
-        logger.warning("Interrupted by user (Ctrl+C). Exiting.")
-        sys.exit(130)
         logger.warning("Interrupted by user (Ctrl+C). Exiting.")
         sys.exit(130)
