@@ -10,6 +10,15 @@ uv sync --no-dev
 
 Run commands from `assignment2/src`.
 
+## Reproducibility
+
+For a one-command reproducibility of results, use:
+
+```bash
+file ./assignment2/src/run_experiments.sh +x # make the script executable
+./assignment2/src/run_experiments.sh
+```
+
 ## Execution modes
 
 The pipeline is controlled by `model_type`, `run_tuning_only`, and `run_train_only`.
