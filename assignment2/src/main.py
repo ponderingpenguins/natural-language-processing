@@ -18,15 +18,15 @@ import sys
 
 from utils.config import ModelConfig
 from utils.data_utils import clear_cache_dirs, preprocess_data, setup_tokenizer
-from experiments import train_cnn_model, train_lstm_model
-from hyperparameter_tuning import save_tuning_results, tune_hyperparameters
+from utils.experiments import train_cnn_model, train_lstm_model
+from utils.hyperparameter_tuning import save_tuning_results, tune_hyperparameters
 from omegaconf import OmegaConf
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
 from penguinlp.helpers import logger
-from plots import plot_confusion_matrix, plot_parallel_coordinates, plot_training_curves
+from utils.plots import plot_confusion_matrix, plot_parallel_coordinates, plot_training_curves
 from sklearn.model_selection import train_test_split
-from training import set_seed
+from utils.training import set_seed
 
 
 def main() -> None:

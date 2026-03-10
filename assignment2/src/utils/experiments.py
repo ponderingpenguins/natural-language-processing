@@ -9,7 +9,7 @@ from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
 from penguinlp.helpers import logger
-from training import run_training_pipeline, set_seed
+from .training import run_training_pipeline, set_seed
 
 
 def save_misclassified_examples(
