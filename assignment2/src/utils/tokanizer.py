@@ -3,6 +3,7 @@
 import pickle
 from abc import ABC, abstractmethod
 from collections import Counter, defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
@@ -188,20 +189,55 @@ class BPETokenizer(BaseTokenizer):
         self.vocab = {token: idx for idx, token in enumerate(vocab_list)}
 
     def tokenize(self, text: str) -> list[str]:
-        words = text.split()
-        splits: list[list[str]] = [list(word) for word in words]
+        """
+        Tokenize text using the learned merges.
 
-        for (a, b), merged in self.merges.items():
-            for idx, split in enumerate(splits):
-                i = 0
-                while i < len(split) - 1:
-                    if split[i] == a and split[i + 1] == b:
-                        split = split[:i] + [merged] + split[i + 2 :]
-                    else:
-                        i += 1
-                splits[idx] = split
+        Args:
+            text: The input string to tokenize.
+        Returns:
+            A list of tokens resulting from applying the BPE merges to the input text.
+        """
+        return [token for w in text.split() for token in self._tokenize_word(w)]
 
-        return sum(splits, [])
+    @lru_cache(maxsize=8192)
+    def _tokenize_word(self, word: str) -> tuple[str, ...]:
+        """
+        Tokenize a single word using the learned merges.
+
+        Args:
+            word: The input word to tokenize.
+        Returns:
+            A tuple of tokens resulting from applying the BPE merges to the input word.
+        """
+        # Map pairs to their merge priority (lower = earlier = higher priority)
+        merge_priority = {pair: i for i, pair in enumerate(self.merges)}
+        split = list(word)
+        while len(split) > 1:
+            # Find the pair with the highest priority (lowest index)
+            best_idx, best_pair = None, None
+            for i in range(len(split) - 1):
+                pair = (split[i], split[i + 1])
+                if pair in merge_priority:
+                    if (
+                        best_pair is None
+                        or merge_priority[pair] < merge_priority[best_pair]
+                    ):
+                        best_idx, best_pair = i, pair
+            if best_pair is None:
+                break
+            # Apply all occurrences of this merge
+            merged = self.merges[best_pair]
+            i = 0
+            new_split = []
+            while i < len(split):
+                if i < len(split) - 1 and (split[i], split[i + 1]) == best_pair:
+                    new_split.append(merged)
+                    i += 2
+                else:
+                    new_split.append(split[i])
+                    i += 1
+            split = new_split
+        return tuple(split)
 
     def __call__(self, text: str) -> list[int]:
         return self.encode(text)
