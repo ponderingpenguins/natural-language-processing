@@ -5,13 +5,13 @@ from itertools import product
 from typing import Any, Dict, List
 
 import torch
-from data_utils import create_dataloaders
+from utils.data_utils import create_dataloaders
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.helpers import logger
 from tqdm import tqdm
-from training import DEVICE, evaluate, set_seed, train
+from .training import DEVICE, evaluate, set_seed, train
 
 
 def tune_hyperparameters(
@@ -24,7 +24,7 @@ def tune_hyperparameters(
     patience: int = 3,
 ) -> Dict[str, Any]:
     """
-    Perform grid search over hyperparameters and evaluate on dev set.
+    Perform grid search over hyperparameters and evaluate on dev set. Implements early stopping based on dev loss.
 
     Args:
         model_type: Either "cnn" or "lstm"

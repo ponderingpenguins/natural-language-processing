@@ -15,4 +15,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-penguinlp = { path = "../penguinlp", editable = true }
+penguinlp = { path = "../../penguinlp", editable = true }

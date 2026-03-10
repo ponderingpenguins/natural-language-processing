@@ -35,6 +35,9 @@ class TrainingConfig:
         vocab_size: The vocabulary size for the tokenizer (default: 5000).
         min_freq: The minimum frequency for tokens to be included in the vocabulary (default: 2).
         sample_size: If set, subsample data to this size for quick testing (default: None).
+        run_tuning_only: If True, run only hyperparameter tuning and exit (default: False).
+        run_train_only: If True, skip tuning and train using best saved tuning config
+            (default: False).
     """
 
     hf_dataset: str = "sh0416/ag_news"
@@ -55,6 +58,7 @@ class TrainingConfig:
     seed: int = 67
 
     # Assignment 2 specific parameters
+    model_type: str = "cnn"  # type of model to train ("cnn" or "lstm")
     tokenizer_type: str = "bpe"  # type of tokenizer to use ("word", "bpe", or "char")
     tokenizer_cache_dir: str = "output/tokenizer_cache"
     tokenized_cache_dir: str = "output/tokenized_cache"
@@ -78,3 +82,7 @@ class TrainingConfig:
     sample_size: int | None = (
         None  # if set, subsample data to this size for quick testing
     )
+
+    # Pipeline execution control
+    run_tuning_only: bool = False
+    run_train_only: bool = False
