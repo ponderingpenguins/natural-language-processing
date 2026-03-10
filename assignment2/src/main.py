@@ -148,11 +148,12 @@ def tune_model_hyperparameters(model_type: str = "cnn") -> None:
     # Define hyperparameter grids
     if model_type == "cnn":
         param_grid = {
-            "lr": [0.001, 0.0001],
-            "num_filters": [64, 100, 128],
-            "kernel_sizes": [[3], [5], [3, 5, 7]],
-            "embed_dim": [128, 256],
-            "weight_decay": [0.0, 1e-5],
+            "lr": [1e-2, 5e-3, 1e-3, 5e-4, 1e-4],
+            "num_filters": [50, 100, 150, 200, 300],
+            "kernel_sizes": [[3], [5], [3, 5], [3, 5, 7], [2, 3, 4, 5]],
+            "embed_dim": [64, 128, 256, 512],
+            "weight_decay": [0.0, 1e-5, 1e-4, 1e-3],
+            "dropout": [0.1, 0.3, 0.5],
         }
     elif model_type == "lstm":
         param_grid = {
@@ -195,8 +196,8 @@ def tune_model_hyperparameters(model_type: str = "cnn") -> None:
 if __name__ == "__main__":
     try:
         # hyperparmeter tuning
-        # tune_model_hyperparameters("cnn")  # or "lstm"
-        tune_model_hyperparameters("lstm")
+        tune_model_hyperparameters("cnn")  # or "lstm"
+        # tune_model_hyperparameters("lstm")
 
         # reconfigure for final training
         # main()
