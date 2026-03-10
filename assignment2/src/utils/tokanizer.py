@@ -137,25 +137,54 @@ class BPETokenizer(BaseTokenizer):
         for text in texts:
             word_counts.update(text.split())
 
-        # Base alphabet
         alphabet = sorted({char for word in word_counts for char in word})
-
-        vocab_list: list[str] = SPECIAL_TOKENS + alphabet
+        vocab_list = SPECIAL_TOKENS + alphabet
         splits: dict[str, list[str]] = {word: list(word) for word in word_counts}
+
+        # Build pair freqs once
+        pair_freqs: dict[tuple[str, str], int] = defaultdict(int)
+        for word, freq in word_counts.items():
+            s = splits[word]
+            for i in range(len(s) - 1):
+                pair_freqs[(s[i], s[i + 1])] += freq
 
         pbar = tqdm(total=self.vocab_size - len(vocab_list), desc="BPE Training")
         while len(vocab_list) < self.vocab_size:
-            pair_freqs = self._compute_pair_freqs(splits, word_counts)
             if not pair_freqs:
                 break
-            best_pair = max(pair_freqs, key=lambda p: pair_freqs[p])
-            splits = self._merge_pair(*best_pair, splits, word_counts)
-            merged_token = best_pair[0] + best_pair[1]
-            self.merges[best_pair] = merged_token
-            vocab_list.append(merged_token)
+            best_pair = max(pair_freqs, key=pair_freqs.get)
+            a, b = best_pair
+            merged = a + b
+
+            # Merge and incrementally update pair_freqs
+            for word, freq in word_counts.items():
+                s = splits[word]
+                i = 0
+                while i < len(s) - 1:
+                    if s[i] == a and s[i + 1] == b:
+                        # Remove old pairs touching this position
+                        if i > 0:
+                            pair_freqs[(s[i - 1], a)] -= freq
+                        if i + 2 < len(s):
+                            pair_freqs[(b, s[i + 2])] -= freq
+                        # Merge
+                        s = s[:i] + [merged] + s[i + 2 :]
+                        # Add new pairs
+                        if i > 0:
+                            pair_freqs[(s[i - 1], merged)] += freq
+                        if i + 1 < len(s):
+                            pair_freqs[(merged, s[i + 1])] += freq
+                        # Don't increment i — check for consecutive merges
+                    else:
+                        i += 1
+                splits[word] = s
+
+            del pair_freqs[best_pair]
+            # Clean up zero entries periodically
+            self.merges[best_pair] = merged
+            vocab_list.append(merged)
             pbar.update(1)
         pbar.close()
-
         self.vocab = {token: idx for idx, token in enumerate(vocab_list)}
 
     def tokenize(self, text: str) -> list[str]:
