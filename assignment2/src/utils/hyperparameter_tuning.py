@@ -5,12 +5,13 @@ from itertools import product
 from typing import Any, Dict, List
 
 import torch
-from utils.data_utils import create_dataloaders
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.helpers import logger
 from tqdm import tqdm
+from utils.data_utils import create_dataloaders, get_tokenizer_vocab_size
+
 from .training import DEVICE, evaluate, set_seed, train
 
 
@@ -75,7 +76,7 @@ def tune_hyperparameters(
             # Create model with current hyperparameters
             if model_type == "cnn":
                 model = CNN(
-                    vocab_size=len(tokenizer.vocab),
+                    vocab_size=get_tokenizer_vocab_size(tokenizer),
                     embed_dim=params.get("embed_dim", 128),
                     num_filters=params.get("num_filters", 100),
                     kernel_sizes=params.get("kernel_sizes", [3, 5, 7]),
@@ -83,7 +84,7 @@ def tune_hyperparameters(
                 )
             elif model_type == "lstm":
                 model = LSTM(
-                    vocab_size=len(tokenizer.vocab),
+                    vocab_size=get_tokenizer_vocab_size(tokenizer),
                     embed_dim=params.get("embed_dim", 128),
                     hidden_dim=params.get("hidden_dim", 256),
                     num_classes=cfg.num_classes,
