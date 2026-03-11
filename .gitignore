@@ -17,3 +17,10 @@
 # ignore data
 **data/
 **__pycache__/
+**output/
+
+# ignore every folder containing "output" in its name
+**/*output*/
+
+# ignore pickles (tokenizer, model checkpoints, etc.)
+**.pkl
