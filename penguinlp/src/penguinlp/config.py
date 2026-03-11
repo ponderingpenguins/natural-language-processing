@@ -31,7 +31,7 @@ class TrainingConfig:
             training/tuning (default: 3).
         batch_size: The batch size for training (default: 4).
         weighted_decay: The weight decay for the optimizer (default: 1e-4).
-        max_seq_len: The maximum sequence length for tokenization (default: 512).
+        max_seq_length: The maximum sequence length for tokenization (default: 512).
         vocab_size: The vocabulary size for the tokenizer (default: 5000).
         min_freq: The minimum frequency for tokens to be included in the vocabulary (default: 2).
         sample_size: If set, subsample data to this size for quick testing (default: None).
@@ -74,7 +74,7 @@ class TrainingConfig:
     weighted_decay: float = 1e-4  # weight decay for optimizer
 
     # Data processing parameters
-    max_seq_len: int = 512  # maximum sequence length for tokenization
+    max_seq_length: int = 512  # maximum sequence length for tokenization
     vocab_size: int = 5000  # vocabulary size for tokenizer
     min_freq: int = 2  # minimum frequency for tokens to be included in vocab
 
