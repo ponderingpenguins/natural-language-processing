@@ -81,6 +81,31 @@ def preprocess_data(data):
         preprocess_sample, batched=False, load_from_cache_file=False
     )
 
+    all_labels = []
+    for split in ["train", "dev", "test"]:
+        all_labels.extend(int(label) for label in data[split]["label"])
+
+    if all_labels and min(all_labels) == 1 and max(all_labels) > 1:
+        logger.info(
+            "Detected 1-based labels (min=%d, max=%d); converting to 0-based indices",
+            min(all_labels),
+            max(all_labels),
+        )
+
+        def _to_zero_based(example):
+            example["label"] = int(example["label"]) - 1
+            return example
+
+        data["train"] = data["train"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["dev"] = data["dev"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["test"] = data["test"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+
     return data
 
 
@@ -127,6 +152,7 @@ def _build_cache_key(cfg: Any, tokenizer: Any, split_name: str, split_len: int) 
     """Build a stable cache key for tokenized examples."""
     tokenizer_path = str(getattr(cfg, "tokenizer_path", "tokenizer.pkl"))
     key_parts = [
+        "tokenized_schema_v2",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         split_name,
         str(split_len),
@@ -289,5 +315,4 @@ def setup_tokenizer(cfg, train_data) -> object:
         logger.info("Vocabulary built with %d tokens", len(tokenizer.vocab))
         save_tokenizer(tokenizer, tokenizer_cache_path)
 
-    return tokenizer
     return tokenizer

@@ -48,10 +48,10 @@ class TrainingConfig:
     output_dir: str = "output"  # directory to save misclassified examples
     label_names: dict[int, str] = field(
         default_factory=lambda: {
-            1: "World",
-            2: "Sports",
-            3: "Business",
-            4: "Sci/Tech",
+            0: "World",
+            1: "Sports",
+            2: "Business",
+            3: "Sci/Tech",
         }
     )
     num_classes: int = 4
