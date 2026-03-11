@@ -10,23 +10,26 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 
 # Setup environment
-module purge
-module load CUDA/12.6.0
-module load Python/3.13.1-GCCcore-14.2.0
-module load Boost/1.79.0-GCC-11.3.0
+# module purge
+# module load CUDA/12.6.0
+# module load Python/3.13.1-GCCcore-14.2.0
+# module load Boost/1.79.0-GCC-11.3.0
 
 # Define parameter arrays (indexed 0-5)
 model_types=(cnn cnn cnn lstm lstm lstm)
 seq_lengths=(64 128 256 64 128 256)
 
 # Get this job's parameters
-MODEL=${model_types[$SLURM_ARRAY_TASK_ID]}
-SEQ=${seq_lengths[$SLURM_ARRAY_TASK_ID]}
+# Default to 0 if not provided as first argument
+TASK_ID=${1:-0}
+MODEL=${model_types[$TASK_ID]}
+SEQ=${seq_lengths[$TASK_ID]}
 
 echo "Running: model_type=${MODEL}, max_seq_length=${SEQ}"
 
 # Load your modules / activate your environment here
-cd /scratch/s5982960/nlp-hw/assignment2/src
+# cd /scratch/s5982960/nlp-hw/assignment2/src
+cd "$(dirname "$0")"
 uv sync
 source .venv/bin/activate
 
