@@ -5,7 +5,6 @@
 #SBATCH --mem=8gb
 #SBATCH --array=0-5
 #SBATCH --output=experiment_%a.out
-#SBATCH --gpus-per-node=1
 
 set -e # Exit immediately if a command exits with a non-zero status.
 

@@ -81,14 +81,39 @@ def preprocess_data(data):
         preprocess_sample, batched=False, load_from_cache_file=False
     )
 
+    all_labels = []
+    for split in ["train", "dev", "test"]:
+        all_labels.extend(int(label) for label in data[split]["label"])
+
+    if all_labels and min(all_labels) == 1 and max(all_labels) > 1:
+        logger.info(
+            "Detected 1-based labels (min=%d, max=%d); converting to 0-based indices",
+            min(all_labels),
+            max(all_labels),
+        )
+
+        def _to_zero_based(example):
+            example["label"] = int(example["label"]) - 1
+            return example
+
+        data["train"] = data["train"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["dev"] = data["dev"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["test"] = data["test"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+
     return data
 
 
 class TokenizedDataset(Dataset):
     """A PyTorch Dataset that tokenizes text examples on the fly."""
 
-    def __init__(self, examples: list[tuple[list[int], int]], max_seq_len: int):
-        self.max_seq_len = max_seq_len
+    def __init__(self, examples: list[tuple[list[int], int]], max_seq_length: int):
+        self.max_seq_length = max_seq_length
         self.examples = examples
 
     def __len__(self):
@@ -96,11 +121,11 @@ class TokenizedDataset(Dataset):
 
     def __getitem__(self, idx):
         tokens, label = self.examples[idx]
-        # Truncate or pad to max_seq_len
-        input_ids = tokens[: self.max_seq_len]
+        # Truncate or pad to max_seq_length
+        input_ids = tokens[: self.max_seq_length]
         real_length = len(input_ids)  # Track real length before padding
-        if len(input_ids) < self.max_seq_len:
-            input_ids.extend([0] * (self.max_seq_len - len(input_ids)))
+        if len(input_ids) < self.max_seq_length:
+            input_ids.extend([0] * (self.max_seq_length - len(input_ids)))
         return {"input_ids": input_ids, "labels": label, "length": real_length}
 
 
@@ -127,12 +152,13 @@ def _build_cache_key(cfg: Any, tokenizer: Any, split_name: str, split_len: int) 
     """Build a stable cache key for tokenized examples."""
     tokenizer_path = str(getattr(cfg, "tokenizer_path", "tokenizer.pkl"))
     key_parts = [
+        "tokenized_schema_v2",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         split_name,
         str(split_len),
         str(getattr(cfg, "seed", "no_seed")),
         str(getattr(cfg, "sample_size", "full")),
-        str(getattr(cfg, "max_seq_len", "no_max_seq_len")),
+        str(getattr(cfg, "max_seq_length", "no_max_seq_length")),
         str(getattr(cfg, "vocab_size", "no_vocab_size")),
         str(getattr(cfg, "min_freq", "no_min_freq")),
         str(getattr(cfg, "tokenizer_type", "no_tokenizer_type")),
@@ -223,12 +249,12 @@ def create_dataloaders(
         data["train"], tokenizer, cfg, "train"
     )
     val_examples = _load_or_build_tokenized_examples(data["dev"], tokenizer, cfg, "dev")
-    train_ds = TokenizedDataset(train_examples, cfg.max_seq_len)
-    val_ds = TokenizedDataset(val_examples, cfg.max_seq_len)
+    train_ds = TokenizedDataset(train_examples, cfg.max_seq_length)
+    val_ds = TokenizedDataset(val_examples, cfg.max_seq_length)
     test_ds = (
         TokenizedDataset(
             _load_or_build_tokenized_examples(data["test"], tokenizer, cfg, "test"),
-            cfg.max_seq_len,
+            cfg.max_seq_length,
         )
         if include_test
         else None
@@ -289,5 +315,4 @@ def setup_tokenizer(cfg, train_data) -> object:
         logger.info("Vocabulary built with %d tokens", len(tokenizer.vocab))
         save_tokenizer(tokenizer, tokenizer_cache_path)
 
-    return tokenizer
     return tokenizer
