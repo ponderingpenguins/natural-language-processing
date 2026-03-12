@@ -693,3 +693,13 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+"""
+Best hyperparameters do change with sequence length, especially for LSTM.
+CNN is mostly stable across seq lengths (same core best config; dropout shifts from 0.3 at 64 to 0.5 at 128/256).
+LSTM best config shifts more (hidden_dim/embed_dim/weight_decay move with seq length), suggesting stronger interaction with context length.
+Both models peak at seq=256; seq=128 looks like a local dip.
+Business and Sci/Tech remain hardest classes; Sports is consistently easiest.
+CNN’s class-wise advantage narrows at seq=256 (and may reverse on some classes), which is worth discussing.
+"""
