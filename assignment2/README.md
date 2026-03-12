@@ -37,7 +37,7 @@ Default behavior (`run_tuning_only=false`, `run_train_only=false`) is:
 ### Full pipeline (tune + train)
 
 ```bash
-uv run python main.py model_type=cnn
+uv run python main.py model_type=cnn batch_size=512 vocab_size=20000 max_seq_length=64 tuning_num_epochs=5 early_stopping_patience=3 num_epochs=15
 ```
 
 ### Quick dev run
@@ -49,11 +49,11 @@ uv run python main.py model_type=cnn sample_size=100 tuning_num_epochs=1
 ### Hyperparameter tuning only
 
 ```bash
-uv run python main.py model_type=cnn run_tuning_only=true sample_size=1000 batch_size=64 vocab_size=20000 tuning_num_epochs=5 early_stopping_patience=3 max_seq_len=64
+uv run python main.py model_type=cnn run_tuning_only=true sample_size=1000 batch_size=64 vocab_size=20000 tuning_num_epochs=5 early_stopping_patience=3 max_seq_length=64
 ```
 
 ### Training only (use previously saved best tuning config)
 
 ```bash
-uv run python main.py model_type=cnn run_train_only=true
+uv run python main.py model_type=cnn run_train_only=true num_epochs=3 batch_size=64 vocab_size=20000 max_seq_length=64
 ```

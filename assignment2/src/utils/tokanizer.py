@@ -227,7 +227,8 @@ class BPETokenizer(BaseTokenizer):
             pbar.update(1)
 
         pbar.close()
-        self.vocab = {token: idx for idx, token in enumerate(vocab_list)}
+        unique_vocab_list = list(dict.fromkeys(vocab_list))
+        self.vocab = {token: idx for idx, token in enumerate(unique_vocab_list)}
 
         # Cache merge priority for faster inference
         self._merge_priority = {pair: i for i, pair in enumerate(self.merges)}
