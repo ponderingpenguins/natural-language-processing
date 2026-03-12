@@ -14,6 +14,15 @@ from tqdm import tqdm
 from utils.tokanizer import build_tokenizer, load_tokenizer, save_tokenizer
 
 
+def get_tokenizer_vocab_size(tokenizer: Any) -> int:
+    """Return embedding-safe vocabulary size for a tokenizer."""
+    vocab = getattr(tokenizer, "vocab", {})
+    if not vocab:
+        return 0
+    values = [int(idx) for idx in vocab.values()]
+    return max(values) + 1
+
+
 def clear_cache_dirs(cfg: Any) -> None:
     """Clear tokenizer and tokenized dataset cache directories."""
     dirs = [
@@ -151,8 +160,12 @@ def collate_fn(batch: list, vocab: dict[str, int]) -> dict:
 def _build_cache_key(cfg: Any, tokenizer: Any, split_name: str, split_len: int) -> str:
     """Build a stable cache key for tokenized examples."""
     tokenizer_path = str(getattr(cfg, "tokenizer_path", "tokenizer.pkl"))
+    vocab_items = sorted(getattr(tokenizer, "vocab", {}).items())
+    vocab_fingerprint = hashlib.sha256(str(vocab_items).encode("utf-8")).hexdigest()[
+        :16
+    ]
     key_parts = [
-        "tokenized_schema_v2",
+        "tokenized_schema_v3",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         split_name,
         str(split_len),
@@ -163,7 +176,8 @@ def _build_cache_key(cfg: Any, tokenizer: Any, split_name: str, split_len: int) 
         str(getattr(cfg, "min_freq", "no_min_freq")),
         str(getattr(cfg, "tokenizer_type", "no_tokenizer_type")),
         tokenizer_path,
-        str(len(getattr(tokenizer, "vocab", {}))),
+        str(get_tokenizer_vocab_size(tokenizer)),
+        vocab_fingerprint,
     ]
     raw = "|".join(key_parts)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
@@ -210,6 +224,7 @@ def _load_or_build_tokenized_examples(data_split, tokenizer, cfg: Any, split_nam
 def _build_tokenizer_cache_key(cfg: Any, train_len: int) -> str:
     """Build a stable cache key for tokenizer artifacts."""
     key_parts = [
+        "tokenizer_schema_v2",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         str(getattr(cfg, "seed", "no_seed")),
         str(getattr(cfg, "sample_size", "full")),

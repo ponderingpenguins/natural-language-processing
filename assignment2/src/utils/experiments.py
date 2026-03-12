@@ -2,13 +2,19 @@
 
 import json
 
-from utils.config import ModelConfig
-from utils.data_utils import create_dataloaders, preprocess_data, setup_tokenizer
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
 from penguinlp.helpers import logger
+from utils.config import ModelConfig
+from utils.data_utils import (
+    create_dataloaders,
+    get_tokenizer_vocab_size,
+    preprocess_data,
+    setup_tokenizer,
+)
+
 from .training import run_training_pipeline, set_seed
 
 
@@ -73,7 +79,7 @@ def train_model(cfg: TrainingConfig, model_cfg: ModelConfig, model_type: str) ->
     # Create model based on type
     if model_type == "cnn":
         model = CNN(
-            vocab_size=len(tokenizer.vocab),
+            vocab_size=get_tokenizer_vocab_size(tokenizer),
             embed_dim=model_cfg.embed_dim,
             num_filters=model_cfg.cnn_num_filters,
             kernel_sizes=model_cfg.cnn_kernel_sizes,
@@ -81,7 +87,7 @@ def train_model(cfg: TrainingConfig, model_cfg: ModelConfig, model_type: str) ->
         )
     elif model_type == "lstm":
         model = LSTM(
-            vocab_size=len(tokenizer.vocab),
+            vocab_size=get_tokenizer_vocab_size(tokenizer),
             embed_dim=model_cfg.embed_dim,
             hidden_dim=model_cfg.lstm_hidden_dim,
             num_classes=cfg.num_classes,
