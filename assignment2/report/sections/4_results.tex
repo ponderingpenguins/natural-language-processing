@@ -24,6 +24,16 @@ LSTM-256 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 0.0 \\
 
 \subsection{Test set performance}
 
+Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores across all hyperparameter search trials for each run.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
+\caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model and sequence length. Higher and tighter distributions indicate more stable tuning.}
+\label{fig:hyperparameter_devf1_distributions}
+\end{figure}
+
+
 The test results are shown in Table~\ref{tab:test_results}. The CNN model achieved the highest performance at all three sequence lengths. At the maximum sequence length of 256 tokens, the CNN reached an accuracy of 90.79\% and a macro-F1 of 90.78\%. The LSTM performed comparably well, with its best result also at sequence length 256 (accuracy 90.71\%, macro-F1 90.72\%).
 
 Both models improved as the maximum sequence length increased from 64 to 256 tokens. For the CNN, macro-F1 increased from 90.59\% to 90.78\%. For the LSTM, macro-F1 increased from 89.58\% to 90.72\%. The difference between the two models was largest at sequence length 64 and smallest at sequence length 256.
