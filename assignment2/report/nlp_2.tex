@@ -12,8 +12,11 @@
 \maketitle
 
 \section{Dataset \& Setup}
+\label{sec:dataset}
 % (splits, preprocessing)
 \import{sections/}{1_dataset_setup.tex}
+
+
 
 \section{Models}
 % (baselines and/or neural/Transformer)
@@ -24,6 +27,7 @@
 \import{sections/}{3_experimental_protocol.tex}
 
 \section{Results}
+\label{sec:results}
 % (tables, confusion matrix)
 \import{sections/}{4_results.tex}
 
@@ -48,23 +52,17 @@
 \newpage
 \newgeometry{margin=1.4cm}
 \begin{landscape}
-
-\section{Curated Misclassified Examples for Error Analysis}
-\label{sec:appendix-misclassified-examples}
+\section{Detailed Misclassification Examples}
+\label{app:misclass}
 \import{sections/}{8_appendix.tex}
 
+\clearpage
+
 \end{landscape}
 \restoregeometry
 
-\newpage
-\newgeometry{margin=1.4cm} % reduce margins for landscape pages
-\begin{landscape}
-
-\section{Misclassified Examples}
-\label{sec:appendix-misclassified-examples-full}
+\section{Classification Reports and Confusion Matrices}
+\label{app:reports}
 \import{sections/}{9_appendixb.tex}
-
-\end{landscape}
-\restoregeometry
 
 \end{document}

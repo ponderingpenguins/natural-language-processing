@@ -1,98 +1,40 @@
-% baselines and/or neural/Transformer
-For the text classification task, we implemented two models: a Convolutional Neural Network (CNN) and a Long Short-Term Memory (LSTM) network. Both models were trained on the AG News dataset using the same train/dev/test splits, preprocessing, and feature extraction/tokenization (except for inherent CNN feature extraction layers) steps, which are described in the previous section. Tokenized text then was fed to the following models for training and evaluation.
+In this assignment, we compare two neural models for news classification: a Convolutional Neural Network (CNN) and a Long Short-Term Memory network (LSTM). To make the comparison fair, both models use the same data splits, preprocessing pipeline, and evaluation setup.
 
-\subsection{CNN Model}
-The CNN model consists of an embedding layer, followed by three parallel convolutional layers with n-gram window sizes of 3, 5, and 7, each having 100 filters. The output of the convolutional layers is then passed through ReLU activation function, followed by max-pooling layers to capture the most prominent features. Finally, the pooled features are concatenated and fed into a fully connected layer with a default dropout rate of 0.5 for classification into the four categories. An illustration of the CNN architecture is shown in Figure \ref{fig:cnn_architecture}.
+\paragraph{Shared input representation.}
+Both models receive the same preprocessed and tokenized text (see Section~\ref{sec:dataset} for preprocessing and tokenization details). Sequences are padded or truncated to the chosen maximum length. Both models begin with a trainable embedding layer that maps token ids to dense vectors. Note that the CNN has inherent feature extraction through its convolutional layers, while the LSTM relies on the embeddings and recurrent connections for representation learning.
 
-% TODO: Add CNN architecture figure here
+\paragraph{CNN model.}
+The CNN is based on the text classification model of \cite{kim-2014-convolutional}. After the embedding layer, the model applies several 1-dimensional convolution filters in parallel. These filters are used to detect informative local patterns in the text, such as short phrases or combinations of nearby words. We use multiple kernel sizes so the model can capture patterns of different lengths. After the convolution step, a ReLU activation function is applied, followed by max-pooling to keep the strongest signal from each filter. The resulting features are then concatenated, followed by dropout for regularisation, and finally passed to a linear layer that predicts one of the four classes.
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{cnn_architecture.png}
-%     \caption{Architecture of the CNN model for text classification.}
-%     \label{fig:cnn_architecture}
-% \end{figure}
+\paragraph{LSTM model.}
+The LSTM model is based on the Long Short-Term Memory architecture introduced by \cite{hochreiter1997lstm}. It reads the input sequence token by token, which makes it suitable for modelling word order and longer dependencies in the text. We use a stacked 2-layer LSTM. To avoid learning from padding tokens, we handle variable-length sequences by skipping over padded positions during the recurrent computation, so the model only processes the real tokens in each example. For classification, we use the final hidden state of the top LSTM layer as the representation of the whole article. In the bidirectional setting, the model combines information from both directions before making the final prediction. As in the CNN, dropout is applied before the final linear layer.
 
+\paragraph{Hyperparameters.}
+Table~\ref{tab:hyperparameters} shows the hyperparameter search space for both models. For each model, the best setting was selected based on macro-F1 on the development set.
 
-\subsection{LSTM Model}
-The LSTM model consists of 
-This model is unidirectional, which only allows forward connections.
-% class LSTM(nn.Module):
-%     """LSTM model for text classification.
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{CNN} & \textbf{LSTM} \\
+\midrule
+Embedding dim $d$    & \{128, 512\}       & \{128, 256\} \\
+Filters $F$          & \{100, 300\}       & --- \\
+Kernel sizes $K$     & \{[3,5], [3,5,7]\} & --- \\
+Hidden dim $H$       & ---                & \{128, 256, 512\} \\
+Bidirectional        & ---                & \{False, True\} \\
+Dropout              & \{0.3, 0.5\}       & 0.5 \\
+Learning rate        & \{1e-3, 1e-4\}     & \{1e-3, 1e-4\} \\
+Weight decay         & \{1e-5, 1e-3\}     & \{0, 1e-5\} \\
+\bottomrule
+\end{tabular}
+\caption{Hyperparameter search spaces for the CNN and LSTM models.}
+\label{tab:hyperparameters}
+\end{table}
 
-%     Supports both unidirectional and bidirectional LSTM with proper handling
-%     of variable-length sequences using pack_padded_sequence.
-%     """
+\paragraph{Shared training settings.}
+Both models were trained with the Adam optimiser. We used gradient clipping with a maximum norm of 5.0 and early stopping with a patience of 3 epochs based on validation loss. The batch size was set to 512, and the final training runs lasted for at most 15 epochs. During hyperparameter tuning, each configuration was trained for 3 epochs. All experiments were run on the Hábrók high-performance computing cluster at the University of Groningen, using one GPU per job and 8\,GB of RAM.
 
-%     def __init__(
-%         self,
-%         vocab_size: int,
-%         embed_dim: int,
-%         hidden_dim: int,
-%         num_classes: int,
-%         num_layers: int = 2,
-%         bidirectional: bool = False,
-%         dropout: float = 0.5,
-%     ) -> None:
-%         """Initialize LSTM model.
-
-%         Args:
-%             vocab_size: Size of the vocabulary.
-%             embed_dim: Dimension of word embeddings.
-%             hidden_dim: LSTM hidden dimension.
-%             num_classes: Number of output classes.
-%             num_layers: Number of stacked LSTM layers (default: 2).
-%             bidirectional: Whether to use bidirectional LSTM (default: False).
-%             dropout: Dropout probability applied to hidden states (default: 0.5).
-%         """
-%         super().__init__()
-%         self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-%         self.lstm = nn.LSTM(
-%             embed_dim,
-%             hidden_dim,
-%             num_layers=num_layers,
-%             batch_first=True,
-%             bidirectional=bidirectional,
-%             dropout=dropout if num_layers > 1 else 0,
-%         )
-%         self.dropout = nn.Dropout(dropout)
-%         self.fc = nn.Linear(hidden_dim * (2 if bidirectional else 1), num_classes)
-
-%     def forward(
-%         self, x: torch.Tensor, lengths: torch.Tensor | None = None
-%     ) -> torch.Tensor:
-%         """Forward pass through the model.
-
-%         Args:
-%             x: Input tensor of shape (batch_size, seq_len).
-%             lengths: Real sequence lengths before padding (batch_size,).
-%                     If None, assumes all sequences are used fully.
-
-%         Returns:
-%             Logits tensor of shape (batch_size, num_classes).
-%         """
-%         embedded = self.embedding(x)
-
-%         if lengths is not None:
-%             # Pack sequences to ignore padding tokens
-%             packed = nn.utils.rnn.pack_padded_sequence(
-%                 embedded, lengths.cpu(), batch_first=True, enforce_sorted=False
-%             )
-%             _, (hidden, _) = self.lstm(packed)
-%             # hidden shape: (num_layers * num_directions, batch, hidden_dim)
-%         else:
-%             # No packing - process all positions
-%             _, (hidden, _) = self.lstm(embedded)
-
-%         # Extract final hidden state
-%         if self.lstm.bidirectional:
-%             # Concatenate final forward and backward hidden states
-%             # hidden[-2] is the last forward layer, hidden[-1] is the last backward layer
-%             last_hidden = torch.cat([hidden[-2], hidden[-1]], dim=1)
-%         else:
-%             # Just take the last layer's hidden state
-%             last_hidden = hidden[-1]
-
-%         # Apply dropout and classification layer
-%         return self.fc(self.dropout(last_hidden))
-
+\paragraph{Ablation: maximum sequence length.}
+As our ablation study, we vary the maximum sequence length and compare settings of 64, 128, and 256 tokens. All other parts of the setup remain the same. This allows us to study how much context the models need and whether giving them longer input sequences improves performance enough to justify the extra computation.
