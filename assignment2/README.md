@@ -37,7 +37,7 @@ Default behavior (`run_tuning_only=false`, `run_train_only=false`) is:
 ### Full pipeline (tune + train)
 
 ```bash
-uv run python main.py model_type=cnn
+uv run python main.py model_type=cnn batch_size=512 vocab_size=20000 max_seq_length=64 tuning_num_epochs=5 early_stopping_patience=3 num_epochs=15
 ```
 
 ### Quick dev run

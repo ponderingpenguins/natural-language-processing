@@ -38,6 +38,6 @@ uv run python main.py \
     sample_size=100 \
     tuning_num_epochs=1 \
     num_epochs=2 \
-    output_dir="experiment_${MODEL}_seq${SEQ}" \
+    output_dir=experiment_${MODEL}_seq${SEQ} \
     batch_size=128 \
     max_seq_length=${SEQ}

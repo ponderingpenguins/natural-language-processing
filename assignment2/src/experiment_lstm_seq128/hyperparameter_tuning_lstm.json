@@ -1,0 +1,589 @@
+{
+  "model_type": "lstm",
+  "best_config": {
+    "lr": 0.001,
+    "hidden_dim": 256,
+    "embed_dim": 128,
+    "bidirectional": true,
+    "weight_decay": 0.0
+  },
+  "best_f1": 0.9026266904088057,
+  "all_results": [
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8935511135852308,
+      "dev_acc": 0.89375,
+      "dev_loss": 0.3127856961886088
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8927088356494148,
+      "dev_acc": 0.8931666666666667,
+      "dev_loss": 0.31646764969825747
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8957698481561188,
+      "dev_acc": 0.8959166666666667,
+      "dev_loss": 0.3020440208911896
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8910775632788824,
+      "dev_acc": 0.89125,
+      "dev_loss": 0.30778660893440246
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.896976018405123,
+      "dev_acc": 0.8970833333333333,
+      "dev_loss": 0.3086269303957621
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8939914376194,
+      "dev_acc": 0.89425,
+      "dev_loss": 0.321566255013148
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.9017067705620014,
+      "dev_acc": 0.902,
+      "dev_loss": 0.28958619459470114
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.897217596117617,
+      "dev_acc": 0.8975,
+      "dev_loss": 0.2914706975618998
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8853359159679346,
+      "dev_acc": 0.8855,
+      "dev_loss": 0.31806593720118204
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8783499296495051,
+      "dev_acc": 0.8783333333333333,
+      "dev_loss": 0.3510708769162496
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.9026266904088057,
+      "dev_acc": 0.9028333333333334,
+      "dev_loss": 0.2822137538989385
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8999448004725754,
+      "dev_acc": 0.9,
+      "dev_loss": 0.28933669968446096
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8913805356426925,
+      "dev_acc": 0.8913333333333333,
+      "dev_loss": 0.31837056239446004
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8915731991601934,
+      "dev_acc": 0.89175,
+      "dev_loss": 0.31762656609217327
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.9022603628086252,
+      "dev_acc": 0.90225,
+      "dev_loss": 0.28751667992273966
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8999182785262603,
+      "dev_acc": 0.89975,
+      "dev_loss": 0.2901626572608948
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.884232216382114,
+      "dev_acc": 0.88525,
+      "dev_loss": 0.33333143321673075
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8780085382591196,
+      "dev_acc": 0.8790833333333333,
+      "dev_loss": 0.3440535318851471
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8907886630098838,
+      "dev_acc": 0.8910833333333333,
+      "dev_loss": 0.31352112221717837
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8887648256334115,
+      "dev_acc": 0.88875,
+      "dev_loss": 0.3212265532016754
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.888177199562238,
+      "dev_acc": 0.889,
+      "dev_loss": 0.3260748280684153
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8835219682215338,
+      "dev_acc": 0.8836666666666667,
+      "dev_loss": 0.3441094207763672
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8960930150024757,
+      "dev_acc": 0.8955833333333333,
+      "dev_loss": 0.29570956055323283
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8931573853338743,
+      "dev_acc": 0.8925,
+      "dev_loss": 0.3103068930308024
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.6741156553226797,
+      "dev_acc": 0.6876666666666666,
+      "dev_loss": 0.6716702020963033
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.6701020125491118,
+      "dev_acc": 0.6849166666666666,
+      "dev_loss": 0.6786092367172242
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8270555935590044,
+      "dev_acc": 0.8263333333333334,
+      "dev_loss": 0.4785511669317881
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8224664038856594,
+      "dev_acc": 0.8215,
+      "dev_loss": 0.4892124238014221
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.7849649969171524,
+      "dev_acc": 0.7853333333333333,
+      "dev_loss": 0.5653235103289286
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.7688310775250815,
+      "dev_acc": 0.7690833333333333,
+      "dev_loss": 0.5893511761029562
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8565839717643952,
+      "dev_acc": 0.8570833333333333,
+      "dev_loss": 0.40756438716252646
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 128,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8523057287519259,
+      "dev_acc": 0.85275,
+      "dev_loss": 0.4139212739467621
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8053873122919187,
+      "dev_acc": 0.8058333333333333,
+      "dev_loss": 0.5153772053718567
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.7958572866697278,
+      "dev_acc": 0.79675,
+      "dev_loss": 0.5290535213152567
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.855056440749319,
+      "dev_acc": 0.8545833333333334,
+      "dev_loss": 0.3952393056551615
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8532326316458821,
+      "dev_acc": 0.8526666666666667,
+      "dev_loss": 0.3999395995934804
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8445055614552999,
+      "dev_acc": 0.8451666666666666,
+      "dev_loss": 0.4313821103572845
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8379373193811068,
+      "dev_acc": 0.8383333333333334,
+      "dev_loss": 0.43995266715685527
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8767374673876488,
+      "dev_acc": 0.8769166666666667,
+      "dev_loss": 0.3524769904613495
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 256,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8755678591535001,
+      "dev_acc": 0.87575,
+      "dev_loss": 0.35394979095458984
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8362159750226338,
+      "dev_acc": 0.8371666666666666,
+      "dev_loss": 0.4372770192623138
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8336491357701956,
+      "dev_acc": 0.8336666666666667,
+      "dev_loss": 0.44803934876124063
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8661703741251209,
+      "dev_acc": 0.866,
+      "dev_loss": 0.373579047759374
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 128,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8653065615014315,
+      "dev_acc": 0.8650833333333333,
+      "dev_loss": 0.37496535762151084
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8613892462863069,
+      "dev_acc": 0.8613333333333333,
+      "dev_loss": 0.38070836528142293
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": false,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8589866239710937,
+      "dev_acc": 0.8589166666666667,
+      "dev_loss": 0.3874542755285899
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 0.0
+      },
+      "dev_f1": 0.8893345844586307,
+      "dev_acc": 0.8891666666666667,
+      "dev_loss": 0.31679336667060853
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "hidden_dim": 512,
+        "embed_dim": 256,
+        "bidirectional": true,
+        "weight_decay": 1e-05
+      },
+      "dev_f1": 0.8884030831864126,
+      "dev_acc": 0.88825,
+      "dev_loss": 0.3175460153420766
+    }
+  ]
+}

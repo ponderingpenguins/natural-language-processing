@@ -38,19 +38,19 @@ def load_training_config() -> TrainingConfig:
 def get_param_grid(model_type: str) -> dict:
     """Return the hyperparameter grid for the requested model."""
     if model_type == "cnn":
-        # Shortened grid for quick testing
+        # Shortened grid for quick testing (80 combinations):
         return {
-            "lr": [0.001, 0.0001],
-            "num_filters": [100],
-            "kernel_sizes": [[3, 5]],
-            "embed_dim": [128],
-            "weight_decay": [1e-5],
-            "dropout": [0.3],
+            "lr": [1e-3, 1e-4],
+            "num_filters": [100, 300],
+            "kernel_sizes": [[3, 5], [3, 5, 7]],
+            "embed_dim": [128, 512],
+            "weight_decay": [1e-5, 1e-3],
+            "dropout": [0.3, 0.5],
         }
         # Original larger grid for more extensive tuning:
         # return {
         #     "lr": [1e-2, 5e-3, 1e-3, 5e-4, 1e-4],
-        #     "num_filters": [50, 100, 150, 200, 300],
+        #     "num_filters": [50, 100, 150,300],
         #     "kernel_sizes": [[3], [5], [3, 5], [3, 5, 7], [2, 3, 4, 5]],
         #     "embed_dim": [64, 128, 256, 512],
         #     "weight_decay": [0.0, 1e-5, 1e-4, 1e-3],
