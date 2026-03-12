@@ -1,0 +1,94 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Best hyperparameters}
+
+Table~\ref{tab:best_configs} summarises the best hyperparameters found during the tuning phase for each model and sequence length. The CNN consistently preferred a large embedding dimension (512), a high number of filters (300), kernel sizes [3, 5, 7], and a learning rate of 0.001. The LSTM favoured lower embedding dimensions (128--256) and hidden dimensions (128--256), also with a learning rate of 0.001. Interestingly, both architectures benefited from very low weight decay (1e-5 or 0.0).
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lllllllll}
+\toprule
+\textbf{Run} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\
+\midrule
+CNN-64  & 512 & 300 & --- & --- & 0.001 & 0.3 & 1e-5 \\
+CNN-128 & 512 & 300 & --- & --- & 0.001 & 0.5 & 1e-5 \\
+CNN-256 & 512 & 300 & --- & --- & 0.001 & 0.5 & 1e-5 \\
+LSTM-64  & 256 & --- & 128 & Yes & 0.001 & 0.5 & 1e-5 \\
+LSTM-128 & 128 & --- & 256 & Yes & 0.001 & 0.5 & 0.0 \\
+LSTM-256 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 0.0 \\
+\bottomrule
+\end{tabular}
+\caption{Best hyperparameter configurations for each run. Embed: embedding dimension, WD: weight decay.}
+\label{tab:best_configs}
+\end{table}
+
+\subsection{Test set performance}
+
+The test results are shown in Table~\ref{tab:test_results}. The CNN model achieved the highest performance at all three sequence lengths. At the maximum sequence length of 256 tokens, the CNN reached an accuracy of 90.79\% and a macro-F1 of 90.78\%. The LSTM performed comparably well, with its best result also at sequence length 256 (accuracy 90.71\%, macro-F1 90.72\%).
+
+Both models improved as the maximum sequence length increased from 64 to 256 tokens. For the CNN, macro-F1 increased from 90.59\% to 90.78\%. For the LSTM, macro-F1 increased from 89.58\% to 90.72\%. The difference between the two models was largest at sequence length 64 and smallest at sequence length 256.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Model} & \textbf{Seq Len} & \textbf{Dev F1} & \textbf{Test Acc} & \textbf{Macro F1} \\
+\midrule
+CNN-64  & 64  & 0.9025 & 0.9061 & 0.9059 \\
+CNN-128 & 128 & 0.9061 & 0.9049 & 0.9047 \\
+CNN-256 & 256 & \textbf{0.9084} & \textbf{0.9079} & \textbf{0.9078} \\
+LSTM-64  & 64  & 0.8986 & 0.8962 & 0.8958 \\
+LSTM-128 & 128 & 0.9026 & 0.8978 & 0.8980 \\
+LSTM-256 & 256 & 0.9082 & 0.9071 & 0.9072 \\
+\bottomrule
+\end{tabular}
+\caption{Test set accuracy and macro-F1 scores. Dev F1 is the best development macro-F1 found during tuning.}
+\label{tab:test_results}
+\end{table}
+
+\subsection{Ablation study: effect of maximum sequence length}
+
+Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary with sequence length.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{../figures/generated/test_metrics_vs_seq.png}
+\caption{Test accuracy and macro-F1 as a function of maximum sequence length for CNN and LSTM.}
+\label{fig:test_metrics_vs_seq}
+\end{figure}
+
+The overall trend is clear: both CNN and LSTM improve as the maximum sequence length increases from 64 to 256 tokens. The CNN is slightly better than the LSTM at all three sequence lengths. At seq64, the gap is about 1 percentage point in macro-F1, while at seq256 the gap becomes very small (90.78\% vs. 90.72\%).
+
+\subsection{Class-wise analysis}
+
+Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/generated/class_f1_heatmap.png}
+\caption{Heatmap of per-class test F1 scores across all runs. World and Sports are easier to classify; Business is the most challenging.}
+\label{fig:class_f1_heatmap}
+\end{figure}
+
+The World and Sports classes are generally easier to classify, with F1 scores above 92\% in most configurations. The Sci/Tech class is slightly harder, with F1 scores typically around 86--88\%. The most challenging class is Business, where F1 scores range from 85\% to 87\%, depending on the model and sequence length.
+
+
+\subsection{Learning curves}
+
+Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs (with best hyperparameters on the full training set).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{../figures/generated/full_training_curves_comparison.png}
+\caption{Training and validation loss/accuracy curves for all six runs. Both models show rapid early convergence and stable learning trajectories.}
+\label{fig:full_training_curves_comparison}
+\end{figure}
+
+Both models show rapid convergence, with validation loss decreasing sharply in the first few epochs and then stabilizing. The CNN typically reaches its best validation performance around epoch 8--10, while the LSTM reaches it slightly later (epochs 10--12). In the later epochs, the LSTM curves show larger validation-loss fluctuations than the CNN curves.
+
+\subsection{Summary}
+
+The CNN model achieves the best overall result, but the margin over the LSTM is small, especially at the longest sequence length. Both models benefit from longer input sequences. The best overall configuration is CNN-seq256 with a test macro-F1 of 90.78\%.
