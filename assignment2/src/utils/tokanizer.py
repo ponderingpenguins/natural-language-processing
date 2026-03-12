@@ -59,6 +59,8 @@ class BaseTokenizer(ABC):
 class WordTokenizer(BaseTokenizer):
     """
     Whitespace-based word-level tokenizer.
+    This tokenizer is implemented for learning purposes but is not used in training either model for this assignment.
+
     This implementation is based on the NLP tutorial of this course
     """
 
@@ -78,6 +80,8 @@ class WordTokenizer(BaseTokenizer):
 class CharTokenizer(BaseTokenizer):
     """
     Character-level tokenizer.
+    This tokenizer is implemented for learning purposes but is not used in training either model for this assignment.
+    
     This implementation is based on the NLP tutorial of this course
     """
 
@@ -97,6 +101,7 @@ class CharTokenizer(BaseTokenizer):
 class BPETokenizer(BaseTokenizer):
     """
     Byte-Pair Encoding tokenizer.
+    This is the tokenizer used in training both models.
 
     This implementation is based on the huggingface tutorial: https://huggingface.co/learn/llm-course/en/chapter6/5#byte-pair-encoding-tokenization
     """
