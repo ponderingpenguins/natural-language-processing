@@ -1,0 +1,14 @@
+% TODO: First 2 paragraphs, copied from assignment 1, decide to keep or rewrite
+
+To classify news articles into one of four categories (world, sports, business, and sci/tech), we use the AG News dataset from Hugging Face \cite{zhang2015character}. This dataset consists of news articles with associated labels, titles, and descriptions. Each class contains 30,000 training samples and 1,900 testing samples, resulting in a total of 120,000 training samples and 7,600 testing samples.
+
+We used the official Hugging Face split (120,000 train and 7,600 test). The training set was split into a new training set (of size 108,000) and a development set (of size 12,000) using stratified sampling with a fixed random seed of 67 to ensure reproducibility. The final split sizes are: train 108,000, dev 12,000, and test 7,600.
+
+% Following paragraphs are modified to fit assignment 2
+\paragraph{Preprocessing:} We combined the title and description of each news article into a single text input, which was then preprocessed. First we converted all html character references to their corresponding characters using the html library in Python. Latex escape sequences were also converted to their corresponding characters. Consequently, we removed all double and single backslahes from the text, as they were not relevant to the content and could interfere with tokenization. Lastly, the whitespaces were normalized by replacing multiple consecutive whitespace characters with a single space, and leading/trailing whitespace was removed.  
+
+\paragraph{Feature extraction:} The feature extraction is performed using a byte-pair encoding (BPE) tokenizer, which is a subword tokenization method that iteratively merges the most frequent pairs of characters or character sequences in the text, and encodes their context in a vector space. This approach allows meaningful supword units to be captured, which helps improving the model's ability to generalize to unseen words and handle out-of-vocabulary terms. For example, the word "undo" can be tokenized into "un" and "do," in which tokenizer can encode "un" to represent the prefix meaning "not" such that it can be applied to other words like "ungrateful." As a side note, we also implemented a character-level tokenizer and a word-level tokenizer for learning purposes, but we did not use them for training either model in this assignment. Each token has a corresponding embedding vector of dimension 128, which is learned during tokenizer training. The BPE tokenizer was trained on the training set of the AG News dataset.
+
+In the CNN model, feature extraction is continued through convolutional (n-gram windows of 3, 5, and 7) and max-pooling layers. There are a total of 100 convolutional filters for each n-gram window size, resulting in a total of 300 filters. 
+
+On the other hand, the LSTM model uses the BPE token embeddings and has no further feature extraction layers.
