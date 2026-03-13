@@ -45,9 +45,10 @@ if [ "${TUNE}" = "true" ]; then
     # Phase 1: tune once at seq=128, then exit
     uv run python main.py \
         model_type=${MODEL} \
-        sample_size=100 \
-        tuning_num_epochs=1 \
-        num_epochs=2 \
+        sample_size=10000000 \
+        tuning_num_epochs=5 \
+        early_stopping_patience=2 \
+        num_epochs=15 \
         output_dir=${TUNING_DIR} \
         batch_size=512 \
         vocab_size=20000 \
@@ -57,9 +58,10 @@ else
     # Phase 2: ablation — vary only max_seq_length, reuse shared tuning results
     uv run python main.py \
         model_type=${MODEL} \
-        sample_size=100 \
-        tuning_num_epochs=1 \
-        num_epochs=2 \
+        sample_size=10000000 \
+        tuning_num_epochs=5 \
+        early_stopping_patience=2 \
+        num_epochs=15 \
         output_dir=experiment_${MODEL}_seq${SEQ} \
         batch_size=512 \
         vocab_size=20000 \
