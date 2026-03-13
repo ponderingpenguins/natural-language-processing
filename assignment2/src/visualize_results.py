@@ -6,8 +6,8 @@ using:
 - final test-set classification reports
 - full-training epoch logs (parsed from experiments/experiment_*.txt)
 
-Run from `assignment2/src`:
-        uv run python visualize_results.py
+Run from `assignment2`:
+src/.venv/bin/python src/visualize_results.py --src-dir src --out-dir report/figures/generated
 """
 
 from __future__ import annotations
@@ -288,8 +288,6 @@ def load_run_result(run_dir: Path, log_map: dict[tuple[str, int], Path]) -> RunR
 
     tuning_path = run_dir / f"hyperparameter_tuning_{model}.json"
     report_path = run_dir / "classification_report.txt"
-
-    tuning_payload = json.loads(tuning_path.read_text(encoding="utf-8"))
     report_metrics = parse_classification_report(report_path)
 
     training_history: list[TrainingPoint] = []
@@ -304,13 +302,51 @@ def load_run_result(run_dir: Path, log_map: dict[tuple[str, int], Path]) -> RunR
                 blocks = sorted(blocks, key=len)
                 training_history = blocks[-1]
 
+    if tuning_path.exists():
+        tuning_payload = json.loads(tuning_path.read_text(encoding="utf-8"))
+        best_config = tuning_payload.get("best_config", {})
+        best_dev_f1 = float(tuning_payload.get("best_f1", 0.0))
+        all_dev_f1 = [
+            float(item["dev_f1"]) for item in tuning_payload.get("all_results", [])
+        ]
+    else:
+        model_config_path = run_dir / "model_config.json"
+        model_config = {}
+        if model_config_path.exists():
+            model_config = json.loads(model_config_path.read_text(encoding="utf-8"))
+
+        if model == "cnn":
+            best_config = {
+                "lr": model_config.get("learning_rate"),
+                "num_filters": model_config.get("cnn_num_filters"),
+                "kernel_sizes": model_config.get("cnn_kernel_sizes"),
+                "embed_dim": model_config.get("embed_dim"),
+                "weight_decay": model_config.get("weighted_decay"),
+                "dropout": model_config.get("cnn_dropout"),
+            }
+        else:
+            best_config = {
+                "lr": model_config.get("learning_rate"),
+                "hidden_dim": model_config.get("lstm_hidden_dim"),
+                "embed_dim": model_config.get("embed_dim"),
+                "bidirectional": model_config.get("lstm_bidirectional"),
+                "weight_decay": model_config.get("weighted_decay"),
+                "dropout": model_config.get("lstm_dropout"),
+            }
+
+        if training_history:
+            best_dev_f1 = max(point.val_f1 for point in training_history)
+        else:
+            best_dev_f1 = report_metrics["macro_f1"]
+        all_dev_f1 = [best_dev_f1]
+
     return RunResult(
         model=model,
         seq_len=seq_len,
         run_dir=run_dir,
-        best_config=tuning_payload["best_config"],
-        best_dev_f1=float(tuning_payload["best_f1"]),
-        all_dev_f1=[float(item["dev_f1"]) for item in tuning_payload["all_results"]],
+        best_config=best_config,
+        best_dev_f1=float(best_dev_f1),
+        all_dev_f1=all_dev_f1,
         test_accuracy=report_metrics["test_accuracy"],
         macro_f1=report_metrics["macro_f1"],
         weighted_f1=report_metrics["weighted_f1"],
@@ -473,6 +509,99 @@ def _best_config_table_row(run: RunResult) -> list[str]:
         _format_latex_number(dropout) if dropout is not None else "---",
         _format_latex_number(weight_decay) if weight_decay is not None else "---",
     ]
+
+
+def _tuning_best_config_row(model: str, best_config: dict) -> list[str]:
+    """Create one row for the tuning-only best-config LaTeX table."""
+    lr = best_config.get("lr")
+    embed = best_config.get("embed_dim")
+    weight_decay = best_config.get("weight_decay")
+
+    if model == "cnn":
+        filters = best_config.get("num_filters")
+        hidden = "---"
+        bilstm = "---"
+        dropout = best_config.get("dropout")
+    else:
+        filters = "---"
+        hidden = best_config.get("hidden_dim")
+        bilstm = best_config.get("bidirectional")
+        dropout = best_config.get("dropout")
+
+    return [
+        model.upper(),
+        _format_latex_number(embed) if embed is not None else "---",
+        _format_latex_number(filters) if filters != "---" else "---",
+        _format_latex_number(hidden) if hidden is not None else "---",
+        _format_latex_number(bilstm) if bilstm is not None else "---",
+        _format_latex_number(lr) if lr is not None else "---",
+        _format_latex_number(dropout) if dropout is not None else "---",
+        _format_latex_number(weight_decay) if weight_decay is not None else "---",
+    ]
+
+
+def _load_tuning_best_configs(src_dir: Path) -> dict[str, dict]:
+    """Load best_config for CNN/LSTM from dedicated tuning experiment folders."""
+    tuning_files = {
+        "cnn": src_dir / "experiment_cnn_tuning" / "hyperparameter_tuning_cnn.json",
+        "lstm": src_dir / "experiment_lstm_tuning" / "hyperparameter_tuning_lstm.json",
+    }
+
+    payloads: dict[str, dict] = {}
+    for model, json_path in tuning_files.items():
+        if not json_path.exists():
+            raise FileNotFoundError(f"Missing tuning file: {json_path}")
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+        payloads[model] = payload.get("best_config", {})
+
+    return payloads
+
+
+def build_tuning_best_config_latex_table(
+    src_dir: Path,
+    caption: str = (
+        "Best hyperparameter configurations from dedicated tuning runs "
+        r"(\texttt{experiment\_cnn\_tuning} and "
+        r"\texttt{experiment\_lstm\_tuning}). "
+        "Embed: embedding dimension, WD: weight decay."
+    ),
+    label: str = "tab:best_configs",
+) -> str:
+    """Build LaTeX table from tuning-only best configurations."""
+    best_configs = _load_tuning_best_configs(src_dir)
+
+    lines = [
+        r"\begin{table}[h]",
+        r"\centering",
+        r"\small",
+        r"\begin{tabular}{llllllll}",
+        r"\toprule",
+        r"\textbf{Model} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\",
+        r"\midrule",
+    ]
+
+    for model in ("cnn", "lstm"):
+        row = _tuning_best_config_row(model, best_configs[model])
+        lines.append(" & ".join(row) + r" \\")
+
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            f"\\caption{{{caption}}}",
+            f"\\label{{{label}}}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def write_tuning_best_config_latex_table(out_dir: Path, src_dir: Path) -> Path:
+    """Write tuning-only best-config LaTeX table for report inclusion."""
+    table_text = build_tuning_best_config_latex_table(src_dir=src_dir)
+    output_path = out_dir / "best_config_tuning_only.tex"
+    output_path.write_text(table_text + "\n", encoding="utf-8")
+    return output_path
 
 
 def build_main_vs_ablation_latex_table(
@@ -913,7 +1042,8 @@ def plot_hyperparameter_distributions(out_dir: Path, src_dir: Path) -> None:
     if not distributions:
         return
 
-    fig, ax = plt.subplots(figsize=(12, 5))
+    width = max(4, len(distributions) * 2.5)
+    fig, ax = plt.subplots(figsize=(width, 5))
     bp = ax.boxplot(distributions, patch_artist=True, tick_labels=labels)
 
     palette = sns.color_palette("Set2", 2)
@@ -922,8 +1052,9 @@ def plot_hyperparameter_distributions(out_dir: Path, src_dir: Path) -> None:
         patch.set_alpha(0.7)
 
     ax.set_ylabel("Dev F1")
+    ax.set_ylim(0, 1.0)
     ax.set_title("Hyperparameter Search Dev-F1 Distributions (Tuning Only)")
-    ax.tick_params(axis="x", rotation=25)
+    ax.tick_params(axis="x")
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()
     fig.savefig(out_dir / "hyperparameter_devf1_distributions.png", dpi=200)
@@ -1070,7 +1201,7 @@ def main() -> None:
 
     write_csv_summaries(out_dir, runs)
     write_best_config_summary(out_dir, runs)
-    write_main_vs_ablation_latex_table(out_dir, runs, main_seq_len=128)
+    write_tuning_best_config_latex_table(out_dir, src_dir)
     write_results_main_vs_ablation_latex_table(out_dir, runs, main_seq_len=128)
     plot_test_metrics_vs_seq(out_dir, runs)
     plot_dev_vs_test_f1(out_dir, runs)

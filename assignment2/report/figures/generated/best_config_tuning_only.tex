@@ -1,0 +1,14 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llllllll}
+\toprule
+\textbf{Model} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\
+\midrule
+CNN & 512 & 300 & --- & --- & 0.001 & 0.3 & 1e-5 \\
+LSTM & 256 & --- & 512 & Yes & 0.001 & --- & 0.0 \\
+\bottomrule
+\end{tabular}
+\caption{Best hyperparameter configurations from dedicated tuning runs (\texttt{experiment\_cnn\_tuning} and \texttt{experiment\_lstm\_tuning}). Embed: embedding dimension, WD: weight decay.}
+\label{tab:best_configs}
+\end{table}

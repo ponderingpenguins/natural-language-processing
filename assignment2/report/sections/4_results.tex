@@ -1,26 +1,26 @@
 
 \subsection{Best hyperparameters}
 
-Table~\ref{tab:best_configs} summarises the best hyperparameters found during the tuning phase for each model and sequence length. The CNN consistently preferred a large embedding dimension (512), a high number of filters (300), kernel sizes [3, 5, 7], and a learning rate of 0.001. The LSTM favoured lower embedding dimensions (128--256) and hidden dimensions (128--256), also with a learning rate of 0.001. Interestingly, both architectures benefited from very low weight decay (1e-5 or 0.0).
+Table~\ref{tab:best_configs} summarises the best hyperparameters from the dedicated tuning runs only (\texttt{experiment\_cnn\_tuning} and \texttt{experiment\_lstm\_tuning}). The CNN preferred a large embedding dimension (512), a high number of filters (300), and a learning rate of 0.001. The LSTM preferred a larger hidden dimension (512), embedding dimension 256, bidirectional encoding, and a learning rate of 0.001. Both architectures benefited from very low weight decay (1e-5 or 0.0).
 
 
-\import{../figures/generated/}{best_config_main_vs_ablation.tex}
+\import{../figures/generated/}{best_config_tuning_only.tex}
 
 \subsection{Test set performance}
 
-Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores across all hyperparameter search trials for each run.
+Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores for both models across all hyperparameter search trials. The distributions are relatively tight, especially for the LSTM, indicating that the tuning process was stable and not overly sensitive to hyperparameter choices. The CNN shows a slightly wider distribution, suggesting that its performance may be more sensitive to hyperparameter settings than the LSTM. Overall, both models achieved high dev macro-F1 scores across a range of hyperparameters, which is a positive sign for their generalization capabilities.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
-\caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model and sequence length. Higher and tighter distributions indicate more stable tuning.}
+\includegraphics[width=0.5\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
+\caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model. Higher and tighter distributions indicate more stable tuning.}
 \label{fig:hyperparameter_devf1_distributions}
 \end{figure}
 
 
-The test results are shown in Table~\ref{tab:test_results}. The CNN model achieved the highest performance at all three sequence lengths. At the maximum sequence length of 256 tokens, the CNN reached an accuracy of 90.79\% and a macro-F1 of 90.78\%. The LSTM performed comparably well, with its best result also at sequence length 256 (accuracy 90.71\%, macro-F1 90.72\%).
+The test results are shown in Table~\ref{tab:test_results}. At the main comparison sequence length of 128 tokens, the CNN slightly outperformed the LSTM, achieving a test accuracy of 90.71\% and a macro-F1 of 90.69\%, compared to the LSTM's accuracy of 90.57\% and macro-F1 of 90.59\%.
 
-Both models improved as the maximum sequence length increased from 64 to 256 tokens. For the CNN, macro-F1 increased from 90.59\% to 90.78\%. For the LSTM, macro-F1 increased from 89.58\% to 90.72\%. The difference between the two models was largest at sequence length 64 and smallest at sequence length 256.
+Interestingly, the ablation results reveal that longer sequences do not consistently improve performance. For the CNN, the best test macro-F1 was actually achieved at sequence length 64 (90.96\%), while the highest dev F1 was at 256 (91.09\%). The LSTM showed a more monotonic trend, improving from 90.32\% at seq64 to 90.74\% at seq256. The gap between the two models was relatively small across all sequence lengths, with a difference of at most 0.64 percentage points in macro-F1 (at seq64).
 
 
 \import{../figures/generated/}{test_results_main_vs_ablation.tex}
@@ -36,11 +36,11 @@ Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary w
 \label{fig:test_metrics_vs_seq}
 \end{figure}
 
-The overall trend is clear: both CNN and LSTM improve as the maximum sequence length increases from 64 to 256 tokens. The CNN is slightly better than the LSTM at all three sequence lengths. At seq64, the gap is about 1 percentage point in macro-F1, while at seq256 the gap becomes very small (90.78\% vs. 90.72\%).
+The overall trend is clear: The CNN does not benefit from longer sequences, with the best test macro-F1 at seq64. The LSTM, on the other hand, shows a consistent improvement with longer sequences, achieving its best test macro-F1 at seq256. This suggests that the LSTM is better able to leverage the additional context provided by longer input sequences, while the CNN may be more prone to overfitting or may not effectively utilize the extra information. This is especially evident by the fact that the CNN outperforms the LSTM at seq64, but is outperformed by the LSTM at seq256.
 
 \subsection{Class-wise analysis}
 
-Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores.
+Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores. The confusion matricies per model and sequence length are shown in Appendix~\ref{app:reports} along with the full classification reports.
 
 \begin{figure}[h]
 \centering
@@ -49,7 +49,7 @@ Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores.
 \label{fig:class_f1_heatmap}
 \end{figure}
 
-The World and Sports classes are generally easier to classify, with F1 scores above 92\% in most configurations. The Sci/Tech class is slightly harder, with F1 scores typically around 86--88\%. The most challenging class is Business, where F1 scores range from 85\% to 87\%, depending on the model and sequence length.
+The World and Sports classes are generally easier to classify, with F1 scores above 90\% in most configurations. The Sci/Tech class is slightly harder, with F1 scores typically around 87--88\%. The most challenging class is Business, where F1 scores range from 86\% to 87\%, depending on the model and sequence length.
 
 
 \subsection{Learning curves}
