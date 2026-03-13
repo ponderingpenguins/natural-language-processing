@@ -54,7 +54,7 @@ The World and Sports classes are generally easier to classify, with F1 scores ab
 
 \subsection{Learning curves}
 
-Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs (with best hyperparameters on the full training set).
+Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs on the training set and validation set for all six runs (CNN and LSTM at seq64, seq128, and seq256) with the tuned hyperparameters from the dedicated tuning runs. Both training and validation curves are shown for loss and accuracy. The F1 curves are shown in Appendix~\ref{app:additional_figures}.
 
 \begin{figure}[h]
 \centering
@@ -63,8 +63,7 @@ Figure~\ref{fig:full_training_curves_comparison} displays the learning curves fo
 \label{fig:full_training_curves_comparison}
 \end{figure}
 
-Both models show rapid convergence, with validation loss decreasing sharply in the first few epochs and then stabilizing. The CNN typically reaches its best validation performance around epoch 8--10, while the LSTM reaches it slightly later (epochs 10--12). In the later epochs, the LSTM curves show larger validation-loss fluctuations than the CNN curves.
-
+Both models show rapid convergence, with validation loss decreasing sharply in the first few epochs and then stabilizing. Both models converge to similar final validation accuracies at a similar number of epochs (e.g., around 1--2 epochs). The CNN shows a slightly more stable validation loss curve, while the LSTM shows signs of overfitting after epoch 4, where the validation loss starts to increase while training loss continues to decrease. Most notably, the LSTM at seq256 converges more rapidly as indicated by the steepest initial drop in validation loss, which may explain its superior performance at this sequence length. However, all models converge to similar final validation accuracies.
 \subsection{Summary}
 
-The CNN model achieves the best overall result, but the margin over the LSTM is small, especially at the longest sequence length. Both models benefit from longer input sequences. The best overall configuration is CNN-seq256 with a test macro-F1 of 90.78\%.
+The LSTM model achieves the best overall result at the longest sequence length (seq256), with a test macro-F1 of 90.74\%, outperforming the CNN's best macro-F1 of 90.72\% at seq64. The LSTM benefits more from longer sequences, while the CNN performs best at shorter sequences. Both models show stable tuning and learning trajectories, with the Business class being the most challenging to classify.
