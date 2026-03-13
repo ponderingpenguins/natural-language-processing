@@ -1,6 +1,6 @@
 \subsection{Best hyperparameters}
 
-Table~\ref{tab:best_configs} summarises the best hyperparameters from the dedicated tuning runs only (\texttt{experiment\_cnn\_tuning} and \texttt{experiment\_lstm\_tuning}). The CNN preferred a large embedding dimension (512), a high number of filters (300), and a learning rate of 0.001. The LSTM preferred a larger hidden dimension (512), embedding dimension 256, bidirectional encoding, and a learning rate of 0.001. Both architectures benefited from very low weight decay (1e-5 or 0.0).
+Table~\ref{tab:best_configs} summarises the best hyperparameters from the dedicated tuning runs only. The CNN preferred a large embedding dimension (512), a high number of filters (300), and a learning rate of 0.001. The LSTM preferred a larger hidden dimension (512), embedding dimension 256, bidirectional encoding, and a learning rate of 0.001. Both architectures benefited from very low weight decay (1e-5 or 0.0).
 
 
 \import{../figures/generated/}{best_config_tuning_only.tex}
@@ -16,7 +16,7 @@ Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of de
 \label{fig:hyperparameter_devf1_distributions}
 \end{figure}
 
-Table~\ref{tab:tokenizer_coverage} reports tokenizer statistics for the shared BPE tokenizer (same tokenizer across all runs). Although the table itself focuses on corpus size and split-rate summaries, the underlying coverage statistics show zero token-, type-, and document-level OOV on train, dev, and test. This is expected, because a BPE tokenizer decomposes unseen words into subword units rather than leaving them as true out-of-vocabulary items. In other words, coverage is complete, but full coverage does not mean zero fragmentation: words are still split into roughly 1.19 subword tokens on average. This matters for interpretation, because it suggests that the tokenizer is unlikely to hurt performance through unknown words, but it may still make some named entities and domain-specific terms harder to use consistently when they are broken into multiple pieces.
+Table~\ref{tab:tokenizer_coverage} reports tokenizer statistics for the shared BPE vocabulary used across all runs. Because BPE decomposes unknown words into subword units rather than discarding them, coverage is effectively complete, but complete coverage does not imply zero fragmentation. Words are split into roughly 1.19 subword tokens on average, meaning the tokenizer is unlikely to hurt performance through out-of-vocabulary terms, though named entities and domain-specific vocabulary may still be harder to represent consistently when broken across multiple pieces.
 
 \import{../figures/generated/}{tokenizer_coverage_summary.tex}
 
@@ -39,7 +39,7 @@ Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary w
 \label{fig:test_metrics_vs_seq}
 \end{figure}
 
-The overall trend is clear: The CNN does not benefit from longer sequences, with the best test macro-F1 at seq64. The LSTM, on the other hand, shows a consistent improvement with longer sequences, achieving its best test macro-F1 at seq256. This suggests that the LSTM is better able to leverage the additional context provided by longer input sequences, while the CNN may be more prone to overfitting or may not effectively utilize the extra information. This is especially evident by the fact that the CNN outperforms the LSTM at seq64, but is outperformed by the LSTM at seq256.
+The overall trend is clear: The CNN does not benefit from longer sequences, with the best test macro-F1 at seq64. The LSTM, on the other hand, shows a consistent improvement with longer sequences, achieving its best test macro-F1 at seq256. This suggests that the LSTM is better able to leverage the additional context provided by longer input sequences, while the CNN may be more prone to overfitting or may not effectively utilize the extra information. This is especially evident by the fact that the CNN outperforms the LSTM at seq64, but is outperformed by the LSTM at seq256 (see Figure~\ref{fig:test_metrics_vs_seq}).
 
 \subsection{Class-wise analysis}
 
@@ -52,7 +52,7 @@ Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores. The co
 \label{fig:class_f1_heatmap}
 \end{figure}
 
-The World and Sports classes are generally easier to classify, with F1 scores above 90\% in most configurations. The Sci/Tech class is slightly harder, with F1 scores typically around 87--88\%. The most challenging class is Business, where F1 scores range from 86\% to 87\%, depending on the model and sequence length. One detail that is not fully visible from the heatmap alone is that the LSTM at seq128 has noticeably lower recall on the World class than the CNN at the same sequence length (89.63\% vs.\ 92.16\%). This suggests that, even when the overall macro-F1 values are very close, the CNN is somewhat better at recovering World examples at the main comparison length. A plausible explanation is that World articles often contain relatively local lexical cues, such as country names, political actors, and event words, which may be captured more reliably by the CNN.
+The \textit{World} and \textit{Sports} classes are generally easier to classify, with F1 scores above 90\% in most configurations. The \textit{Sci/Tech} class is slightly harder, with F1 scores typically around 87--88\%. The most challenging class is \textit{Business}, where F1 scores range from 86\% to 87\%, depending on the model and sequence length. One detail that is not fully visible from the heatmap alone is that the LSTM at seq128 has noticeably lower recall on the \textit{World} class than the CNN at the same sequence length (89.63\% vs.\ 92.16\%). This suggests that, even when the overall macro-F1 values are very close, the CNN is somewhat better at recovering \textit{World} examples at the main comparison length. A plausible explanation is that \textit{World} articles often contain relatively local lexical cues, such as country names, political actors, and event words, which may be captured more reliably by the CNN.
 
 \subsection{Learning curves}
 
