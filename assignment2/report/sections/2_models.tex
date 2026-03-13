@@ -1,4 +1,6 @@
-In this assignment, we compare two neural models for news classification: a Convolutional Neural Network (CNN) and a Long Short-Term Memory network (LSTM). To make the comparison fair, both models use the same data splits, preprocessing pipeline, and evaluation setup.
+In this assignment, we compare two neural models for news classification: a Convolutional Neural Network (CNN) and a Long Short-Term Memory network (LSTM). To make the comparison fair, both models use the same data splits, preprocessing pipeline, and evaluation setup. The overall classification task pipelines is illustrated in Figure~\ref{fig:pipeline}.
+
+
 
 \paragraph{Shared input representation.}
 Both models receive the same preprocessed and tokenized text (see Section~\ref{sec:dataset} for preprocessing and tokenization details). Sequences are padded or truncated to the chosen maximum length. Both models begin with a trainable embedding layer that maps token ids to dense vectors. Note that the CNN has inherent feature extraction through its convolutional layers, while the LSTM relies on the embeddings and recurrent connections for representation learning.
@@ -12,7 +14,7 @@ The LSTM model is based on the Long Short-Term Memory architecture introduced by
 \paragraph{Hyperparameters.}
 Table~\ref{tab:hyperparameters} shows the hyperparameter search space for both models. For each model, the best setting was selected based on macro-F1 on the development set.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{lll}

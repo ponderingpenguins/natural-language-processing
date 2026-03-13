@@ -2,7 +2,7 @@
   "model_type": "cnn",
   "best_config": {
     "lr": 0.001,
-    "num_filters": 300,
+    "num_filters": 100,
     "kernel_sizes": [
       3,
       5,

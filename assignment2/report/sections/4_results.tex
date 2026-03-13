@@ -5,11 +5,11 @@ Table~\ref{tab:best_configs} summarises the best hyperparameters from the dedica
 
 \import{../figures/generated/}{best_config_tuning_only.tex}
 
-\subsection{Test set performance}
+\subsection{Test set performance of base models}
 
 Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores for both models across all hyperparameter search trials. The distributions are relatively tight, especially for the LSTM, indicating that the tuning process was stable and not overly sensitive to hyperparameter choices. The CNN shows a slightly wider distribution, suggesting that its performance may be more sensitive to hyperparameter settings than the LSTM. Overall, both models achieved high dev macro-F1 scores across a range of hyperparameters, which is a positive sign for their generalization capabilities.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
 \caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model. Higher and tighter distributions indicate more stable tuning.}
@@ -32,9 +32,9 @@ Interestingly, the ablation results reveal that longer sequences do not consiste
 
 Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary with sequence length.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/test_metrics_vs_seq.png}
+\includegraphics[width=0.8\textwidth]{../figures/generated/test_metrics_vs_seq.png}
 \caption{Test accuracy and macro-F1 as a function of maximum sequence length for CNN and LSTM.}
 \label{fig:test_metrics_vs_seq}
 \end{figure}
@@ -45,7 +45,7 @@ The overall trend is clear: The CNN does not benefit from longer sequences, with
 
 Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores. The confusion matrices per model and sequence length are shown in Appendix~\ref{app:reports} along with the full classification reports.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/generated/class_f1_heatmap.png}
 \caption{Heatmap of per-class test F1 scores across all runs. World and Sports are easier to classify; Business is the most challenging.}
@@ -58,9 +58,9 @@ The \textit{World} and \textit{Sports} classes are generally easier to classify,
 
 Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs on the training set and validation set for all six runs (CNN and LSTM at seq64, seq128, and seq256) with the tuned hyperparameters from the dedicated tuning runs. Both training and validation curves are shown for loss and accuracy. The F1 curves are shown in Appendix~\ref{app:additional_figures}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/full_training_curves_comparison.png}
+\includegraphics[width=0.8\textwidth]{../figures/generated/full_training_curves_comparison.png}
 \caption{Training and validation loss/accuracy curves for all six runs. Both models show rapid early convergence and stable learning trajectories.}
 \label{fig:full_training_curves_comparison}
 \end{figure}
