@@ -38,19 +38,19 @@ def load_training_config() -> TrainingConfig:
 def get_param_grid(model_type: str) -> dict:
     """Return the hyperparameter grid for the requested model."""
     if model_type == "cnn":
-        # Shortened grid for quick testing
+        # Shortened grid for quick testing (80 combinations):
         return {
-            "lr": [0.001, 0.0001],
-            "num_filters": [100],
-            "kernel_sizes": [[3, 5]],
-            "embed_dim": [128],
-            "weight_decay": [1e-5],
-            "dropout": [0.3],
+            "lr": [1e-3, 1e-4],
+            "num_filters": [100, 300],
+            "kernel_sizes": [[3, 5], [3, 5, 7]],
+            "embed_dim": [128, 512],
+            "weight_decay": [1e-5, 1e-3],
+            "dropout": [0.3, 0.5],
         }
         # Original larger grid for more extensive tuning:
         # return {
         #     "lr": [1e-2, 5e-3, 1e-3, 5e-4, 1e-4],
-        #     "num_filters": [50, 100, 150, 200, 300],
+        #     "num_filters": [50, 100, 150,300],
         #     "kernel_sizes": [[3], [5], [3, 5], [3, 5, 7], [2, 3, 4, 5]],
         #     "embed_dim": [64, 128, 256, 512],
         #     "weight_decay": [0.0, 1e-5, 1e-4, 1e-3],
@@ -99,12 +99,12 @@ def apply_best_hyperparameters(
 
 def load_best_tuning_config(cfg: TrainingConfig, model_type: str) -> dict:
     """Load best hyperparameters from saved tuning JSON."""
-    tuning_file = os.path.join(
-        cfg.output_dir, f"hyperparameter_tuning_{model_type}.json"
-    )
+    source_dir = cfg.tuning_dir if cfg.tuning_dir else cfg.output_dir
+    tuning_file = os.path.join(source_dir, f"hyperparameter_tuning_{model_type}.json")
     if not os.path.exists(tuning_file):
         raise FileNotFoundError(
-            f"Tuning results file not found: {tuning_file}. Run tuning first."
+            f"Tuning results file not found: {tuning_file}. "
+            f"Run tuning first or set tuning_dir to the directory containing the tuning results."
         )
 
     with open(tuning_file, "r", encoding="utf-8") as file_handle:

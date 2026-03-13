@@ -31,13 +31,16 @@ class TrainingConfig:
             training/tuning (default: 3).
         batch_size: The batch size for training (default: 4).
         weighted_decay: The weight decay for the optimizer (default: 1e-4).
-        max_seq_len: The maximum sequence length for tokenization (default: 512).
+        max_seq_length: The maximum sequence length for tokenization (default: 512).
         vocab_size: The vocabulary size for the tokenizer (default: 5000).
         min_freq: The minimum frequency for tokens to be included in the vocabulary (default: 2).
         sample_size: If set, subsample data to this size for quick testing (default: None).
         run_tuning_only: If True, run only hyperparameter tuning and exit (default: False).
         run_train_only: If True, skip tuning and train using best saved tuning config
             (default: False).
+        tuning_dir: If set, load tuning results from this directory instead of output_dir.
+            Useful for ablation studies where one tuning run is shared across multiple
+            training runs with different hyperparameters (e.g., different max_seq_length).
     """
 
     hf_dataset: str = "sh0416/ag_news"
@@ -48,10 +51,10 @@ class TrainingConfig:
     output_dir: str = "output"  # directory to save misclassified examples
     label_names: dict[int, str] = field(
         default_factory=lambda: {
-            1: "World",
-            2: "Sports",
-            3: "Business",
-            4: "Sci/Tech",
+            0: "World",
+            1: "Sports",
+            2: "Business",
+            3: "Sci/Tech",
         }
     )
     num_classes: int = 4
@@ -68,13 +71,13 @@ class TrainingConfig:
     learning_rate: float = 1e-3  # learning rate for optimizer
     num_epochs: int = 20  # number of training epochs
     tuning_num_epochs: int = 1  # epochs per trial during hyperparameter tuning
-    gradient_clip_norm: float = 5.0  # max norm for gradient clipping
+    gradient_clip_norm: float = 1.0  # max norm for gradient clipping
     early_stopping_patience: int = 3  # patience for early stopping on val loss
     batch_size: int = 4  # batch size for training
     weighted_decay: float = 1e-4  # weight decay for optimizer
 
     # Data processing parameters
-    max_seq_len: int = 512  # maximum sequence length for tokenization
+    max_seq_length: int = 512  # maximum sequence length for tokenization
     vocab_size: int = 5000  # vocabulary size for tokenizer
     min_freq: int = 2  # minimum frequency for tokens to be included in vocab
 
@@ -86,3 +89,6 @@ class TrainingConfig:
     # Pipeline execution control
     run_tuning_only: bool = False
     run_train_only: bool = False
+    tuning_dir: str | None = (
+        None  # if set, load tuning results from here instead of output_dir
+    )

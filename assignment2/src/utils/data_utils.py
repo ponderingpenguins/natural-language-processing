@@ -2,6 +2,7 @@
 
 import hashlib
 import html
+import json
 import pickle
 import shutil
 from pathlib import Path
@@ -12,6 +13,15 @@ from penguinlp.helpers import logger
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 from utils.tokanizer import build_tokenizer, load_tokenizer, save_tokenizer
+
+
+def get_tokenizer_vocab_size(tokenizer: Any) -> int:
+    """Return embedding-safe vocabulary size for a tokenizer."""
+    vocab = getattr(tokenizer, "vocab", {})
+    if not vocab:
+        return 0
+    values = [int(idx) for idx in vocab.values()]
+    return max(values) + 1
 
 
 def clear_cache_dirs(cfg: Any) -> None:
@@ -81,14 +91,39 @@ def preprocess_data(data):
         preprocess_sample, batched=False, load_from_cache_file=False
     )
 
+    all_labels = []
+    for split in ["train", "dev", "test"]:
+        all_labels.extend(int(label) for label in data[split]["label"])
+
+    if all_labels and min(all_labels) == 1 and max(all_labels) > 1:
+        logger.info(
+            "Detected 1-based labels (min=%d, max=%d); converting to 0-based indices",
+            min(all_labels),
+            max(all_labels),
+        )
+
+        def _to_zero_based(example):
+            example["label"] = int(example["label"]) - 1
+            return example
+
+        data["train"] = data["train"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["dev"] = data["dev"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        data["test"] = data["test"].map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+
     return data
 
 
 class TokenizedDataset(Dataset):
     """A PyTorch Dataset that tokenizes text examples on the fly."""
 
-    def __init__(self, examples: list[tuple[list[int], int]], max_seq_len: int):
-        self.max_seq_len = max_seq_len
+    def __init__(self, examples: list[tuple[list[int], int]], max_seq_length: int):
+        self.max_seq_length = max_seq_length
         self.examples = examples
 
     def __len__(self):
@@ -96,11 +131,11 @@ class TokenizedDataset(Dataset):
 
     def __getitem__(self, idx):
         tokens, label = self.examples[idx]
-        # Truncate or pad to max_seq_len
-        input_ids = tokens[: self.max_seq_len]
+        # Truncate or pad to max_seq_length
+        input_ids = tokens[: self.max_seq_length]
         real_length = len(input_ids)  # Track real length before padding
-        if len(input_ids) < self.max_seq_len:
-            input_ids.extend([0] * (self.max_seq_len - len(input_ids)))
+        if len(input_ids) < self.max_seq_length:
+            input_ids.extend([0] * (self.max_seq_length - len(input_ids)))
         return {"input_ids": input_ids, "labels": label, "length": real_length}
 
 
@@ -126,18 +161,24 @@ def collate_fn(batch: list, vocab: dict[str, int]) -> dict:
 def _build_cache_key(cfg: Any, tokenizer: Any, split_name: str, split_len: int) -> str:
     """Build a stable cache key for tokenized examples."""
     tokenizer_path = str(getattr(cfg, "tokenizer_path", "tokenizer.pkl"))
+    vocab_items = sorted(getattr(tokenizer, "vocab", {}).items())
+    vocab_fingerprint = hashlib.sha256(str(vocab_items).encode("utf-8")).hexdigest()[
+        :16
+    ]
     key_parts = [
+        "tokenized_schema_v3",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         split_name,
         str(split_len),
         str(getattr(cfg, "seed", "no_seed")),
         str(getattr(cfg, "sample_size", "full")),
-        str(getattr(cfg, "max_seq_len", "no_max_seq_len")),
+        str(getattr(cfg, "max_seq_length", "no_max_seq_length")),
         str(getattr(cfg, "vocab_size", "no_vocab_size")),
         str(getattr(cfg, "min_freq", "no_min_freq")),
         str(getattr(cfg, "tokenizer_type", "no_tokenizer_type")),
         tokenizer_path,
-        str(len(getattr(tokenizer, "vocab", {}))),
+        str(get_tokenizer_vocab_size(tokenizer)),
+        vocab_fingerprint,
     ]
     raw = "|".join(key_parts)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
@@ -184,6 +225,7 @@ def _load_or_build_tokenized_examples(data_split, tokenizer, cfg: Any, split_nam
 def _build_tokenizer_cache_key(cfg: Any, train_len: int) -> str:
     """Build a stable cache key for tokenizer artifacts."""
     key_parts = [
+        "tokenizer_schema_v2",
         str(getattr(cfg, "hf_dataset", "unknown_dataset")),
         str(getattr(cfg, "seed", "no_seed")),
         str(getattr(cfg, "sample_size", "full")),
@@ -223,12 +265,12 @@ def create_dataloaders(
         data["train"], tokenizer, cfg, "train"
     )
     val_examples = _load_or_build_tokenized_examples(data["dev"], tokenizer, cfg, "dev")
-    train_ds = TokenizedDataset(train_examples, cfg.max_seq_len)
-    val_ds = TokenizedDataset(val_examples, cfg.max_seq_len)
+    train_ds = TokenizedDataset(train_examples, cfg.max_seq_length)
+    val_ds = TokenizedDataset(val_examples, cfg.max_seq_length)
     test_ds = (
         TokenizedDataset(
             _load_or_build_tokenized_examples(data["test"], tokenizer, cfg, "test"),
-            cfg.max_seq_len,
+            cfg.max_seq_length,
         )
         if include_test
         else None
@@ -258,6 +300,140 @@ def create_dataloaders(
     )
 
     return train_loader, val_loader, test_loader
+
+
+def compute_tokenizer_coverage(tokenizer, data: dict, output_dir: str) -> dict:
+    """Measure tokenizer coverage on train, dev, and test splits.
+
+    Coverage is measured on train (sanity check), dev, and test splits.
+    The test split is the most meaningful: tokens were never seen during
+    tokenizer fitting, so it reflects real-world OOV behaviour.
+
+    Three complementary metrics are reported per split:
+      - token_oov_rate:    fraction of token *instances* that are <UNK>
+      - type_oov_rate:     fraction of unique token *types* not in vocab
+      - document_oov_rate: fraction of documents containing >= 1 <UNK> token
+
+    Args:
+        tokenizer: Fitted tokenizer with .tokenize() and .vocab attributes.
+        data: Dict with 'train', 'dev', 'test' HuggingFace Dataset splits.
+        output_dir: Directory to write tokenizer_coverage.json.
+
+    Returns:
+        Dict with per-split coverage statistics.
+    """
+    vocab = tokenizer.vocab
+    results: dict = {}
+
+    # Text length bucket boundaries (in whitespace-split words)
+    BUCKET_BOUNDARIES = [20, 50]  # short: <20, medium: 20-50, long: >50
+
+    for split_name, split_data in data.items():
+        total_tokens = 0
+        oov_tokens = 0
+        oov_docs = 0
+        total_words = 0
+        all_token_types: set = set()
+        oov_types: set = set()
+        all_word_types: set = set()  # for TTR preservation
+        all_tok_types_ttr: set = set()  # tokenized types for TTR
+
+        # Bucket accumulators: {bucket_name: [total_tokens, oov_tokens, n_docs]}
+        buckets: dict = {
+            "short": [0, 0, 0],
+            "medium": [0, 0, 0],
+            "long": [0, 0, 0],
+        }
+
+        for example in tqdm(split_data, desc=f"Coverage ({split_name})", leave=False):
+            text = example["text"]
+            tokens = tokenizer.tokenize(text)
+            words = text.split()
+            n_words = len(words)
+            n_tokens = len(tokens)
+
+            total_tokens += n_tokens
+            total_words += n_words
+            all_word_types.update(words)
+            all_tok_types_ttr.update(tokens)
+
+            example_has_oov = False
+            for tok in tokens:
+                all_token_types.add(tok)
+                if tok not in vocab:
+                    oov_tokens += 1
+                    oov_types.add(tok)
+                    example_has_oov = True
+            if example_has_oov:
+                oov_docs += 1
+
+            # Assign to length bucket
+            if n_words < BUCKET_BOUNDARIES[0]:
+                bucket = "short"
+            elif n_words <= BUCKET_BOUNDARIES[1]:
+                bucket = "medium"
+            else:
+                bucket = "long"
+            buckets[bucket][0] += n_tokens
+            buckets[bucket][1] += sum(1 for tok in tokens if tok not in vocab)
+            buckets[bucket][2] += 1
+
+        n_docs = len(split_data)
+
+        # TTR: type-token ratio of original words vs. BPE tokens
+        word_ttr = round(len(all_word_types) / max(total_words, 1), 6)
+        token_ttr = round(len(all_tok_types_ttr) / max(total_tokens, 1), 6)
+
+        results[split_name] = {
+            "total_tokens": total_tokens,
+            "oov_tokens": oov_tokens,
+            "token_oov_rate": round(oov_tokens / max(total_tokens, 1), 6),
+            "total_types": len(all_token_types),
+            "oov_types": len(oov_types),
+            "type_oov_rate": round(len(oov_types) / max(len(all_token_types), 1), 6),
+            "total_documents": n_docs,
+            "oov_documents": oov_docs,
+            "document_oov_rate": round(oov_docs / max(n_docs, 1), 6),
+            # Fragmentation
+            "total_words": total_words,
+            "tokens_per_word": round(total_tokens / max(total_words, 1), 4),
+            # TTR preservation
+            "word_ttr": word_ttr,
+            "token_ttr": token_ttr,
+            "ttr_ratio": round(token_ttr / max(word_ttr, 1e-9), 6),
+            # OOV by document length bucket
+            "oov_by_length_bucket": {
+                bucket: {
+                    "total_documents": int(v[2]),
+                    "total_tokens": int(v[0]),
+                    "oov_tokens": int(v[1]),
+                    "token_oov_rate": round(v[1] / max(v[0], 1), 6),
+                }
+                for bucket, v in buckets.items()
+            },
+        }
+        logger.info(
+            "Coverage [%s]: token_oov=%.2f%%, type_oov=%.2f%%, doc_oov=%.2f%%, "
+            "tokens/word=%.2f, ttr_ratio=%.3f",
+            split_name,
+            results[split_name]["token_oov_rate"] * 100,
+            results[split_name]["type_oov_rate"] * 100,
+            results[split_name]["document_oov_rate"] * 100,
+            results[split_name]["tokens_per_word"],
+            results[split_name]["ttr_ratio"],
+        )
+
+    summary = {
+        "vocab_size": len(vocab),
+        "tokenizer_type": type(tokenizer).__name__,
+        "splits": results,
+    }
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    out_path = Path(output_dir) / "tokenizer_coverage.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    logger.info("Saved tokenizer coverage report to %s", out_path)
+    return summary
 
 
 def setup_tokenizer(cfg, train_data) -> object:

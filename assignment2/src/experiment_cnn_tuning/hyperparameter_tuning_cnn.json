@@ -1,0 +1,1140 @@
+{
+  "model_type": "cnn",
+  "best_config": {
+    "lr": 0.001,
+    "num_filters": 100,
+    "kernel_sizes": [
+      3,
+      5,
+      7
+    ],
+    "embed_dim": 512,
+    "weight_decay": 1e-05,
+    "dropout": 0.3
+  },
+  "best_config_rank": 1,
+  "best_f1": 0.9058162381726655,
+  "total_tuning_time_seconds": 1661.48,
+  "all_results": [
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9006250359552413,
+      "dev_acc": 0.90075,
+      "dev_loss": 0.2920532603263855,
+      "train_time_seconds": 53.583
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9006250359552413,
+      "dev_acc": 0.90075,
+      "dev_loss": 0.2920532603263855,
+      "train_time_seconds": 19.25
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8454681321244633,
+      "dev_acc": 0.8458333333333333,
+      "dev_loss": 0.47384163991610206,
+      "train_time_seconds": 18.856
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8454681321244633,
+      "dev_acc": 0.8458333333333333,
+      "dev_loss": 0.47384163991610206,
+      "train_time_seconds": 19.519
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9052766891369618,
+      "dev_acc": 0.9053333333333333,
+      "dev_loss": 0.27606161761283876,
+      "train_time_seconds": 23.015
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9052766891369618,
+      "dev_acc": 0.9053333333333333,
+      "dev_loss": 0.27606161761283876,
+      "train_time_seconds": 23.316
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8901310858821859,
+      "dev_acc": 0.8904166666666666,
+      "dev_loss": 0.33531910649935404,
+      "train_time_seconds": 23.033
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8901310858821859,
+      "dev_acc": 0.8904166666666666,
+      "dev_loss": 0.33531910649935404,
+      "train_time_seconds": 23.444
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.900586466127853,
+      "dev_acc": 0.9006666666666666,
+      "dev_loss": 0.288715473651886,
+      "train_time_seconds": 20.863
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.900586466127853,
+      "dev_acc": 0.9006666666666666,
+      "dev_loss": 0.288715473651886,
+      "train_time_seconds": 20.318
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8480702640852541,
+      "dev_acc": 0.84825,
+      "dev_loss": 0.4534337220191956,
+      "train_time_seconds": 20.972
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8480702640852541,
+      "dev_acc": 0.84825,
+      "dev_loss": 0.4534337220191956,
+      "train_time_seconds": 20.502
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9037834767161406,
+      "dev_acc": 0.9039166666666667,
+      "dev_loss": 0.28137074907620746,
+      "train_time_seconds": 27.663
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9037834767161406,
+      "dev_acc": 0.9039166666666667,
+      "dev_loss": 0.28137074907620746,
+      "train_time_seconds": 27.239
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8877417787657351,
+      "dev_acc": 0.8880833333333333,
+      "dev_loss": 0.33243818298975625,
+      "train_time_seconds": 27.095
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8877417787657351,
+      "dev_acc": 0.8880833333333333,
+      "dev_loss": 0.33243818298975625,
+      "train_time_seconds": 27.249
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9026237895356664,
+      "dev_acc": 0.9026666666666666,
+      "dev_loss": 0.2837622814178467,
+      "train_time_seconds": 21.183
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9026237895356664,
+      "dev_acc": 0.9026666666666666,
+      "dev_loss": 0.2837622814178467,
+      "train_time_seconds": 21.286
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8687741045967309,
+      "dev_acc": 0.8688333333333333,
+      "dev_loss": 0.4038664104938507,
+      "train_time_seconds": 21.023
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8687741045967309,
+      "dev_acc": 0.8688333333333333,
+      "dev_loss": 0.4038664104938507,
+      "train_time_seconds": 21.347
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.905343653342793,
+      "dev_acc": 0.9053333333333333,
+      "dev_loss": 0.2782793227036794,
+      "train_time_seconds": 29.299
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.905343653342793,
+      "dev_acc": 0.9053333333333333,
+      "dev_loss": 0.2782793227036794,
+      "train_time_seconds": 28.517
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8955534784365786,
+      "dev_acc": 0.8955,
+      "dev_loss": 0.31016979352633156,
+      "train_time_seconds": 28.863
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8955534784365786,
+      "dev_acc": 0.8955,
+      "dev_loss": 0.31016979352633156,
+      "train_time_seconds": 28.524
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9051604632776107,
+      "dev_acc": 0.9051666666666667,
+      "dev_loss": 0.28435523009300234,
+      "train_time_seconds": 24.487
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9051604632776107,
+      "dev_acc": 0.9051666666666667,
+      "dev_loss": 0.28435523009300234,
+      "train_time_seconds": 24.189
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8713128753332258,
+      "dev_acc": 0.8713333333333333,
+      "dev_loss": 0.3942318357626597,
+      "train_time_seconds": 24.568
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8713128753332258,
+      "dev_acc": 0.8713333333333333,
+      "dev_loss": 0.3942318357626597,
+      "train_time_seconds": 24.505
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.9058162381726655,
+      "dev_acc": 0.9058333333333334,
+      "dev_loss": 0.2982944274743398,
+      "train_time_seconds": 36.834
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.9058162381726655,
+      "dev_acc": 0.9058333333333334,
+      "dev_loss": 0.2982944274743398,
+      "train_time_seconds": 37.201
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8938297300950947,
+      "dev_acc": 0.8938333333333334,
+      "dev_loss": 0.31471897959709166,
+      "train_time_seconds": 36.941
+    },
+    {
+      "params": {
+        "lr": 0.001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8938297300950947,
+      "dev_acc": 0.8938333333333334,
+      "dev_loss": 0.31471897959709166,
+      "train_time_seconds": 37.281
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7426000070267849,
+      "dev_acc": 0.7431666666666666,
+      "dev_loss": 0.7816933643023173,
+      "train_time_seconds": 19.709
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7426000070267849,
+      "dev_acc": 0.7431666666666666,
+      "dev_loss": 0.7816933643023173,
+      "train_time_seconds": 19.001
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.716641845871646,
+      "dev_acc": 0.7171666666666666,
+      "dev_loss": 0.8588089067141215,
+      "train_time_seconds": 19.412
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.716641845871646,
+      "dev_acc": 0.7171666666666666,
+      "dev_loss": 0.8588089067141215,
+      "train_time_seconds": 19.501
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8515778713278641,
+      "dev_acc": 0.85175,
+      "dev_loss": 0.44881341512997946,
+      "train_time_seconds": 23.504
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8515778713278641,
+      "dev_acc": 0.85175,
+      "dev_loss": 0.44881341512997946,
+      "train_time_seconds": 23.009
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8469432341471526,
+      "dev_acc": 0.8471666666666666,
+      "dev_loss": 0.4710582702159882,
+      "train_time_seconds": 23.364
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8469432341471526,
+      "dev_acc": 0.8471666666666666,
+      "dev_loss": 0.4710582702159882,
+      "train_time_seconds": 23.401
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7556996029766165,
+      "dev_acc": 0.75575,
+      "dev_loss": 0.719421506245931,
+      "train_time_seconds": 20.278
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7556996029766165,
+      "dev_acc": 0.75575,
+      "dev_loss": 0.719421506245931,
+      "train_time_seconds": 20.553
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7313190895774838,
+      "dev_acc": 0.7314166666666667,
+      "dev_loss": 0.7997447873751322,
+      "train_time_seconds": 20.653
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7313190895774838,
+      "dev_acc": 0.7314166666666667,
+      "dev_loss": 0.7997447873751322,
+      "train_time_seconds": 21.068
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8555068838382542,
+      "dev_acc": 0.8556666666666667,
+      "dev_loss": 0.42403607988357545,
+      "train_time_seconds": 27.391
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8555068838382542,
+      "dev_acc": 0.8556666666666667,
+      "dev_loss": 0.42403607988357545,
+      "train_time_seconds": 27.502
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.851838671841511,
+      "dev_acc": 0.852,
+      "dev_loss": 0.44349178806940714,
+      "train_time_seconds": 27.467
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 100,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.851838671841511,
+      "dev_acc": 0.852,
+      "dev_loss": 0.44349178806940714,
+      "train_time_seconds": 27.374
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7762747868628213,
+      "dev_acc": 0.7765833333333333,
+      "dev_loss": 0.6528646898269653,
+      "train_time_seconds": 21.517
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7762747868628213,
+      "dev_acc": 0.7765833333333333,
+      "dev_loss": 0.6528646898269653,
+      "train_time_seconds": 21.1
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7619619013456972,
+      "dev_acc": 0.76225,
+      "dev_loss": 0.7055107986132304,
+      "train_time_seconds": 21.415
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7619619013456972,
+      "dev_acc": 0.76225,
+      "dev_loss": 0.7055107986132304,
+      "train_time_seconds": 21.39
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8707258011027024,
+      "dev_acc": 0.8706666666666667,
+      "dev_loss": 0.3836427993774414,
+      "train_time_seconds": 29.001
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8707258011027024,
+      "dev_acc": 0.8706666666666667,
+      "dev_loss": 0.3836427993774414,
+      "train_time_seconds": 28.991
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8695456882115371,
+      "dev_acc": 0.8695,
+      "dev_loss": 0.3927809302012126,
+      "train_time_seconds": 28.74
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8695456882115371,
+      "dev_acc": 0.8695,
+      "dev_loss": 0.3927809302012126,
+      "train_time_seconds": 29.171
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.787902771050402,
+      "dev_acc": 0.7881666666666667,
+      "dev_loss": 0.6104021050135294,
+      "train_time_seconds": 24.326
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.787902771050402,
+      "dev_acc": 0.7881666666666667,
+      "dev_loss": 0.6104021050135294,
+      "train_time_seconds": 24.73
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.7765189257397602,
+      "dev_acc": 0.7766666666666666,
+      "dev_loss": 0.6572721397082011,
+      "train_time_seconds": 24.631
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 128,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.7765189257397602,
+      "dev_acc": 0.7766666666666666,
+      "dev_loss": 0.6572721397082011,
+      "train_time_seconds": 24.343
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8727579708769937,
+      "dev_acc": 0.8729166666666667,
+      "dev_loss": 0.3704853196144104,
+      "train_time_seconds": 37.382
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 1e-05,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8727579708769937,
+      "dev_acc": 0.8729166666666667,
+      "dev_loss": 0.3704853196144104,
+      "train_time_seconds": 37.064
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.3
+      },
+      "dev_f1": 0.8750418863912547,
+      "dev_acc": 0.87525,
+      "dev_loss": 0.37650732922554014,
+      "train_time_seconds": 37.386
+    },
+    {
+      "params": {
+        "lr": 0.0001,
+        "num_filters": 300,
+        "kernel_sizes": [
+          3,
+          5,
+          7
+        ],
+        "embed_dim": 512,
+        "weight_decay": 0.001,
+        "dropout": 0.5
+      },
+      "dev_f1": 0.8750418863912547,
+      "dev_acc": 0.87525,
+      "dev_loss": 0.37650732922554014,
+      "train_time_seconds": 36.984
+    }
+  ]
+}
