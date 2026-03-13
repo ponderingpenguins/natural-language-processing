@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Split} & \textbf{Docs} & \textbf{Types} & \textbf{Tokens} & \textbf{Words} & \textbf{Tokens/Word} \\
+\midrule
+Train & 108000 & 19565 & 4859372 & 4098055 & 1.1858 \\
+Dev & 12000 & 18698 & 544016 & 457324 & 1.1896 \\
+Test & 7600 & 17987 & 341726 & 287540 & 1.1884 \\
+\midrule
+\multicolumn{6}{l}{\textit{Test split by length bucket}} \\
+\textbf{Bucket} & \textbf{Docs} & \textbf{Doc Share (\%)} & \textbf{Tokens} & \textbf{Token Share (\%)} & \textbf{Tokens/Doc} \\
+\midrule
+Short & 154 & 2.0 & 3595 & 1.1 & 23.3 \\
+Medium & 6941 & 91.3 & 300830 & 88.0 & 43.3 \\
+Long & 505 & 6.6 & 37301 & 10.9 & 73.9 \\
+\bottomrule
+\end{tabular}
+\caption{Tokenizer coverage summary for the shared BPE tokenizer used in all runs. OOV metrics are omitted. Tokens/Word indicates average subword split rate. (Tokenizer: BPETokenizer, vocab size = 19980.)}
+\label{tab:tokenizer_coverage}
+\end{table}

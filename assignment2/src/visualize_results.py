@@ -800,6 +800,129 @@ def write_results_main_vs_ablation_latex_table(
     return output_path
 
 
+def build_tokenizer_coverage_latex_table(
+    tokenizer_coverage_path: Path,
+    caption: str = (
+        "Tokenizer coverage summary for the shared BPE tokenizer used in all runs. "
+        "OOV metrics are omitted. Tokens/Word indicates average subword split rate."
+    ),
+    label: str = "tab:tokenizer_coverage",
+) -> str:
+    """Build LaTeX table summarizing tokenizer coverage and split characteristics."""
+    payload = json.loads(tokenizer_coverage_path.read_text(encoding="utf-8"))
+    tokenizer_type = payload.get("tokenizer_type", "Tokenizer")
+    vocab_size = int(payload.get("vocab_size", 0))
+    splits = payload.get("splits", {})
+
+    def _split_stats(split_name: str) -> dict:
+        split = splits.get(split_name, {})
+        return {
+            "docs": int(split.get("total_documents", 0)),
+            "types": int(split.get("total_types", 0)),
+            "tokens": int(split.get("total_tokens", 0)),
+            "words": int(split.get("total_words", 0)),
+            "tokens_per_word": float(split.get("tokens_per_word", 0.0)),
+        }
+
+    def _format_int(value: int) -> str:
+        return f"{value}"
+
+    def _format_float(value: float, decimals: int = 4) -> str:
+        return f"{value:.{decimals}f}"
+
+    train_stats = _split_stats("train")
+    dev_stats = _split_stats("dev")
+    test_stats = _split_stats("test")
+
+    test_bucket_stats = (
+        splits.get("test", {}).get("oov_by_length_bucket", {})
+        if isinstance(splits.get("test", {}), dict)
+        else {}
+    )
+    test_total_docs = max(test_stats["docs"], 1)
+    test_total_tokens = max(test_stats["tokens"], 1)
+
+    lines = [
+        r"\begin{table}[h]",
+        r"\centering",
+        r"\small",
+        r"\begin{tabular}{lrrrrr}",
+        r"\toprule",
+        r"\textbf{Split} & \textbf{Docs} & \textbf{Types} & \textbf{Tokens} & \textbf{Words} & \textbf{Tokens/Word} \\",
+        r"\midrule",
+        (
+            "Train"
+            f" & {_format_int(train_stats['docs'])}"
+            f" & {_format_int(train_stats['types'])}"
+            f" & {_format_int(train_stats['tokens'])}"
+            f" & {_format_int(train_stats['words'])}"
+            f" & {_format_float(train_stats['tokens_per_word'])} \\\\"
+        ),
+        (
+            "Dev"
+            f" & {_format_int(dev_stats['docs'])}"
+            f" & {_format_int(dev_stats['types'])}"
+            f" & {_format_int(dev_stats['tokens'])}"
+            f" & {_format_int(dev_stats['words'])}"
+            f" & {_format_float(dev_stats['tokens_per_word'])} \\\\"
+        ),
+        (
+            "Test"
+            f" & {_format_int(test_stats['docs'])}"
+            f" & {_format_int(test_stats['types'])}"
+            f" & {_format_int(test_stats['tokens'])}"
+            f" & {_format_int(test_stats['words'])}"
+            f" & {_format_float(test_stats['tokens_per_word'])} \\\\"
+        ),
+        r"\midrule",
+        r"\multicolumn{6}{l}{\textit{Test split by length bucket}} \\",
+        r"\textbf{Bucket} & \textbf{Docs} & \textbf{Doc Share (\%)} & \textbf{Tokens} & \textbf{Token Share (\%)} & \textbf{Tokens/Doc} \\",
+        r"\midrule",
+    ]
+
+    for bucket_name in ("short", "medium", "long"):
+        bucket = test_bucket_stats.get(bucket_name, {})
+        bucket_docs = int(bucket.get("total_documents", 0))
+        bucket_tokens = int(bucket.get("total_tokens", 0))
+        doc_share = (bucket_docs / test_total_docs) * 100
+        token_share = (bucket_tokens / test_total_tokens) * 100
+        tokens_per_doc = (bucket_tokens / bucket_docs) if bucket_docs else 0.0
+
+        lines.append(
+            f"{bucket_name.capitalize()}"
+            f" & {bucket_docs}"
+            f" & {doc_share:.1f}"
+            f" & {bucket_tokens}"
+            f" & {token_share:.1f}"
+            f" & {tokens_per_doc:.1f} \\\\"
+        )
+
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            (
+                f"\\caption{{{caption} "
+                f"(Tokenizer: {tokenizer_type}, vocab size = {vocab_size}.)}}"
+            ),
+            f"\\label{{{label}}}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def write_tokenizer_coverage_latex_table(
+    out_dir: Path,
+    tokenizer_coverage_path: Path,
+) -> Path:
+    """Write tokenizer coverage LaTeX table for report inclusion via \\input{}."""
+    table_text = build_tokenizer_coverage_latex_table(tokenizer_coverage_path)
+    output_path = out_dir / "tokenizer_coverage_summary.tex"
+    output_path.write_text(table_text + "\n", encoding="utf-8")
+    return output_path
+
+
 def plot_test_metrics_vs_seq(out_dir: Path, runs: list[RunResult]) -> None:
     """Plot test accuracy and macro-F1 as a function of sequence length."""
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharex=True)
@@ -1198,11 +1321,19 @@ def main() -> None:
     sns.set_theme(style="whitegrid")
 
     runs = collect_runs(src_dir)
+    tokenizer_coverage_path = (
+        src_dir / "experiment_lstm_seq256" / "tokenizer_coverage.json"
+    )
+    if not tokenizer_coverage_path.exists():
+        raise FileNotFoundError(
+            f"Missing tokenizer coverage file: {tokenizer_coverage_path}"
+        )
 
     write_csv_summaries(out_dir, runs)
     write_best_config_summary(out_dir, runs)
     write_tuning_best_config_latex_table(out_dir, src_dir)
     write_results_main_vs_ablation_latex_table(out_dir, runs, main_seq_len=128)
+    write_tokenizer_coverage_latex_table(out_dir, tokenizer_coverage_path)
     plot_test_metrics_vs_seq(out_dir, runs)
     plot_dev_vs_test_f1(out_dir, runs)
     plot_cnn_lstm_delta_by_seq(out_dir, runs)

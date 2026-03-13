@@ -17,6 +17,10 @@ Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of de
 \label{fig:hyperparameter_devf1_distributions}
 \end{figure}
 
+Table~\ref{tab:tokenizer_coverage} reports tokenizer coverage statistics for the shared BPE tokenizer (same tokenizer across all runs). The observed subword split rate is very stable across splits, with roughly 1.19 tokens per word.
+
+\import{../figures/generated/}{tokenizer_coverage_summary.tex}
+
 
 The test results are shown in Table~\ref{tab:test_results}. At the main comparison sequence length of 128 tokens, the CNN slightly outperformed the LSTM, achieving a test accuracy of 90.71\% and a macro-F1 of 90.69\%, compared to the LSTM's accuracy of 90.57\% and macro-F1 of 90.59\%.
 
@@ -66,4 +70,4 @@ Figure~\ref{fig:full_training_curves_comparison} displays the learning curves fo
 Both models show rapid convergence, with validation loss decreasing sharply in the first few epochs and then stabilizing. Both models converge to similar final validation accuracies at a similar number of epochs (e.g., around 1--2 epochs). The CNN shows a slightly more stable validation loss curve, while the LSTM shows signs of overfitting after epoch 4, where the validation loss starts to increase while training loss continues to decrease. Most notably, the LSTM at seq256 converges more rapidly as indicated by the steepest initial drop in validation loss, which may explain its superior performance at this sequence length. However, all models converge to similar final validation accuracies.
 \subsection{Summary}
 
-The LSTM model achieves the best overall result at the longest sequence length (seq256), with a test macro-F1 of 90.74\%, outperforming the CNN's best macro-F1 of 90.72\% at seq64. The LSTM benefits more from longer sequences, while the CNN performs best at shorter sequences. Both models show stable tuning and learning trajectories, with the Business class being the most challenging to classify.
+The best overall test result is achieved by the CNN at the shortest sequence length (seq64), with a macro-F1 of 90.96\%. The LSTM reaches its best result at seq256 (90.74\%), indicating that it benefits more from longer input sequences, while the CNN performs best with shorter inputs. Both models show stable tuning and learning trajectories, with the Business class being the most challenging to classify.
