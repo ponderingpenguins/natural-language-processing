@@ -2,11 +2,11 @@
   "model_type": "cnn",
   "max_seq_length": 64,
   "learning_rate": 0.001,
-  "num_epochs": 2,
+  "num_epochs": 15,
   "batch_size": 512,
   "weighted_decay": 1e-05,
   "embed_dim": 512,
-  "cnn_num_filters": 100,
+  "cnn_num_filters": 300,
   "cnn_kernel_sizes": [
     3,
     5,

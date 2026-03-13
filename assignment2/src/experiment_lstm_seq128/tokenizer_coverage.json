@@ -1,0 +1,114 @@
+{
+  "vocab_size": 19980,
+  "tokenizer_type": "BPETokenizer",
+  "splits": {
+    "train": {
+      "total_tokens": 4859372,
+      "oov_tokens": 0,
+      "token_oov_rate": 0.0,
+      "total_types": 19565,
+      "oov_types": 0,
+      "type_oov_rate": 0.0,
+      "total_documents": 108000,
+      "oov_documents": 0,
+      "document_oov_rate": 0.0,
+      "total_words": 4098055,
+      "tokens_per_word": 1.1858,
+      "word_ttr": 0.040806,
+      "token_ttr": 0.004026,
+      "ttr_ratio": 0.098662,
+      "oov_by_length_bucket": {
+        "short": {
+          "total_documents": 1996,
+          "total_tokens": 45654,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "medium": {
+          "total_documents": 98489,
+          "total_tokens": 4259323,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "long": {
+          "total_documents": 7515,
+          "total_tokens": 554395,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        }
+      }
+    },
+    "dev": {
+      "total_tokens": 544016,
+      "oov_tokens": 0,
+      "token_oov_rate": 0.0,
+      "total_types": 18698,
+      "oov_types": 0,
+      "type_oov_rate": 0.0,
+      "total_documents": 12000,
+      "oov_documents": 0,
+      "document_oov_rate": 0.0,
+      "total_words": 457324,
+      "tokens_per_word": 1.1896,
+      "word_ttr": 0.114805,
+      "token_ttr": 0.03437,
+      "ttr_ratio": 0.299377,
+      "oov_by_length_bucket": {
+        "short": {
+          "total_documents": 186,
+          "total_tokens": 4258,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "medium": {
+          "total_documents": 10968,
+          "total_tokens": 476934,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "long": {
+          "total_documents": 846,
+          "total_tokens": 62824,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        }
+      }
+    },
+    "test": {
+      "total_tokens": 341726,
+      "oov_tokens": 0,
+      "token_oov_rate": 0.0,
+      "total_types": 17987,
+      "oov_types": 0,
+      "type_oov_rate": 0.0,
+      "total_documents": 7600,
+      "oov_documents": 0,
+      "document_oov_rate": 0.0,
+      "total_words": 287540,
+      "tokens_per_word": 1.1884,
+      "word_ttr": 0.139528,
+      "token_ttr": 0.052636,
+      "ttr_ratio": 0.377243,
+      "oov_by_length_bucket": {
+        "short": {
+          "total_documents": 154,
+          "total_tokens": 3595,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "medium": {
+          "total_documents": 6941,
+          "total_tokens": 300830,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        },
+        "long": {
+          "total_documents": 505,
+          "total_tokens": 37301,
+          "oov_tokens": 0,
+          "token_oov_rate": 0.0
+        }
+      }
+    }
+  }
+}
