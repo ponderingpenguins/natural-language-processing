@@ -1,5 +1,5 @@
 run_label,model,seq_len,best_dev_f1,bidirectional,dropout,embed_dim,hidden_dim,kernel_sizes,lr,num_filters,weight_decay
-CNN-seq64,cnn,64,0.902499370167203,,0.3,512,,"[3, 5, 7]",0.001,300,1e-05
+CNN-seq64,cnn,64,0.3022422103090708,,0.3,512,,"[3, 5, 7]",0.001,100,1e-05
 CNN-seq128,cnn,128,0.9061254354723967,,0.5,512,,"[3, 5, 7]",0.001,300,1e-05
 CNN-seq256,cnn,256,0.9083734799864451,,0.5,512,,"[3, 5, 7]",0.001,300,1e-05
 LSTM-seq64,lstm,64,0.898624643119764,True,,256,128,,0.001,,1e-05
