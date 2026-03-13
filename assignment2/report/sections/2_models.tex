@@ -34,7 +34,9 @@ Weight decay         & \{1e-5, 1e-3\}     & \{0, 1e-5\} \\
 \end{table}
 
 \paragraph{Shared training settings.}
-Both models were trained with the Adam optimiser. We used gradient clipping with a maximum norm of 5.0 and early stopping with a patience of 3 epochs based on validation loss. The batch size was set to 512, and the final training runs lasted for at most 15 epochs. During hyperparameter tuning, each configuration was trained for 3 epochs. All experiments were run on the Hábrók high-performance computing cluster at the University of Groningen, using one GPU per job and 8\,GB of RAM.
+Both models were trained with the Adam optimiser. We used gradient clipping with a maximum norm of 1.0 and early stopping with a patience of 3 epochs based on validation loss. The batch size was set to 512, sequence length to 128, and the final training runs lasted for at most 15 epochs. During hyperparameter tuning, each configuration was trained for 5 epochs.
 
 \paragraph{Ablation: maximum sequence length.}
-As our ablation study, we vary the maximum sequence length and compare settings of 64, 128, and 256 tokens. All other parts of the setup remain the same. This allows us to study how much context the models need and whether giving them longer input sequences improves performance enough to justify the extra computation.
+As our ablation study, we vary the maximum sequence length and compare settings of 64, 128, and 256 tokens. To clarify, the hyperparameters in Table~\ref{tab:hyperparameters} were only tuned for the seq128 setting. For the other two sequence lengths, we kept all hyperparameters fixed to the best values found in the seq128 runs. This allows us to study how much context the models need and whether giving them longer input sequences improves performance enough to justify the extra computation.
+
+
