@@ -1,6 +1,9 @@
 """Training and evaluation loops."""
 
+import json
+import os
 import random
+import time
 
 import numpy as np
 import torch
@@ -10,6 +13,8 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix,
     f1_score,
+    precision_score,
+    recall_score,
 )
 from torch import nn
 from torch.utils.data import DataLoader
@@ -62,10 +67,14 @@ def evaluate(model: nn.Module, loader: DataLoader) -> dict:
     avg_loss = total_loss / max(n, 1)
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="macro")
+    precision = precision_score(y_true, y_pred, average="macro", zero_division=0)
+    recall = recall_score(y_true, y_pred, average="macro", zero_division=0)
     return {
         "loss": avg_loss,
         "acc": acc,
         "f1": f1,
+        "precision": precision,
+        "recall": recall,
         "y_true": y_true,
         "y_pred": y_pred,
         "probs": probs,
@@ -78,12 +87,14 @@ def train_one_epoch(
     optimizer: torch.optim.Optimizer,
     gradient_clip_norm: float,
 ) -> dict:
-    """Train for one epoch and return average loss and accuracy."""
+    """Train for one epoch and return average loss, accuracy, and macro F1."""
     model.train()
     loss_fn = nn.CrossEntropyLoss()
     total_loss = 0.0
     n = 0
     correct = 0
+    all_y: list = []
+    all_pred: list = []
 
     pbar = tqdm(loader, desc="Training batch", leave=False)
     try:
@@ -103,6 +114,8 @@ def train_one_epoch(
             n += y.size(0)
             pred = logits.argmax(dim=-1)
             correct += int((pred == y).sum().item())
+            all_y.append(y.cpu().numpy())
+            all_pred.append(pred.detach().cpu().numpy())
 
             # Update progress bar with current loss and accuracy
             pbar.set_postfix(
@@ -111,7 +124,19 @@ def train_one_epoch(
     finally:
         pbar.close()
 
-    return {"loss": total_loss / max(n, 1), "acc": correct / max(n, 1)}
+    y_true_train = np.concatenate(all_y)
+    y_pred_train = np.concatenate(all_pred)
+    return {
+        "loss": total_loss / max(n, 1),
+        "acc": correct / max(n, 1),
+        "f1": f1_score(y_true_train, y_pred_train, average="macro"),
+        "precision": precision_score(
+            y_true_train, y_pred_train, average="macro", zero_division=0
+        ),
+        "recall": recall_score(
+            y_true_train, y_pred_train, average="macro", zero_division=0
+        ),
+    }
 
 
 def train(
@@ -123,7 +148,7 @@ def train(
     gradient_clip_norm: float,
     weight_decay: float,
     early_stopping_patience: int | None = None,
-) -> list:
+) -> dict:
     """
     Train the model for a fixed number of epochs.
 
@@ -145,6 +170,8 @@ def train(
     best_state = None
     best_val_loss = float("inf")
     bad_epochs = 0
+    best_epoch = 1
+    start_time = time.time()
 
     logger.info("Starting training")
     logger.info("num_epochs=%s, lr=%s", num_epochs, lr)
@@ -153,22 +180,54 @@ def train(
     )
     print("-" * 60)
 
+    # Epoch 0: evaluate before any weight updates (random-init baseline)
+    train_metrics_0 = evaluate(model, train_loader)
+    val_metrics_0 = evaluate(model, val_loader)
+    history.append(
+        {
+            "epoch": 0,
+            "train_loss": train_metrics_0["loss"],
+            "train_acc": train_metrics_0["acc"],
+            "train_f1": train_metrics_0["f1"],
+            "train_precision": train_metrics_0["precision"],
+            "train_recall": train_metrics_0["recall"],
+            "val_loss": val_metrics_0["loss"],
+            "val_acc": val_metrics_0["acc"],
+            "val_f1": val_metrics_0["f1"],
+            "val_precision": val_metrics_0["precision"],
+            "val_recall": val_metrics_0["recall"],
+            "epoch_time_seconds": 0.0,
+        }
+    )
+    print(
+        f"{'0':>5}  {train_metrics_0['loss']:10.4f}  {train_metrics_0['acc']:9.4f}  "
+        f"{val_metrics_0['loss']:8.4f}  {val_metrics_0['acc']:7.4f}"
+    )
+
     epoch_bar = tqdm(range(1, num_epochs + 1), desc="Epochs")
     try:
         for epoch in epoch_bar:
+            epoch_start = time.time()
             train_metrics = train_one_epoch(
                 model, train_loader, optimizer, gradient_clip_norm
             )
             val_metrics = evaluate(model, val_loader)
+            epoch_time = time.time() - epoch_start
 
             history.append(
                 {
                     "epoch": epoch,
                     "train_loss": train_metrics["loss"],
                     "train_acc": train_metrics["acc"],
+                    "train_f1": train_metrics["f1"],
+                    "train_precision": train_metrics["precision"],
+                    "train_recall": train_metrics["recall"],
                     "val_loss": val_metrics["loss"],
                     "val_acc": val_metrics["acc"],
                     "val_f1": val_metrics["f1"],
+                    "val_precision": val_metrics["precision"],
+                    "val_recall": val_metrics["recall"],
+                    "epoch_time_seconds": round(epoch_time, 3),
                 }
             )
 
@@ -181,10 +240,12 @@ def train(
                 {"val_loss": val_metrics["loss"], "val_acc": val_metrics["acc"]}
             )
 
+            improved = val_metrics["loss"] < best_val_loss - 1e-4
+            if improved:
+                best_val_loss = val_metrics["loss"]
+                best_epoch = epoch
             if early_stopping_patience is not None:
-                improved = val_metrics["loss"] < best_val_loss - 1e-4
                 if improved:
-                    best_val_loss = val_metrics["loss"]
                     bad_epochs = 0
                     best_state = {
                         k: v.detach().cpu().clone()
@@ -211,7 +272,11 @@ def train(
         logger.info("Restored best model checkpoint (val_loss=%.4f)", best_val_loss)
 
     logger.info("Training completed")
-    return history
+    return {
+        "history": history,
+        "best_epoch": best_epoch,
+        "total_time_seconds": round(time.time() - start_time, 3),
+    }
 
 
 def run_training_pipeline(
@@ -238,7 +303,7 @@ def run_training_pipeline(
     logger.info("Model moved to %s", DEVICE)
 
     # Train model
-    history = train(
+    train_result = train(
         model,
         train_loader,
         val_loader,
@@ -247,6 +312,9 @@ def run_training_pipeline(
         gradient_clip_norm=cfg.gradient_clip_norm,
         weight_decay=cfg.weighted_decay,
     )
+    history = train_result["history"]
+    best_epoch = train_result["best_epoch"]
+    total_train_time = train_result["total_time_seconds"]
 
     # Evaluate on validation and test sets
     logger.info("Evaluating model...")
@@ -266,15 +334,49 @@ def run_training_pipeline(
         test_metrics["f1"],
     )
 
-    # Print classification report
+    # Print and save classification report
+    report_str = classification_report(
+        test_metrics["y_true"], test_metrics["y_pred"], digits=4
+    )
     print("\n" + "=" * 60)
     print("Test Set Classification Report:")
     print("=" * 60)
-    print(
-        classification_report(test_metrics["y_true"], test_metrics["y_pred"], digits=4)
-    )
+    print(report_str)
 
     cm = confusion_matrix(test_metrics["y_true"], test_metrics["y_pred"])
+
+    # Save artifacts to output directory
+    os.makedirs(cfg.output_dir, exist_ok=True)
+
+    report_path = os.path.join(cfg.output_dir, "classification_report.txt")
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(report_str)
+    logger.info("Saved classification report to %s", report_path)
+
+    cm_path = os.path.join(cfg.output_dir, "confusion_matrix.json")
+    with open(cm_path, "w", encoding="utf-8") as f:
+        json.dump(cm.tolist(), f, indent=2)
+    logger.info("Saved confusion matrix to %s", cm_path)
+
+    training_summary = {
+        "best_epoch": best_epoch,
+        "total_train_time_seconds": total_train_time,
+        "val_metrics": {
+            k: float(v)
+            for k, v in val_metrics.items()
+            if k not in ("y_true", "y_pred", "probs")
+        },
+        "test_metrics": {
+            k: float(v)
+            for k, v in test_metrics.items()
+            if k not in ("y_true", "y_pred", "probs")
+        },
+        "history": history,
+    }
+    summary_path = os.path.join(cfg.output_dir, "training_results.json")
+    with open(summary_path, "w", encoding="utf-8") as f:
+        json.dump(training_summary, f, indent=2)
+    logger.info("Saved training summary to %s", summary_path)
 
     # Collect misclassified examples
     misclassified_indices = np.where(test_metrics["y_true"] != test_metrics["y_pred"])[
@@ -307,6 +409,8 @@ def run_training_pipeline(
         "val_metrics": val_metrics,
         "test_metrics": test_metrics,
         "confusion_matrix": cm,
+        "best_epoch": best_epoch,
+        "total_train_time_seconds": total_train_time,
         "misclassified_examples": misclassified_indices[:num_to_report],
         "misclassified_labels": misclassified_labels[:num_to_report],
     }

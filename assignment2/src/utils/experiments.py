@@ -1,14 +1,22 @@
 """Model training entry points."""
 
 import json
+import os
 
-from utils.config import ModelConfig
-from utils.data_utils import create_dataloaders, preprocess_data, setup_tokenizer
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.data import load_data
 from penguinlp.helpers import logger
+from utils.config import ModelConfig
+from utils.data_utils import (
+    compute_tokenizer_coverage,
+    create_dataloaders,
+    get_tokenizer_vocab_size,
+    preprocess_data,
+    setup_tokenizer,
+)
+
 from .training import run_training_pipeline, set_seed
 
 
@@ -73,7 +81,7 @@ def train_model(cfg: TrainingConfig, model_cfg: ModelConfig, model_type: str) ->
     # Create model based on type
     if model_type == "cnn":
         model = CNN(
-            vocab_size=len(tokenizer.vocab),
+            vocab_size=get_tokenizer_vocab_size(tokenizer),
             embed_dim=model_cfg.embed_dim,
             num_filters=model_cfg.cnn_num_filters,
             kernel_sizes=model_cfg.cnn_kernel_sizes,
@@ -81,7 +89,7 @@ def train_model(cfg: TrainingConfig, model_cfg: ModelConfig, model_type: str) ->
         )
     elif model_type == "lstm":
         model = LSTM(
-            vocab_size=len(tokenizer.vocab),
+            vocab_size=get_tokenizer_vocab_size(tokenizer),
             embed_dim=model_cfg.embed_dim,
             hidden_dim=model_cfg.lstm_hidden_dim,
             num_classes=cfg.num_classes,
@@ -108,6 +116,44 @@ def train_model(cfg: TrainingConfig, model_cfg: ModelConfig, model_type: str) ->
         results["misclassified_labels"],
         data["test"],
     )
+
+    # Save model config snapshot for reproducibility
+    model_config_snapshot: dict = {
+        "model_type": model_type,
+        "max_seq_length": cfg.max_seq_length,
+        "learning_rate": cfg.learning_rate,
+        "num_epochs": cfg.num_epochs,
+        "batch_size": cfg.batch_size,
+        "weighted_decay": cfg.weighted_decay,
+        "embed_dim": model_cfg.embed_dim,
+    }
+    if model_type == "cnn":
+        model_config_snapshot.update(
+            {
+                "cnn_num_filters": model_cfg.cnn_num_filters,
+                "cnn_kernel_sizes": model_cfg.cnn_kernel_sizes,
+            }
+        )
+    elif model_type == "lstm":
+        model_config_snapshot.update(
+            {
+                "lstm_hidden_dim": model_cfg.lstm_hidden_dim,
+                "lstm_num_layers": model_cfg.lstm_num_layers,
+                "lstm_bidirectional": model_cfg.lstm_bidirectional,
+                "lstm_dropout": model_cfg.lstm_dropout,
+            }
+        )
+    config_path = os.path.join(cfg.output_dir, "model_config.json")
+    with open(config_path, "w", encoding="utf-8") as f:
+        json.dump(model_config_snapshot, f, indent=2)
+    logger.info("Saved model config snapshot to %s", config_path)
+
+    # Measure tokenizer coverage — test split is most meaningful (unseen by tokenizer)
+    logger.info(
+        "Computing tokenizer coverage on all splits (key metric: test split)..."
+    )
+    compute_tokenizer_coverage(tokenizer, data, cfg.output_dir)
+
     return results
 
 

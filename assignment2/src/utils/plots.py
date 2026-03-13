@@ -17,6 +17,12 @@ def plot_training_curves(cfg: TrainingConfig, model_name: str, history: list) ->
     val_loss = [h["val_loss"] for h in history]
     train_acc = [h["train_acc"] for h in history]
     val_acc = [h["val_acc"] for h in history]
+    # train_f1 = [h["train_f1"] for h in history]
+    # val_f1 = [h["val_f1"] for h in history]
+
+    # epoch 0 has no train metrics — filter Nones for ylim calculation only
+    all_loss = [v for v in train_loss + val_loss if v is not None]
+    all_acc = [v for v in train_acc + val_acc if v is not None]
 
     plt.figure(figsize=(12, 5))
 
@@ -25,9 +31,7 @@ def plot_training_curves(cfg: TrainingConfig, model_name: str, history: list) ->
     plt.plot(epochs, val_loss, label="Val Loss")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
-    plt.ylim(
-        0, max(max(train_loss + val_loss) * 1.1, 1.0)
-    )  # Set y-axis limit for better visualization
+    plt.ylim(0, max(max(all_loss) * 1.1, 1.0))
     plt.title("Training and Validation Loss for " + model_name.upper())
     plt.legend()
 
@@ -36,11 +40,20 @@ def plot_training_curves(cfg: TrainingConfig, model_name: str, history: list) ->
     plt.plot(epochs, val_acc, label="Val Acc")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
-    plt.ylim(
-        0, max(max(train_acc + val_acc) * 1.1, 1.0)
-    )  # Set y-axis limit for better visualization
+    plt.ylim(0, max(max(all_acc) * 1.1, 1.0))
     plt.title("Training and Validation Accuracy for " + model_name.upper())
     plt.legend()
+
+    # plt.subplot(1, 2, 3)
+    # plt.plot(epochs, train_f1, label="Train F1")
+    # plt.plot(epochs, val_f1, label="Val F1")
+    # plt.xlabel("Epoch")
+    # plt.ylabel("F1 Score")
+    # plt.ylim(
+    #     0, max(max(train_f1 + val_f1) * 1.1, 1.0)
+    # )  # Set y-axis limit for better visualization
+    # plt.title("Training and Validation F1 Score for " + model_name.upper())
+    # plt.legend()
 
     plt.tight_layout()
 
@@ -148,5 +161,6 @@ def plot_parallel_coordinates(
     # Save as HTML for interactivity
     output_path = f"{cfg.output_dir}/hyperparameter_search_{model_name}.html"
     fig.write_html(output_path)
+    logger.info("Saved parallel coordinates plot to %s", output_path)
     logger.info("Saved parallel coordinates plot to %s", output_path)
     logger.info("Saved parallel coordinates plot to %s", output_path)

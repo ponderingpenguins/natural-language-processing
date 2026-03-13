@@ -1,16 +1,18 @@
 """Hyperparameter tuning utilities for neural text classifiers."""
 
 import json
+import time
 from itertools import product
 from typing import Any, Dict, List
 
 import torch
-from utils.data_utils import create_dataloaders
 from models.cnn import CNN
 from models.lstm import LSTM
 from penguinlp.config import TrainingConfig
 from penguinlp.helpers import logger
 from tqdm import tqdm
+from utils.data_utils import create_dataloaders, get_tokenizer_vocab_size
+
 from .training import DEVICE, evaluate, set_seed, train
 
 
@@ -43,6 +45,7 @@ def tune_hyperparameters(
     """
     logger.info("Starting hyperparameter tuning for %s", model_type.upper())
     logger.info("Parameter grid: %s", param_grid)
+    tuning_start = time.time()
 
     # Create dataloaders once (data/tokenizer do not change across combinations)
     train_loader, val_loader, _ = create_dataloaders(
@@ -69,13 +72,14 @@ def tune_hyperparameters(
         logger.info("=" * 80)
 
         try:
+            combo_start = time.time()
             # Set seed for reproducibility
             set_seed(cfg.seed if hasattr(cfg, "seed") else 42)
 
             # Create model with current hyperparameters
             if model_type == "cnn":
                 model = CNN(
-                    vocab_size=len(tokenizer.vocab),
+                    vocab_size=get_tokenizer_vocab_size(tokenizer),
                     embed_dim=params.get("embed_dim", 128),
                     num_filters=params.get("num_filters", 100),
                     kernel_sizes=params.get("kernel_sizes", [3, 5, 7]),
@@ -83,7 +87,7 @@ def tune_hyperparameters(
                 )
             elif model_type == "lstm":
                 model = LSTM(
-                    vocab_size=len(tokenizer.vocab),
+                    vocab_size=get_tokenizer_vocab_size(tokenizer),
                     embed_dim=params.get("embed_dim", 128),
                     hidden_dim=params.get("hidden_dim", 256),
                     num_classes=cfg.num_classes,
@@ -118,6 +122,7 @@ def tune_hyperparameters(
                 "dev_f1": float(dev_f1),
                 "dev_acc": float(val_metrics["acc"]),
                 "dev_loss": float(val_metrics["loss"]),
+                "train_time_seconds": round(time.time() - combo_start, 3),
             }
             results.append(result)
 
@@ -163,6 +168,7 @@ def tune_hyperparameters(
         "best_config": best_config,
         "best_f1": float(best_f1),
         "param_names": param_names,
+        "total_tuning_time_seconds": round(time.time() - tuning_start, 3),
     }
 
 
@@ -172,16 +178,32 @@ def save_tuning_results(
     """Save hyperparameter tuning results to a JSON file."""
     output_path = f"{cfg.output_dir}/hyperparameter_tuning_{model_name}.json"
 
+    # Compute rank of best config by dev_f1
+    sorted_results = sorted(
+        tuning_results["results"], key=lambda x: x.get("dev_f1", 0.0), reverse=True
+    )
+    best_config_rank = next(
+        (
+            i + 1
+            for i, r in enumerate(sorted_results)
+            if r["params"] == tuning_results["best_config"]
+        ),
+        None,
+    )
+
     # Format results for saving
     save_data = {
         "model_type": model_name,
         "best_config": tuning_results["best_config"],
+        "best_config_rank": best_config_rank,
         "best_f1": tuning_results["best_f1"],
+        "total_tuning_time_seconds": tuning_results.get("total_tuning_time_seconds"),
         "all_results": tuning_results["results"],
     }
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(save_data, f, indent=2)
 
+    logger.info("Saved tuning results to %s", output_path)
     logger.info("Saved tuning results to %s", output_path)
     logger.info("Saved tuning results to %s", output_path)
