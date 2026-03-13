@@ -1,9 +1,9 @@
 
-\subsection{Best hyperparameters}
+\subsection{Fine-tuning base models}
 
 Table~\ref{tab:best_configs} summarises the best hyperparameters found during the tuning phase for each model and sequence length. The CNN consistently preferred a large embedding dimension (512), a high number of filters (300), kernel sizes [3, 5, 7], and a learning rate of 0.001. The LSTM favoured lower embedding dimensions (128--256) and hidden dimensions (128--256), also with a learning rate of 0.001. Interestingly, both architectures benefited from very low weight decay (1e-5 or 0.0).
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{lllllllll}
@@ -22,13 +22,13 @@ LSTM-256 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 0.0 \\
 \label{tab:best_configs}
 \end{table}
 
-\subsection{Test set performance}
+\subsection{Test set performance of base models}
 
 Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores across all hyperparameter search trials for each run.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
+\includegraphics[width=0.8\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
 \caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model and sequence length. Higher and tighter distributions indicate more stable tuning.}
 \label{fig:hyperparameter_devf1_distributions}
 \end{figure}
@@ -38,7 +38,7 @@ The test results are shown in Table~\ref{tab:test_results}. The CNN model achiev
 
 Both models improved as the maximum sequence length increased from 64 to 256 tokens. For the CNN, macro-F1 increased from 90.59\% to 90.78\%. For the LSTM, macro-F1 increased from 89.58\% to 90.72\%. The difference between the two models was largest at sequence length 64 and smallest at sequence length 256.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{llrrrr}
@@ -61,20 +61,20 @@ LSTM-256 & 256 & 0.9082 & 0.9071 & 0.9072 \\
 
 Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary with sequence length.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/test_metrics_vs_seq.png}
+\includegraphics[width=0.8\textwidth]{../figures/generated/test_metrics_vs_seq.png}
 \caption{Test accuracy and macro-F1 as a function of maximum sequence length for CNN and LSTM.}
 \label{fig:test_metrics_vs_seq}
 \end{figure}
 
-The overall trend is clear: both CNN and LSTM improve as the maximum sequence length increases from 64 to 256 tokens. The CNN is slightly better than the LSTM at all three sequence lengths. At seq64, the gap is about 1 percentage point in macro-F1, while at seq256 the gap becomes very small (90.78\% vs. 90.72\%).
+The overall trend is clear: Both CNN and LSTM improve as the maximum sequence length increases from 64 to 256 tokens, yet the relatively small scale of the improvement should be noted (CNN: +0.19\%, LSTM: +1.14\%). The CNN is slightly better than the LSTM at all three sequence lengths. At seq64, the gap is about 1 percentage point in macro-F1, while at seq256 the gap becomes very small (90.78\% vs. 90.72\%). 
 
 \subsection{Class-wise analysis}
 
 Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/generated/class_f1_heatmap.png}
 \caption{Heatmap of per-class test F1 scores across all runs. World and Sports are easier to classify; Business is the most challenging.}
@@ -88,9 +88,9 @@ The World and Sports classes are generally easier to classify, with F1 scores ab
 
 Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs (with best hyperparameters on the full training set).
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../figures/generated/full_training_curves_comparison.png}
+\includegraphics[width=0.8\textwidth]{../figures/generated/full_training_curves_comparison.png}
 \caption{Training and validation loss/accuracy curves for all six runs. Both models show rapid early convergence and stable learning trajectories.}
 \label{fig:full_training_curves_comparison}
 \end{figure}

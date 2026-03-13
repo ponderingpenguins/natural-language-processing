@@ -17,6 +17,8 @@ def plot_training_curves(cfg: TrainingConfig, model_name: str, history: list) ->
     val_loss = [h["val_loss"] for h in history]
     train_acc = [h["train_acc"] for h in history]
     val_acc = [h["val_acc"] for h in history]
+    # train_f1 = [h["train_f1"] for h in history]
+    # val_f1 = [h["val_f1"] for h in history]
 
     plt.figure(figsize=(12, 5))
 
@@ -41,6 +43,17 @@ def plot_training_curves(cfg: TrainingConfig, model_name: str, history: list) ->
     )  # Set y-axis limit for better visualization
     plt.title("Training and Validation Accuracy for " + model_name.upper())
     plt.legend()
+
+    # plt.subplot(1, 2, 3)
+    # plt.plot(epochs, train_f1, label="Train F1")
+    # plt.plot(epochs, val_f1, label="Val F1")
+    # plt.xlabel("Epoch")
+    # plt.ylabel("F1 Score")
+    # plt.ylim(
+    #     0, max(max(train_f1 + val_f1) * 1.1, 1.0)
+    # )  # Set y-axis limit for better visualization
+    # plt.title("Training and Validation F1 Score for " + model_name.upper())
+    # plt.legend()
 
     plt.tight_layout()
 

@@ -15,8 +15,8 @@ Run commands from `assignment2/src`.
 For a one-command reproducibility of results, use:
 
 ```bash
-file ./assignment2/src/run_experiments.sh +x # make the script executable
-./assignment2/src/run_experiments.sh
+chmod +x ./run_experiments.sh # make the script executable
+./run_experiments.sh
 ```
 
 ## Execution modes
