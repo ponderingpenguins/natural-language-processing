@@ -18,6 +18,7 @@ import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -30,8 +31,15 @@ class TrainingPoint:
     epoch: int
     train_loss: float
     train_acc: float
+    train_f1: float
     val_loss: float
     val_acc: float
+    val_f1: float
+    train_precision: Optional[float] = None
+    train_recall: Optional[float] = None
+    val_precision: Optional[float] = None
+    val_recall: Optional[float] = None
+    epoch_time_seconds: Optional[float] = None
 
 
 @dataclass
@@ -171,8 +179,15 @@ def parse_training_tables_from_log(log_path: Path) -> list[list[TrainingPoint]]:
                     epoch=int(row_match.group(1)),
                     train_loss=float(row_match.group(2)),
                     train_acc=float(row_match.group(3)),
+                    train_f1=float(row_match.group(3)),
+                    train_precision=None,
+                    train_recall=None,
                     val_loss=float(row_match.group(4)),
                     val_acc=float(row_match.group(5)),
+                    val_f1=float(row_match.group(5)),
+                    val_precision=None,
+                    val_recall=None,
+                    epoch_time_seconds=None,
                 )
 
                 if current_block and point.epoch <= current_block[-1].epoch:
@@ -215,6 +230,53 @@ def map_run_to_log(src_dir: Path) -> dict[tuple[str, int], Path]:
     return mapping
 
 
+def parse_training_history_from_results(results_path: Path) -> list[TrainingPoint]:
+    """Read epoch-level metrics from training_results.json history."""
+    payload = json.loads(results_path.read_text(encoding="utf-8"))
+    history = payload.get("history", [])
+    points: list[TrainingPoint] = []
+
+    for item in history:
+        points.append(
+            TrainingPoint(
+                epoch=int(item["epoch"]),
+                train_loss=float(item["train_loss"]),
+                train_acc=float(item["train_acc"]),
+                train_f1=float(item.get("train_f1", item["train_acc"])),
+                train_precision=(
+                    float(item["train_precision"])
+                    if item.get("train_precision") is not None
+                    else None
+                ),
+                train_recall=(
+                    float(item["train_recall"])
+                    if item.get("train_recall") is not None
+                    else None
+                ),
+                val_loss=float(item["val_loss"]),
+                val_acc=float(item["val_acc"]),
+                val_f1=float(item.get("val_f1", item["val_acc"])),
+                val_precision=(
+                    float(item["val_precision"])
+                    if item.get("val_precision") is not None
+                    else None
+                ),
+                val_recall=(
+                    float(item["val_recall"])
+                    if item.get("val_recall") is not None
+                    else None
+                ),
+                epoch_time_seconds=(
+                    float(item["epoch_time_seconds"])
+                    if item.get("epoch_time_seconds") is not None
+                    else None
+                ),
+            )
+        )
+
+    return points
+
+
 def load_run_result(run_dir: Path, log_map: dict[tuple[str, int], Path]) -> RunResult:
     """Load all artifacts for one run directory."""
     run_match = RUN_DIR_PATTERN.match(run_dir.name)
@@ -231,12 +293,16 @@ def load_run_result(run_dir: Path, log_map: dict[tuple[str, int], Path]) -> RunR
     report_metrics = parse_classification_report(report_path)
 
     training_history: list[TrainingPoint] = []
-    log_path = log_map.get((model, seq_len))
-    if log_path is not None:
-        blocks = parse_training_tables_from_log(log_path)
-        if blocks:
-            blocks = sorted(blocks, key=len)
-            training_history = blocks[-1]
+    training_results_path = run_dir / "training_results.json"
+    if training_results_path.exists():
+        training_history = parse_training_history_from_results(training_results_path)
+    else:
+        log_path = log_map.get((model, seq_len))
+        if log_path is not None:
+            blocks = parse_training_tables_from_log(log_path)
+            if blocks:
+                blocks = sorted(blocks, key=len)
+                training_history = blocks[-1]
 
     return RunResult(
         model=model,
@@ -280,8 +346,15 @@ def write_csv_summaries(out_dir: Path, runs: list[RunResult]) -> None:
                     "epoch": point.epoch,
                     "train_loss": point.train_loss,
                     "train_acc": point.train_acc,
+                    "train_f1": point.train_f1,
+                    "train_precision": point.train_precision,
+                    "train_recall": point.train_recall,
                     "val_loss": point.val_loss,
                     "val_acc": point.val_acc,
+                    "val_f1": point.val_f1,
+                    "val_precision": point.val_precision,
+                    "val_recall": point.val_recall,
+                    "epoch_time_seconds": point.epoch_time_seconds,
                 }
             )
 
@@ -337,6 +410,265 @@ def write_best_config_summary(out_dir: Path, runs: list[RunResult]) -> None:
         writer = csv.DictWriter(file_handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _format_latex_number(value: object) -> str:
+    """Format numeric values for compact LaTeX table output."""
+    if isinstance(value, bool):
+        return "Yes" if value else "No"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, float):
+        if value == 0.0:
+            return "0.0"
+        if abs(value) < 1e-4:
+            return f"{value:.0e}".replace("e-0", "e-").replace("e+0", "e+")
+        return f"{value:.6f}".rstrip("0").rstrip(".")
+    return str(value)
+
+
+def _resolve_value(run: RunResult, *keys: str) -> object | None:
+    """Get first present value from run best_config or run model_config.json."""
+    for key in keys:
+        if key in run.best_config:
+            return run.best_config[key]
+
+    model_config_path = run.run_dir / "model_config.json"
+    if model_config_path.exists():
+        model_cfg = json.loads(model_config_path.read_text(encoding="utf-8"))
+        for key in keys:
+            if key in model_cfg:
+                return model_cfg[key]
+
+    return None
+
+
+def _best_config_table_row(run: RunResult) -> list[str]:
+    """Create one row for the best-config LaTeX table."""
+    model = run.model.lower()
+
+    lr = _resolve_value(run, "lr", "learning_rate")
+    embed = _resolve_value(run, "embed_dim")
+    weight_decay = _resolve_value(run, "weight_decay", "weighted_decay")
+
+    if model == "cnn":
+        filters = _resolve_value(run, "num_filters", "cnn_num_filters")
+        hidden = "---"
+        bilstm = "---"
+        dropout = _resolve_value(run, "dropout", "cnn_dropout")
+    else:
+        filters = "---"
+        hidden = _resolve_value(run, "hidden_dim", "lstm_hidden_dim")
+        bilstm = _resolve_value(run, "bidirectional", "lstm_bidirectional")
+        dropout = _resolve_value(run, "dropout", "lstm_dropout")
+
+    return [
+        model.upper(),
+        str(run.seq_len),
+        _format_latex_number(embed) if embed is not None else "---",
+        _format_latex_number(filters) if filters != "---" else "---",
+        _format_latex_number(hidden) if hidden != "---" else "---",
+        _format_latex_number(bilstm) if bilstm != "---" else "---",
+        _format_latex_number(lr) if lr is not None else "---",
+        _format_latex_number(dropout) if dropout is not None else "---",
+        _format_latex_number(weight_decay) if weight_decay is not None else "---",
+    ]
+
+
+def build_main_vs_ablation_latex_table(
+    runs: list[RunResult],
+    main_seq_len: int = 128,
+    caption: str = (
+        "Main comparison at sequence length 128 (CNN vs. LSTM), "
+        "followed by sequence-length ablations. "
+        "Embed: embedding dimension, WD: weight decay."
+    ),
+    label: str = "tab:main_vs_ablation",
+) -> str:
+    """Build LaTeX table with main seq-length comparison and ablation rows."""
+    main_rows: list[RunResult] = []
+    for model in ("cnn", "lstm"):
+        match = next(
+            (
+                run
+                for run in runs
+                if run.model.lower() == model and run.seq_len == main_seq_len
+            ),
+            None,
+        )
+        if match is None:
+            raise ValueError(
+                f"Missing {model.upper()} run for seq_len={main_seq_len}; cannot build main table."
+            )
+        main_rows.append(match)
+
+    ablation_rows = sorted(
+        [run for run in runs if run.seq_len != main_seq_len],
+        key=lambda item: (0 if item.model.lower() == "cnn" else 1, item.seq_len),
+    )
+
+    lines = [
+        r"\begin{table}[h]",
+        r"\centering",
+        r"\small",
+        r"\begin{tabular}{lllllllll}",
+        r"\toprule",
+        r"\textbf{Model} & \textbf{Seq} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\",
+        r"\midrule",
+        rf"\multicolumn{{9}}{{l}}{{\textit{{Main model comparison (seq length = {main_seq_len})}}}} \\",
+    ]
+
+    for run in main_rows:
+        row = _best_config_table_row(run)
+        lines.append(" & ".join(f"\\textbf{{{value}}}" for value in row) + r" \\")
+
+    lines.append(r"\midrule")
+    lines.append(r"\multicolumn{9}{l}{\textit{Ablation: sequence length}} \\")
+
+    for run in ablation_rows:
+        lines.append(" & ".join(_best_config_table_row(run)) + r" \\")
+
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            f"\\caption{{{caption}}}",
+            f"\\label{{{label}}}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _select_main_and_ablation_runs(
+    runs: list[RunResult], main_seq_len: int
+) -> tuple[list[RunResult], list[RunResult]]:
+    """Split runs into main rows (CNN/LSTM at one seq) and ablation rows."""
+    main_rows: list[RunResult] = []
+    for model in ("cnn", "lstm"):
+        match = next(
+            (
+                run
+                for run in runs
+                if run.model.lower() == model and run.seq_len == main_seq_len
+            ),
+            None,
+        )
+        if match is None:
+            raise ValueError(
+                f"Missing {model.upper()} run for seq_len={main_seq_len}; cannot build table."
+            )
+        main_rows.append(match)
+
+    ablation_rows = sorted(
+        [run for run in runs if run.seq_len != main_seq_len],
+        key=lambda item: (0 if item.model.lower() == "cnn" else 1, item.seq_len),
+    )
+    return main_rows, ablation_rows
+
+
+def write_main_vs_ablation_latex_table(
+    out_dir: Path, runs: list[RunResult], main_seq_len: int = 128
+) -> Path:
+    """Write LaTeX table for report inclusion via \\input{}."""
+    table_text = build_main_vs_ablation_latex_table(runs, main_seq_len=main_seq_len)
+    output_path = out_dir / "best_config_main_vs_ablation.tex"
+    output_path.write_text(table_text + "\n", encoding="utf-8")
+    return output_path
+
+
+def _results_table_row(
+    run: RunResult,
+    best_scores: dict[str, float],
+    emphasize_main: bool = False,
+) -> list[str]:
+    """Create one row for the results LaTeX table."""
+
+    def format_metric(value: float, metric_key: str) -> str:
+        text = f"{value:.4f}"
+        is_best = abs(value - best_scores[metric_key]) < 1e-12
+        return f"\\textbf{{{text}}}" if is_best else text
+
+    model = run.model.upper()
+    seq_len = str(run.seq_len)
+    if emphasize_main:
+        model = f"\\textbf{{{model}}}"
+        seq_len = f"\\textbf{{{seq_len}}}"
+
+    return [
+        model,
+        seq_len,
+        format_metric(run.best_dev_f1, "best_dev_f1"),
+        format_metric(run.test_accuracy, "test_accuracy"),
+        format_metric(run.macro_f1, "macro_f1"),
+    ]
+
+
+def build_results_main_vs_ablation_latex_table(
+    runs: list[RunResult],
+    main_seq_len: int = 128,
+    caption: str = (
+        "Main comparison at sequence length 128 (CNN vs. LSTM), "
+        "followed by sequence-length ablations. "
+        "Dev F1 is the best development macro-F1 found during tuning. "
+        "Best scores per metric column are bolded."
+    ),
+    label: str = "tab:test_results",
+) -> str:
+    """Build LaTeX results table with main and ablation sections."""
+    main_rows, ablation_rows = _select_main_and_ablation_runs(runs, main_seq_len)
+    best_scores = {
+        "best_dev_f1": max(run.best_dev_f1 for run in runs),
+        "test_accuracy": max(run.test_accuracy for run in runs),
+        "macro_f1": max(run.macro_f1 for run in runs),
+    }
+
+    lines = [
+        r"\begin{table}[h]",
+        r"\centering",
+        r"\small",
+        r"\begin{tabular}{llrrr}",
+        r"\toprule",
+        r"\textbf{Model} & \textbf{Seq Len} & \textbf{Dev F1} & \textbf{Test Acc} & \textbf{Macro F1} \\",
+        r"\midrule",
+        rf"\multicolumn{{5}}{{l}}{{\textit{{Main model comparison (seq length = {main_seq_len})}}}} \\",
+    ]
+
+    for run in main_rows:
+        lines.append(
+            " & ".join(_results_table_row(run, best_scores, emphasize_main=True))
+            + r" \\",
+        )
+
+    lines.append(r"\midrule")
+    lines.append(r"\multicolumn{5}{l}{\textit{Ablation: sequence length}} \\")
+
+    for run in ablation_rows:
+        lines.append(" & ".join(_results_table_row(run, best_scores)) + r" \\")
+
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            f"\\caption{{{caption}}}",
+            f"\\label{{{label}}}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def write_results_main_vs_ablation_latex_table(
+    out_dir: Path, runs: list[RunResult], main_seq_len: int = 128
+) -> Path:
+    """Write LaTeX results table for report inclusion via \\input{}."""
+    table_text = build_results_main_vs_ablation_latex_table(
+        runs,
+        main_seq_len=main_seq_len,
+    )
+    output_path = out_dir / "test_results_main_vs_ablation.tex"
+    output_path.write_text(table_text + "\n", encoding="utf-8")
+    return output_path
 
 
 def plot_test_metrics_vs_seq(out_dir: Path, runs: list[RunResult]) -> None:
@@ -551,22 +883,46 @@ def plot_class_delta_by_seq(out_dir: Path, runs: list[RunResult]) -> None:
     plt.close(fig)
 
 
-def plot_hyperparameter_distributions(out_dir: Path, runs: list[RunResult]) -> None:
-    """Plot tuning-score distributions for each run."""
-    runs_sorted = sorted(runs, key=lambda run: (run.model, run.seq_len))
-    labels = [run.run_label for run in runs_sorted]
-    distributions = [run.all_dev_f1 for run in runs_sorted]
+def plot_hyperparameter_distributions(out_dir: Path, src_dir: Path) -> None:
+    """Plot Dev-F1 distributions from dedicated model tuning runs."""
+    labels: list[str] = []
+    distributions: list[list[float]] = []
+    models_present: list[str] = []
+
+    for model in ["cnn", "lstm"]:
+        tuning_json = (
+            src_dir
+            / f"experiment_{model}_tuning"
+            / f"hyperparameter_tuning_{model}.json"
+        )
+        if not tuning_json.exists():
+            continue
+
+        payload = json.loads(tuning_json.read_text(encoding="utf-8"))
+        all_results = payload.get("all_results", [])
+        dev_f1_scores = [
+            float(item["dev_f1"]) for item in all_results if "dev_f1" in item
+        ]
+        if not dev_f1_scores:
+            continue
+
+        labels.append(f"{model.upper()} tuning")
+        distributions.append(dev_f1_scores)
+        models_present.append(model)
+
+    if not distributions:
+        return
 
     fig, ax = plt.subplots(figsize=(12, 5))
     bp = ax.boxplot(distributions, patch_artist=True, tick_labels=labels)
 
     palette = sns.color_palette("Set2", 2)
     for i, patch in enumerate(bp["boxes"]):
-        patch.set_facecolor(palette[0] if runs_sorted[i].model == "cnn" else palette[1])
+        patch.set_facecolor(palette[0] if models_present[i] == "cnn" else palette[1])
         patch.set_alpha(0.7)
 
     ax.set_ylabel("Dev F1")
-    ax.set_title("Hyperparameter Search Dev-F1 Distributions")
+    ax.set_title("Hyperparameter Search Dev-F1 Distributions (Tuning Only)")
     ax.tick_params(axis="x", rotation=25)
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()
@@ -645,6 +1001,47 @@ def plot_full_training_curves(out_dir: Path, runs: list[RunResult]) -> None:
     plt.close(fig)
 
 
+def plot_f1_per_epoch(out_dir: Path, runs: list[RunResult]) -> None:
+    """Plot epoch-level train/validation F1 curves for final training runs."""
+    if not any(run.training_history for run in runs):
+        return
+
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5), sharex=False, sharey=True)
+    metric_specs = [
+        ("train_f1", "Train F1 per Epoch", axes[0]),
+        ("val_f1", "Validation F1 per Epoch", axes[1]),
+    ]
+
+    for run in sorted(runs, key=lambda item: (item.model, item.seq_len)):
+        if not run.training_history:
+            continue
+
+        epochs = [point.epoch for point in run.training_history]
+        style = "-" if run.model == "cnn" else "--"
+
+        for metric_name, title, axis in metric_specs:
+            values = [getattr(point, metric_name) for point in run.training_history]
+            axis.plot(
+                epochs,
+                values,
+                linestyle=style,
+                marker="o",
+                markersize=3,
+                linewidth=1.7,
+                label=run.run_label,
+            )
+            axis.set_title(title)
+            axis.set_xlabel("Epoch")
+            axis.set_ylabel("F1")
+            axis.grid(alpha=0.25)
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", ncol=3, frameon=False)
+    fig.tight_layout(rect=(0, 0.08, 1, 1))
+    fig.savefig(out_dir / "f1_per_epoch_comparison.png", dpi=220)
+    plt.close(fig)
+
+
 def collect_runs(src_dir: Path) -> list[RunResult]:
     """Load all run directories in assignment2/src."""
     log_map = map_run_to_log(src_dir)
@@ -673,6 +1070,8 @@ def main() -> None:
 
     write_csv_summaries(out_dir, runs)
     write_best_config_summary(out_dir, runs)
+    write_main_vs_ablation_latex_table(out_dir, runs, main_seq_len=128)
+    write_results_main_vs_ablation_latex_table(out_dir, runs, main_seq_len=128)
     plot_test_metrics_vs_seq(out_dir, runs)
     plot_dev_vs_test_f1(out_dir, runs)
     plot_cnn_lstm_delta_by_seq(out_dir, runs)
@@ -680,9 +1079,10 @@ def main() -> None:
     plot_class_delta_by_seq(out_dir, runs)
     plot_best_hyperparameter_trends(out_dir, runs, model="cnn")
     plot_best_hyperparameter_trends(out_dir, runs, model="lstm")
-    plot_hyperparameter_distributions(out_dir, runs)
+    plot_hyperparameter_distributions(out_dir, src_dir)
     plot_class_f1_heatmap(out_dir, runs)
     plot_full_training_curves(out_dir, runs)
+    plot_f1_per_epoch(out_dir, runs)
 
     print(f"Loaded {len(runs)} runs.")
     print(f"Saved visualizations and CSV summaries to: {out_dir}")

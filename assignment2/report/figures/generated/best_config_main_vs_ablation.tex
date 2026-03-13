@@ -1,0 +1,21 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lllllllll}
+\toprule
+\textbf{Model} & \textbf{Seq} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\
+\midrule
+\multicolumn{9}{l}{\textit{Main model comparison (seq length = 128)}} \\
+\textbf{CNN} & \textbf{128} & \textbf{512} & \textbf{300} & \textbf{---} & \textbf{---} & \textbf{0.001} & \textbf{0.5} & \textbf{1e-5} \\
+\textbf{LSTM} & \textbf{128} & \textbf{128} & \textbf{---} & \textbf{256} & \textbf{Yes} & \textbf{0.001} & \textbf{0.5} & \textbf{0.0} \\
+\midrule
+\multicolumn{9}{l}{\textit{Ablation: sequence length}} \\
+CNN & 64 & 512 & 100 & --- & --- & 0.001 & 0.3 & 1e-5 \\
+CNN & 256 & 512 & 300 & --- & --- & 0.001 & 0.5 & 1e-5 \\
+LSTM & 64 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 1e-5 \\
+LSTM & 256 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 0.0 \\
+\bottomrule
+\end{tabular}
+\caption{Main comparison at sequence length 128 (CNN vs. LSTM), followed by sequence-length ablations. Embed: embedding dimension, WD: weight decay.}
+\label{tab:main_vs_ablation}
+\end{table}

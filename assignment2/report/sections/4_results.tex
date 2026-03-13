@@ -3,24 +3,8 @@
 
 Table~\ref{tab:best_configs} summarises the best hyperparameters found during the tuning phase for each model and sequence length. The CNN consistently preferred a large embedding dimension (512), a high number of filters (300), kernel sizes [3, 5, 7], and a learning rate of 0.001. The LSTM favoured lower embedding dimensions (128--256) and hidden dimensions (128--256), also with a learning rate of 0.001. Interestingly, both architectures benefited from very low weight decay (1e-5 or 0.0).
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{lllllllll}
-\toprule
-\textbf{Run} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\
-\midrule
-CNN-64  & 512 & 300 & --- & --- & 0.001 & 0.3 & 1e-5 \\
-CNN-128 & 512 & 300 & --- & --- & 0.001 & 0.5 & 1e-5 \\
-CNN-256 & 512 & 300 & --- & --- & 0.001 & 0.5 & 1e-5 \\
-LSTM-64  & 256 & --- & 128 & Yes & 0.001 & 0.5 & 1e-5 \\
-LSTM-128 & 128 & --- & 256 & Yes & 0.001 & 0.5 & 0.0 \\
-LSTM-256 & 256 & --- & 128 & Yes & 0.001 & 0.5 & 0.0 \\
-\bottomrule
-\end{tabular}
-\caption{Best hyperparameter configurations for each run. Embed: embedding dimension, WD: weight decay.}
-\label{tab:best_configs}
-\end{table}
+
+\import{../figures/generated/}{best_config_main_vs_ablation.tex}
 
 \subsection{Test set performance}
 
@@ -38,24 +22,8 @@ The test results are shown in Table~\ref{tab:test_results}. The CNN model achiev
 
 Both models improved as the maximum sequence length increased from 64 to 256 tokens. For the CNN, macro-F1 increased from 90.59\% to 90.78\%. For the LSTM, macro-F1 increased from 89.58\% to 90.72\%. The difference between the two models was largest at sequence length 64 and smallest at sequence length 256.
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{llrrrr}
-\toprule
-\textbf{Model} & \textbf{Seq Len} & \textbf{Dev F1} & \textbf{Test Acc} & \textbf{Macro F1} \\
-\midrule
-CNN-64  & 64  & 0.9025 & 0.9061 & 0.9059 \\
-CNN-128 & 128 & 0.9061 & 0.9049 & 0.9047 \\
-CNN-256 & 256 & \textbf{0.9084} & \textbf{0.9079} & \textbf{0.9078} \\
-LSTM-64  & 64  & 0.8986 & 0.8962 & 0.8958 \\
-LSTM-128 & 128 & 0.9026 & 0.8978 & 0.8980 \\
-LSTM-256 & 256 & 0.9082 & 0.9071 & 0.9072 \\
-\bottomrule
-\end{tabular}
-\caption{Test set accuracy and macro-F1 scores. Dev F1 is the best development macro-F1 found during tuning.}
-\label{tab:test_results}
-\end{table}
+
+\import{../figures/generated/}{test_results_main_vs_ablation.tex}
 
 \subsection{Ablation study: effect of maximum sequence length}
 
