@@ -38,6 +38,9 @@ class TrainingConfig:
         run_tuning_only: If True, run only hyperparameter tuning and exit (default: False).
         run_train_only: If True, skip tuning and train using best saved tuning config
             (default: False).
+        tuning_dir: If set, load tuning results from this directory instead of output_dir.
+            Useful for ablation studies where one tuning run is shared across multiple
+            training runs with different hyperparameters (e.g., different max_seq_length).
     """
 
     hf_dataset: str = "sh0416/ag_news"
@@ -68,7 +71,7 @@ class TrainingConfig:
     learning_rate: float = 1e-3  # learning rate for optimizer
     num_epochs: int = 20  # number of training epochs
     tuning_num_epochs: int = 1  # epochs per trial during hyperparameter tuning
-    gradient_clip_norm: float = 5.0  # max norm for gradient clipping
+    gradient_clip_norm: float = 1.0  # max norm for gradient clipping
     early_stopping_patience: int = 3  # patience for early stopping on val loss
     batch_size: int = 4  # batch size for training
     weighted_decay: float = 1e-4  # weight decay for optimizer
@@ -86,3 +89,6 @@ class TrainingConfig:
     # Pipeline execution control
     run_tuning_only: bool = False
     run_train_only: bool = False
+    tuning_dir: str | None = (
+        None  # if set, load tuning results from here instead of output_dir
+    )

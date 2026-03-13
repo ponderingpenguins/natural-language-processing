@@ -99,12 +99,12 @@ def apply_best_hyperparameters(
 
 def load_best_tuning_config(cfg: TrainingConfig, model_type: str) -> dict:
     """Load best hyperparameters from saved tuning JSON."""
-    tuning_file = os.path.join(
-        cfg.output_dir, f"hyperparameter_tuning_{model_type}.json"
-    )
+    source_dir = cfg.tuning_dir if cfg.tuning_dir else cfg.output_dir
+    tuning_file = os.path.join(source_dir, f"hyperparameter_tuning_{model_type}.json")
     if not os.path.exists(tuning_file):
         raise FileNotFoundError(
-            f"Tuning results file not found: {tuning_file}. Run tuning first."
+            f"Tuning results file not found: {tuning_file}. "
+            f"Run tuning first or set tuning_dir to the directory containing the tuning results."
         )
 
     with open(tuning_file, "r", encoding="utf-8") as file_handle:

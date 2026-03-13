@@ -2,6 +2,7 @@
 
 import hashlib
 import html
+import json
 import pickle
 import shutil
 from pathlib import Path
@@ -301,6 +302,140 @@ def create_dataloaders(
     return train_loader, val_loader, test_loader
 
 
+def compute_tokenizer_coverage(tokenizer, data: dict, output_dir: str) -> dict:
+    """Measure tokenizer coverage on train, dev, and test splits.
+
+    Coverage is measured on train (sanity check), dev, and test splits.
+    The test split is the most meaningful: tokens were never seen during
+    tokenizer fitting, so it reflects real-world OOV behaviour.
+
+    Three complementary metrics are reported per split:
+      - token_oov_rate:    fraction of token *instances* that are <UNK>
+      - type_oov_rate:     fraction of unique token *types* not in vocab
+      - document_oov_rate: fraction of documents containing >= 1 <UNK> token
+
+    Args:
+        tokenizer: Fitted tokenizer with .tokenize() and .vocab attributes.
+        data: Dict with 'train', 'dev', 'test' HuggingFace Dataset splits.
+        output_dir: Directory to write tokenizer_coverage.json.
+
+    Returns:
+        Dict with per-split coverage statistics.
+    """
+    vocab = tokenizer.vocab
+    results: dict = {}
+
+    # Text length bucket boundaries (in whitespace-split words)
+    BUCKET_BOUNDARIES = [20, 50]  # short: <20, medium: 20-50, long: >50
+
+    for split_name, split_data in data.items():
+        total_tokens = 0
+        oov_tokens = 0
+        oov_docs = 0
+        total_words = 0
+        all_token_types: set = set()
+        oov_types: set = set()
+        all_word_types: set = set()  # for TTR preservation
+        all_tok_types_ttr: set = set()  # tokenized types for TTR
+
+        # Bucket accumulators: {bucket_name: [total_tokens, oov_tokens, n_docs]}
+        buckets: dict = {
+            "short": [0, 0, 0],
+            "medium": [0, 0, 0],
+            "long": [0, 0, 0],
+        }
+
+        for example in tqdm(split_data, desc=f"Coverage ({split_name})", leave=False):
+            text = example["text"]
+            tokens = tokenizer.tokenize(text)
+            words = text.split()
+            n_words = len(words)
+            n_tokens = len(tokens)
+
+            total_tokens += n_tokens
+            total_words += n_words
+            all_word_types.update(words)
+            all_tok_types_ttr.update(tokens)
+
+            example_has_oov = False
+            for tok in tokens:
+                all_token_types.add(tok)
+                if tok not in vocab:
+                    oov_tokens += 1
+                    oov_types.add(tok)
+                    example_has_oov = True
+            if example_has_oov:
+                oov_docs += 1
+
+            # Assign to length bucket
+            if n_words < BUCKET_BOUNDARIES[0]:
+                bucket = "short"
+            elif n_words <= BUCKET_BOUNDARIES[1]:
+                bucket = "medium"
+            else:
+                bucket = "long"
+            buckets[bucket][0] += n_tokens
+            buckets[bucket][1] += sum(1 for tok in tokens if tok not in vocab)
+            buckets[bucket][2] += 1
+
+        n_docs = len(split_data)
+
+        # TTR: type-token ratio of original words vs. BPE tokens
+        word_ttr = round(len(all_word_types) / max(total_words, 1), 6)
+        token_ttr = round(len(all_tok_types_ttr) / max(total_tokens, 1), 6)
+
+        results[split_name] = {
+            "total_tokens": total_tokens,
+            "oov_tokens": oov_tokens,
+            "token_oov_rate": round(oov_tokens / max(total_tokens, 1), 6),
+            "total_types": len(all_token_types),
+            "oov_types": len(oov_types),
+            "type_oov_rate": round(len(oov_types) / max(len(all_token_types), 1), 6),
+            "total_documents": n_docs,
+            "oov_documents": oov_docs,
+            "document_oov_rate": round(oov_docs / max(n_docs, 1), 6),
+            # Fragmentation
+            "total_words": total_words,
+            "tokens_per_word": round(total_tokens / max(total_words, 1), 4),
+            # TTR preservation
+            "word_ttr": word_ttr,
+            "token_ttr": token_ttr,
+            "ttr_ratio": round(token_ttr / max(word_ttr, 1e-9), 6),
+            # OOV by document length bucket
+            "oov_by_length_bucket": {
+                bucket: {
+                    "total_documents": int(v[2]),
+                    "total_tokens": int(v[0]),
+                    "oov_tokens": int(v[1]),
+                    "token_oov_rate": round(v[1] / max(v[0], 1), 6),
+                }
+                for bucket, v in buckets.items()
+            },
+        }
+        logger.info(
+            "Coverage [%s]: token_oov=%.2f%%, type_oov=%.2f%%, doc_oov=%.2f%%, "
+            "tokens/word=%.2f, ttr_ratio=%.3f",
+            split_name,
+            results[split_name]["token_oov_rate"] * 100,
+            results[split_name]["type_oov_rate"] * 100,
+            results[split_name]["document_oov_rate"] * 100,
+            results[split_name]["tokens_per_word"],
+            results[split_name]["ttr_ratio"],
+        )
+
+    summary = {
+        "vocab_size": len(vocab),
+        "tokenizer_type": type(tokenizer).__name__,
+        "splits": results,
+    }
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    out_path = Path(output_dir) / "tokenizer_coverage.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    logger.info("Saved tokenizer coverage report to %s", out_path)
+    return summary
+
+
 def setup_tokenizer(cfg, train_data) -> object:
     """Setup and return tokenizer, either by loading or building new one.
 
@@ -330,4 +465,5 @@ def setup_tokenizer(cfg, train_data) -> object:
         logger.info("Vocabulary built with %d tokens", len(tokenizer.vocab))
         save_tokenizer(tokenizer, tokenizer_cache_path)
 
+    return tokenizer
     return tokenizer
