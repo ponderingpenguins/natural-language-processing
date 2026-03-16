@@ -26,4 +26,7 @@ For reproducibility see [Assignment 2](./assignment2/README.md).
 
 ## Assignment 3
 
+questions for assignment 3:
+- should we do the 2 slice evalution for both models, or only the BERT model?
+
 Intentionally left blank for now, will be added in the future.
