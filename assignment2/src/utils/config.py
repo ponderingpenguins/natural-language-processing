@@ -1,45 +1,37 @@
 """
-Configuration dataclass for training the TF-IDF classifier.
+Configuration dataclass for Assignment 2 model architectures.
 """
 
 from dataclasses import dataclass, field
 
 
 @dataclass
-class TrainingConfig:
+class ModelConfig:
     """
-    Configuration for training the TF-IDF classifier.
+    Configuration for model architectures in Assignment 2.
+
+    These are model-specific hyperparameters that may not be reusable
+    across different assignments.
 
     Attributes:
-        hf_dataset: The Hugging Face dataset to use (default: "sh0416/ag_news").
-        dev_split: The percentage of training data to use as a dev set (default: 0.1 for 10%).
-        max_features: The maximum number of features for TF-IDF vectorization (default: 10000).
-        max_misclassifications_to_report: The maximum number of misclassified examples to report
-            (default: 20).
-        label_names: Mapping from integer label to human-readable class name.
-        seed: The random seed for reproducibility (default: 67).
+        embed_dim: Embedding dimension for all models.
+        cnn_num_filters: Number of output channels for CNN conv layer.
+        cnn_kernel_sizes: Kernel sizes for CNN conv layers.
+        lstm_hidden_dim: Hidden dimension for LSTM models.
+        lstm_bidirectional: Whether to use bidirectional LSTM.
     """
 
-    hf_dataset: str = "sh0416/ag_news"
-    dev_split: float = (
-        0.1  # percentage of training data to use as dev set (e.g., 0.1 for 10%)
-    )
-    max_misclassifications_to_report: int = 20
-    output_dir: str = "output"  # directory to save misclassified examples
-    label_names: dict[int, str] = field(
-        default_factory=lambda: {
-            1: "World",
-            2: "Sports",
-            3: "Business",
-            4: "Sci/Tech",
-        }
-    )
-    seed: int = 67
+    # Shared parameters
+    embed_dim: int = 128  # embedding dimension for all models
 
-    max_features: int = 10000
-    # unigrams and bigrams
-    ngram_min: int = 1
-    ngram_max: int = 2
-    min_df: int = 2  # filter rare n-grams
-    remove_stopwords: bool = True  # whether to remove stopwords during preprocessing
-    stopword_language: str = "english"  # language for stopword removal
+    # CNN-specific parameters
+    cnn_num_filters: int = 100  # number of convolutional filters
+    cnn_kernel_sizes: list = field(
+        default_factory=lambda: [3, 5, 7]
+    )  # kernel sizes for convolution
+
+    # LSTM-specific parameters
+    lstm_hidden_dim: int = 256  # hidden dimension for LSTM
+    lstm_num_layers: int = 2  # number of stacked LSTM layers
+    lstm_bidirectional: bool = False  # whether to use bidirectional LSTM
+    lstm_dropout: float = 0.5  # dropout probability for LSTM
