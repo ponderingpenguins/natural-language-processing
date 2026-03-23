@@ -1,0 +1,16 @@
+[project]
+name = "src_assignment3"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.1.0",
+    "datasets>=4.8.3",
+    "penguinlp",
+    "torch>=2.10.0",
+    "transformers[torch]>=5.3.0",
+]
+
+[tool.uv.sources]
+penguinlp = { path = "../../penguinlp", editable = true }
