@@ -4,8 +4,9 @@ import torch
 from torch import nn
 
 from utils.tokenizer import BPETokenizer
+from base_model import BaseModel
 
-class LSTM(nn.Module):
+class LSTM(BaseModel):
     """LSTM model for text classification.
 
     Supports both unidirectional and bidirectional LSTM with proper handling
@@ -35,6 +36,7 @@ class LSTM(nn.Module):
         """
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
+        self.tokenizer = BPETokenizer()  # Initialize BPE tokenizer
         self.lstm = nn.LSTM(
             embed_dim,
             hidden_dim,
@@ -86,7 +88,4 @@ class LSTM(nn.Module):
     
     def tokenize(self, dataset: dict):
         """Tokenize input dataset using the provided BPE tokenizer."""
-        tokenizer = BPETokenizer()
-        return tokenizer(dataset["text"])
-        
-        
+        return self.tokenizer(dataset["text"])

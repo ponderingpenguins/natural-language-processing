@@ -1,4 +1,4 @@
-from transformers import dataclass
+from dataclasses import dataclass
 
 @dataclass
 class LSTMConfig:
