@@ -3,6 +3,8 @@
 import hashlib
 import html
 import pickle
+import re
+import string
 import shutil
 from pathlib import Path
 from typing import Any
@@ -26,9 +28,12 @@ def clear_cache_dirs(cfg: Any) -> None:
             logger.info("Cleared cache directory: %s", cache_dir)
 
 
-def preprocess_sample(sample):
+def preprocess_sample(sample, cfg: Any | None = None):
     """Preprocess a single sample if needed."""
     text = sample["text"]
+    lowercase = bool(getattr(cfg, "lowercase", False))
+    punctuation_mode = getattr(cfg, "punctuation_mode", "keep")
+    keep_apostrophe = bool(getattr(cfg, "keep_apostrophe", True))
 
     # html unescaping
     text = html.unescape(text)
@@ -60,6 +65,23 @@ def preprocess_sample(sample):
     # Replace remaining single backslashes (line continuations) with space
     text = text.replace("\\", " ")
 
+    # Optional lowercasing
+    if lowercase:
+        text = text.lower()
+
+    # Optional punctuation handling
+    if punctuation_mode == "separate":
+        # Preserve apostrophes that are part of words (e.g., don't -> don't).
+        text = re.sub(r"(?<=\w)'(?=\w)", "APOSPLACEHOLDER", text)
+        for ch in string.punctuation:
+            text = text.replace(ch, f" {ch} ")
+        text = text.replace("APOSPLACEHOLDER", "'")
+    elif punctuation_mode == "remove":
+        for ch in string.punctuation:
+            if keep_apostrophe and ch == "'":
+                continue
+            text = text.replace(ch, " ")
+
     # Normalize whitespace
     text = " ".join(text.split())
 
@@ -67,18 +89,19 @@ def preprocess_sample(sample):
     return sample
 
 
-def preprocess_data(data):
+def preprocess_data(data, cfg: Any | None = None):
     """Preprocess raw data if needed."""
     # Assuming data is already in the form of list of dicts with 'text' and 'label'
+    preprocess_fn = lambda ex: preprocess_sample(ex, cfg)
 
     data["train"] = data["train"].map(
-        preprocess_sample, batched=False, load_from_cache_file=False
+        preprocess_fn, batched=False, load_from_cache_file=False
     )
     data["dev"] = data["dev"].map(
-        preprocess_sample, batched=False, load_from_cache_file=False
+        preprocess_fn, batched=False, load_from_cache_file=False
     )
     data["test"] = data["test"].map(
-        preprocess_sample, batched=False, load_from_cache_file=False
+        preprocess_fn, batched=False, load_from_cache_file=False
     )
 
     all_labels = []
