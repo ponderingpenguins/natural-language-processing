@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class LSTMConfig:
@@ -23,6 +23,7 @@ class LSTMConfig:
     dropout: float = 0.5  # dropout probability for LSTM
     early_stopping_patience: int = 3  # number of evaluation steps with no improvement to wait before stopping training
 
+@dataclass
 class BERTConfig:
     """
     Hyperparameter configuration for the best BERT-based model architecture for Assignment 3.
@@ -34,8 +35,13 @@ class BERTConfig:
     num_labels: int = 4  # number of output classes for classification
     output_dir: str = "./bert_output"  # directory to save BERT training outputs
     num_train_epochs: int = 15  # number of training epochs for BERT
+    learning_rate: float = 2e-5  # learning rate for AdamW in BERT fine-tuning
+    max_length: int = 256  # max sequence length used during tokenization
     per_device_train_batch_size: int = 16  # batch size for training BERT
     per_device_eval_batch_size: int = 16  # batch size for evaluating BERT
     warmup_steps: int = 500  # number of warmup steps for learning rate scheduler
     logging_dir: str = "./bert_logs"  # directory for BERT training logs
     early_stopping_patience: int = 3  # number of evaluation steps with no improvement to wait before stopping training
+    grid_learning_rates: list[float] = field(default_factory=lambda: [1e-5, 1e-4, 1e-3])
+    grid_max_lengths: list[int] = field(default_factory=lambda: [128, 256, 512])
+    grid_batch_sizes: list[int] = field(default_factory=lambda: [16, 32, 64])

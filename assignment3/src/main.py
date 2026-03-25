@@ -2,11 +2,8 @@ import torch
 
 from penguinlp.config import TrainingConfig
 from penguinlp.helpers import logger
-from models.base_model import BaseModel
-from models.bert import BertClassifier
-from models.lstm import LSTM
 from utils.dataset import load_data, preprocess_data
-from utils.training import train_bert, train_lstm
+from utils.training import run_bert_grid_search
 from utils.config import LSTMConfig, BERTConfig
 
 cfg = TrainingConfig()
@@ -41,10 +38,6 @@ def tokenize_data(data, model):
 def main():
     data = dataset_prep()
     
-    bert_model = BertClassifier()
-    bert_model.bert.to(DEVICE)
-    bert_data = tokenize_data(data, bert_model)
-    
     # lstm_model = LSTM(
     #     lstm_cfg.vocab_size,
     #     lstm_cfg.embed_dim,
@@ -57,9 +50,9 @@ def main():
     # lstm_model.to(DEVICE)
     # lstm_data = tokenize_data(data, lstm_model)
     
-    # Train the BERT model.
-    logger.info("Starting training for BERT model...")
-    train_bert(bert_model, bert_data, bert_cfg)
+    logger.info("Starting grid search for BERT model...")
+    search_results = run_bert_grid_search(data, bert_cfg, tokenize_data, DEVICE)
+    logger.info("Grid search completed. Best trial: %s", search_results["best"])
 
     # # Train the LSTM model.
     # logger.info("Starting training for LSTM model...")
