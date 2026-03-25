@@ -21,4 +21,6 @@ class BertClassifier(BaseModel):
         return self.bert(input_ids=input_ids, attention_mask=attention_mask)
 
     def tokenize(self, dataset: dict):
+        # Return plain token lists for Hugging Face datasets; returning tensors here
+        # adds an extra singleton batch dimension per sample.
         return self.tokenizer(dataset["text"], padding="max_length", truncation=True)

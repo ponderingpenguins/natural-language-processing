@@ -17,7 +17,11 @@ def train_bert(model, data, cfg):
     """Fine-tune a transformer-based model on the provided dataset."""
     training_args = TrainingArguments(
         output_dir=cfg.output_dir,
+        eval_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
         metric_for_best_model='eval_loss',  # Metric to monitor
+        greater_is_better=False,
         num_train_epochs=cfg.num_train_epochs,
         per_device_train_batch_size=cfg.per_device_train_batch_size,
         per_device_eval_batch_size=cfg.per_device_eval_batch_size,

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 from torch import nn
 
 class BaseModel(nn.Module, ABC):
@@ -11,6 +12,6 @@ class BaseModel(nn.Module, ABC):
         super().__init__()
     
     @abstractmethod
-    def tokenize(self, dataset: dict):
+    def tokenize(self, dataset) -> Any:
         """Tokenize input dataset. This method should be overridden by subclasses to implement model-specific tokenization."""
         pass

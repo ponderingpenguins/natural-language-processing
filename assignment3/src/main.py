@@ -41,25 +41,25 @@ def tokenize_data(data, model):
 def main():
     data = dataset_prep()
     
-    # bert_model = BertClassifier()
-    # bert_model.bert.to(DEVICE)
-    # bert_data = tokenize_data(data, bert_model)
+    bert_model = BertClassifier()
+    bert_model.bert.to(DEVICE)
+    bert_data = tokenize_data(data, bert_model)
     
-    lstm_model = LSTM(
-        lstm_cfg.vocab_size,
-        lstm_cfg.embed_dim,
-        lstm_cfg.hidden_dim,
-        lstm_cfg.num_classes,
-        lstm_cfg.num_layers,
-        lstm_cfg.bidirectional,
-        lstm_cfg.dropout,
-    )
-    lstm_model.to(DEVICE)
-    lstm_data = tokenize_data(data, lstm_model)
+    # lstm_model = LSTM(
+    #     lstm_cfg.vocab_size,
+    #     lstm_cfg.embed_dim,
+    #     lstm_cfg.hidden_dim,
+    #     lstm_cfg.num_classes,
+    #     lstm_cfg.num_layers,
+    #     lstm_cfg.bidirectional,
+    #     lstm_cfg.dropout,
+    # )
+    # lstm_model.to(DEVICE)
+    # lstm_data = tokenize_data(data, lstm_model)
     
-    # # Train the BERT model.
-    # logger.info("Starting training for BERT model...")
-    # train_bert(bert_model, bert_data, bert_cfg)
+    # Train the BERT model.
+    logger.info("Starting training for BERT model...")
+    train_bert(bert_model, bert_data, bert_cfg)
 
     # # Train the LSTM model.
     # logger.info("Starting training for LSTM model...")

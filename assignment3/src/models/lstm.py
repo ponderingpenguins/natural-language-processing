@@ -36,7 +36,7 @@ class LSTM(BaseModel):
         """
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.tokenizer = BPETokenizer()  # Initialize BPE tokenizer
+        self.tokenizer = BPETokenizer()
         self.lstm = nn.LSTM(
             embed_dim,
             hidden_dim,
