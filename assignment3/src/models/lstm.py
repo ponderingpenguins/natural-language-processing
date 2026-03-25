@@ -4,7 +4,7 @@ import torch
 from torch import nn
 
 from utils.tokenizer import BPETokenizer
-from base_model import BaseModel
+from .base_model import BaseModel
 
 class LSTM(BaseModel):
     """LSTM model for text classification.

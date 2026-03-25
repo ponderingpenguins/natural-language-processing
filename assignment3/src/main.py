@@ -13,6 +13,8 @@ cfg = TrainingConfig()
 bert_cfg = BERTConfig()
 lstm_cfg = LSTMConfig()
 
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 def dataset_prep():
     data = load_data(cfg)
     logger.info("Loaded dataset %s with splits: %s", cfg.hf_dataset, data.keys())
@@ -37,24 +39,31 @@ def tokenize_data(data, model):
     return data
 
 def main():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data = dataset_prep()
     
-    bert_model = BertClassifier()
-    bert_model.bert.to(device)
-    bert_data = tokenize_data(data, bert_model)
+    # bert_model = BertClassifier()
+    # bert_model.bert.to(DEVICE)
+    # bert_data = tokenize_data(data, bert_model)
     
-    lstm_model = LSTM()
-    lstm_model.to(device)
+    lstm_model = LSTM(
+        lstm_cfg.vocab_size,
+        lstm_cfg.embed_dim,
+        lstm_cfg.hidden_dim,
+        lstm_cfg.num_classes,
+        lstm_cfg.num_layers,
+        lstm_cfg.bidirectional,
+        lstm_cfg.dropout,
+    )
+    lstm_model.to(DEVICE)
     lstm_data = tokenize_data(data, lstm_model)
     
-    # Train the BERT model.
-    logger.info("Starting training for BERT model...")
-    train_bert(bert_model, bert_data, bert_cfg)
+    # # Train the BERT model.
+    # logger.info("Starting training for BERT model...")
+    # train_bert(bert_model, bert_data, bert_cfg)
 
-    # Train the LSTM model.
-    logger.info("Starting training for LSTM model...")
-    train_lstm(lstm_model, lstm_data, lstm_cfg)
+    # # Train the LSTM model.
+    # logger.info("Starting training for LSTM model...")
+    # train_lstm(lstm_model, lstm_data, lstm_cfg)
 
 if __name__ == "__main__":
     main()
