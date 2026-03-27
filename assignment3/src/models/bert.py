@@ -1,37 +1,55 @@
-from transformers import AutoModelForSequenceClassification, BertTokenizer
+import torch.nn as nn
+from omegaconf import DictConfig
+from transformers import AutoModel, BertTokenizer
+from transformers.modeling_outputs import SequenceClassifierOutput
 
-from utils.config import BERTConfig
 from .base_model import BaseModel
 
-cfg = BERTConfig()
 
 class BertClassifier(BaseModel):
-    """
-    A simple BERT-based classifier for text classification tasks.
-    This model uses a pre-trained BERT model as the base and adds a linear layer on top for classification.
-    """
-    def __init__(
-        self,
-        model_name: str = cfg.model_name,
-        num_labels: int = cfg.num_labels,
-        max_length: int = cfg.max_length,
-    ):
+    def __init__(self, config: DictConfig, device=None, **kwargs):
+        """BERT-based classifier for text classification tasks."""
         super().__init__()
-        self.model_name = model_name
-        self.num_labels = num_labels
-        self.max_length = max_length
-        self.bert = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
+        self.model_name = config.model_name
+        self.num_labels = config.num_labels
+        self.max_length = config.max_length
+
+        self.bert = AutoModel.from_pretrained(self.model_name, **kwargs)
         self.tokenizer = BertTokenizer.from_pretrained(self.model_name)
 
-    def forward(self, input_ids, attention_mask):
-        return self.bert(input_ids=input_ids, attention_mask=attention_mask)
+        hidden_size = self.bert.config.hidden_size
+        self.classifier = self._build_head(hidden_size, config)
+        self.loss_fn = nn.CrossEntropyLoss()
+        self.to(device)
 
-    def tokenize(self, dataset: dict):
-        # Return plain token lists for Hugging Face datasets; returning tensors here
-        # adds an extra singleton batch dimension per sample.
+    def _build_head(self, hidden_size: int, config: DictConfig) -> nn.Module:
+        """Build the classification head on top of BERT's pooled output."""
+        dims = [hidden_size] + list(config.get("head_dims", [])) + [self.num_labels]
+        dropout = config.get("head_dropout", 0.1)
+        layers = []
+        for in_dim, out_dim in zip(dims, dims[1:]):
+            layers += [nn.Linear(in_dim, out_dim), nn.ReLU(), nn.Dropout(dropout)]
+        layers = layers[:-2]  # drop final ReLU + Dropout
+        return nn.Sequential(*layers)
+
+    def forward(self, input_ids, attention_mask, labels=None, **kwargs):
+        """Forward pass through the model."""
+        pooled = self.bert(
+            input_ids=input_ids, attention_mask=attention_mask, **kwargs
+        ).pooler_output
+        logits = self.classifier(pooled)
+
+        loss = self.loss_fn(logits, labels) if labels is not None else None
+
+        # Trainer expects a ModelOutput or a tuple of (loss, logits, ...)
+        return SequenceClassifierOutput(loss=loss, logits=logits)
+
+    def tokenize(self, example: dict, **kwargs) -> dict:
+        """Tokenize a single example using the model's tokenizer."""
         return self.tokenizer(
-            dataset["text"],
+            example["text"],
             padding="max_length",
             truncation=True,
             max_length=self.max_length,
+            **kwargs,
         )
