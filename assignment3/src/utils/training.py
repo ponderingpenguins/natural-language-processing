@@ -114,4 +114,3 @@ def hyperparameter_tuning(cfg, data, model):
         )
 
     return {"best": best, "all_results": results}
-    return {"best": best, "all_results": results}
