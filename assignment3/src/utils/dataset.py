@@ -1,17 +1,17 @@
-import os
-from datasets import load_dataset
 import html
-from sklearn.model_selection import train_test_split  # type: ignore
-from torch.utils.data import DataLoader, Dataset as TorchDataset
+import os
+from collections.abc import Callable
 from typing import Any, cast
 
-
-from penguinlp.config import TrainingConfig
+from datasets import DatasetDict, load_dataset
 from penguinlp.helpers import logger
+from sklearn.model_selection import train_test_split  # type: ignore
+from torch.utils.data import DataLoader
+from torch.utils.data import Dataset as TorchDataset
 
-def load_data(cfg: TrainingConfig):
+
+def load_data(cfg: dict) -> DatasetDict:
     """Load the AG News dataset and create train/dev/test splits."""
-    cfg = TrainingConfig()
     dataset = load_dataset(cfg.hf_dataset)
     # Use the official train/test split.
     # Fix a random seed and report it.
@@ -29,15 +29,23 @@ def load_data(cfg: TrainingConfig):
     train_ds = full_train_ds.select(train_indices)
     dev_ds = full_train_ds.select(dev_indices)
     test_ds = dataset["test"]
-    
+
+    # subsample for quick testing useing dataset.max_samples if set
+    if cfg.max_samples is not None:
+        train_ds = train_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
+        dev_ds = dev_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
+        test_ds = test_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
+
     split_dataset = {
         "train": train_ds,
         "dev": dev_ds,
         "test": test_ds,
     }
-    return split_dataset
+    return DatasetDict(split_dataset)
 
-def preprocess_data(dataset):
+
+def preprocess_data(dataset: DatasetDict) -> DatasetDict:
+    """Preprocess the dataset by combining title and description, unescaping HTML entities, and normalizing whitespace."""
     dataset["train"] = dataset["train"].map(
         _preprocess_sample, batched=False, load_from_cache_file=False
     )
@@ -47,7 +55,6 @@ def preprocess_data(dataset):
     dataset["test"] = dataset["test"].map(
         _preprocess_sample, batched=False, load_from_cache_file=False
     )
-
 
     # Check if labels are 1-based and convert to 0-based if needed
     all_labels = []
@@ -74,9 +81,16 @@ def preprocess_data(dataset):
         dataset["test"] = dataset["test"].map(
             _to_zero_based, batched=False, load_from_cache_file=False
         )
+
+    # Rename 'label' column to 'labels' for Hugging Face Trainer compatibility
+    for split in ["train", "dev", "test"]:
+        if "labels" not in dataset[split].column_names:
+            dataset[split] = dataset[split].rename_column("label", "labels")
+
     return dataset
 
-def _preprocess_sample(sample):
+
+def _preprocess_sample(sample: dict) -> dict:
     """Preprocess a single sample if needed."""
     text = sample["title"] + " " + sample["description"]
 
@@ -116,9 +130,10 @@ def _preprocess_sample(sample):
     sample["text"] = text
     return sample
 
+
 # Tokenization using dataloader.
-# TODO: Debug it to avoid getting stuck. 
-def tokenize_data(data, tokenize_fn):
+# TODO: Debug it to avoid getting stuck.
+def tokenize_data(data: DatasetDict, tokenize_fn: callable) -> DatasetDict:
     for split_name in ["train", "dev", "test"]:
         logger.info("Tokenizing %s set...", split_name)
 
@@ -147,5 +162,5 @@ def tokenize_data(data, tokenize_fn):
             data[split_name] = data[split_name].add_column(name, values)
 
         logger.info("Tokenized %s set: %d samples", split_name, len(data[split_name]))
-        
+
     return data
