@@ -1,0 +1,22 @@
+# Example LSTM config for OmegaConf
+lstm_model:
+  vocab_size: 30522
+  embed_dim: 256
+  hidden_dim: 512
+  num_classes: 4
+  num_layers: 2
+  bidirectional: true
+  learning_rate: 1e-3
+  sequence_length: 256
+  dropout: 0.5
+  early_stopping_patience: 3
+  tokenizer_name: "bert-base-uncased" # name of HuggingFace tokenizer to use for tokenizing input text
+  output_dir: "./lstm_output"
+  num_train_epochs: 15
+  save_total_limit: 2
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  warmup_steps: 500
+  logging_dir: "./lstm_logs"
+  grid_learning_rates: [1e-5, 1e-4, 1e-3]
+  grid_max_lengths: [128, 256, 512]
