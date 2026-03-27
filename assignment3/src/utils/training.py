@@ -5,7 +5,10 @@ from itertools import product
 import numpy as np
 import torch
 from penguinlp.helpers import logger
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+from sklearn.metrics import (  # type: ignore
+    accuracy_score,
+    precision_recall_fscore_support,
+)
 from transformers import EarlyStoppingCallback, Trainer, TrainingArguments
 
 
@@ -113,4 +116,5 @@ def hyperparameter_tuning(cfg, data, model):
             best["best_eval_loss"],
         )
 
+    return {"best": best, "all_results": results}
     return {"best": best, "all_results": results}

@@ -1,5 +1,6 @@
 import torch.nn as nn
 from omegaconf import DictConfig
+from penguinlp.helpers import logger
 from transformers import AutoModel, BertTokenizer
 from transformers.modeling_outputs import SequenceClassifierOutput
 
@@ -21,6 +22,17 @@ class BertClassifier(BaseModel):
         self.classifier = self._build_head(hidden_size, config)
         self.loss_fn = nn.CrossEntropyLoss()
         self.to(device)
+
+        # Optionally freeze BERT layers to speed up training and reduce memory usage.
+        if config.freeze_bert:
+            for param in self.bert.parameters():
+                param.requires_grad = False
+
+            frozen = sum(
+                p.numel() for p in self.bert.parameters() if not p.requires_grad
+            )
+            trainable = sum(p.numel() for p in self.parameters() if p.requires_grad)
+            logger.info("Frozen: %d  Trainable: %d", frozen, trainable)
 
     def _build_head(self, hidden_size: int, config: DictConfig) -> nn.Module:
         """Build the classification head on top of BERT's pooled output."""

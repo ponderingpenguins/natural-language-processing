@@ -17,3 +17,4 @@ bert_model:
   head_dropout: 0.1 # dropout probability for the hidden layers in the classification head
   grid_learning_rates: [1e-5, 1e-4, 1e-3]
   grid_max_lengths: [128, 256, 512]
+  freeze_bert: true # whether to freeze BERT layers during training to speed up training and reduce memory usage

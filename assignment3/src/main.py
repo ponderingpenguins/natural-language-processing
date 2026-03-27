@@ -74,8 +74,8 @@ def main() -> None:
     data = dataset_prep(cfg.dataset)
 
     logger.info("Initializing model and tokenizer...")
-    # model = BertClassifier(cfg.bert_model, device=DEVICE)
-    model = LSTMClassifier(cfg.lstm_model, device=DEVICE)
+    model = BertClassifier(cfg.bert_model, device=DEVICE)
+    # model = LSTMClassifier(cfg.lstm_model, device=DEVICE)
 
     # load tokenized data from disk if it exists, otherwise tokenize and save to disk for future runs
     tokenized_data_path = f"./{cfg.dataset.hf_dataset}_tokenized"
@@ -97,8 +97,8 @@ def main() -> None:
     num_params = sum(p.numel() for p in model.parameters())
     logger.info("Model initialized with %d parameters", num_params)
 
-    search_results = hyperparameter_tuning(cfg=cfg.lstm_model, data=data, model=model)
-    # search_results = hyperparameter_tuning(cfg=cfg.bert_model, data=data, model=model)
+    # search_results = hyperparameter_tuning(cfg=cfg.lstm_model, data=data, model=model)
+    search_results = hyperparameter_tuning(cfg=cfg.bert_model, data=data, model=model)
     logger.info("Grid search completed. Best trial: %s", search_results["best"])
 
 

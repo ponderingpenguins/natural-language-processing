@@ -6,8 +6,6 @@ from torch import nn
 from transformers import AutoTokenizer
 from transformers.modeling_outputs import SequenceClassifierOutput
 
-from utils.tokenizer import BPETokenizer
-
 from .base_model import BaseModel
 
 
