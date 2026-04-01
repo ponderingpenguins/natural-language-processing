@@ -1,3 +1,9 @@
+"""
+Main training script for text classification using BERT and LSTM models with hyperparameter tuning.
+
+This script loads the dataset, initializes the model, and runs hyperparameter tuning using Hugging Face's Trainer API. The configuration is managed using OmegaConf with support for YAML files and CLI overrides.
+"""
+
 import torch
 from datasets import DatasetDict
 from omegaconf import OmegaConf
@@ -47,12 +53,19 @@ def main() -> None:
     num_params = sum(p.numel() for p in model.parameters())
     logger.info("Model initialized with %d parameters", num_params)
 
-    def model_fn():
-        # return BertClassifier(cfg.bert_model, device=DEVICE)
-        return LSTMClassifier(cfg.lstm_model, device=DEVICE)
+    search_results = hyperparameter_tuning(
+        cfg=cfg.bert_model,
+        data=data,
+        model_fn=lambda: BertClassifier(cfg.bert_model, device=DEVICE),
+    )
+    logger.info(
+        "Hyperparameter search completed. Best trial: %s", search_results["best"]
+    )
 
     search_results = hyperparameter_tuning(
-        cfg=cfg.lstm_model, data=data, model_fn=model_fn
+        cfg=cfg.lstm_model,
+        data=data,
+        model_fn=lambda: LSTMClassifier(cfg.lstm_model, device=DEVICE),
     )
     logger.info(
         "Hyperparameter search completed. Best trial: %s", search_results["best"]

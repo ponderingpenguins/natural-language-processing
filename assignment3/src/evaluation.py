@@ -1,3 +1,9 @@
+"""
+Evaluation script for the trained LSTM model on regular and masked test sets.
+
+This script loads the trained LSTM model from disk, evaluates it on both the regular test set and a masked test set (where top-20 TF-IDF keywords have been replaced), and prints classification reports for both evaluations.
+"""
+
 import json
 
 import torch

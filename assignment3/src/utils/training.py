@@ -1,3 +1,9 @@
+"""
+Training utilities for text classification models with hyperparameter tuning.
+
+This module provides functions to set random seeds for reproducibility, compute evaluation metrics, create a Hugging Face Trainer instance, define the hyperparameter search space, and run hyperparameter tuning using the Trainer's hyperparameter_search() method with Optuna as the backend. The best hyperparameters are saved to a JSON config file in the output directory for later use during evaluation.
+"""
+
 import json
 import os
 import random
@@ -133,13 +139,22 @@ def hyperparameter_tuning(cfg, data, model_fn):
         best_trial.objective,
     )
 
-    # Save config to output dir
+    # Update config with best hyperparameters before saving
+    cfg.learning_rate = best_trial.hyperparameters["learning_rate"]
+    cfg.per_device_train_batch_size = best_trial.hyperparameters[
+        "per_device_train_batch_size"
+    ]
 
     # Save config to output dir
     config_path = os.path.join(cfg.output_dir, "config.json")
     with open(config_path, "w") as f:
         # Convert OmegaConf to dict and save
         json.dump(OmegaConf.to_container(cfg), f, indent=2)
-    logger.info("Config saved to %s", config_path)
+    logger.info(
+        "Best config saved to %s with learning_rate=%s, batch_size=%s",
+        config_path,
+        cfg.learning_rate,
+        cfg.per_device_train_batch_size,
+    )
 
     return {"best": best_trial, "trainer": trainer}

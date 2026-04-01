@@ -3,7 +3,7 @@ dataset:
  text_column: "text"
  dev_split: 0.1
  seed: 67
- max_samples: 10
+ max_samples: 100
  cols_to_drop: ["title", "description", "text", "token_type_ids"]
  label_mapping:
   1: "World"
