@@ -5,59 +5,12 @@ from penguinlp.helpers import logger
 
 from models.bert import BertClassifier
 from models.lstm import LSTMClassifier
-from utils.dataset import load_data, preprocess_data
+from utils.dataset import dataset_prep, try_load_tokenized_data
 from utils.training import hyperparameter_tuning
 
 # Set the device for training (GPU if available, otherwise CPU).
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEVICE = torch.device("mps") if torch.backends.mps.is_available() else DEVICE
-
-
-def dataset_prep(cfg: dict) -> DatasetDict:
-    """Load and preprocess the dataset."""
-    data = load_data(cfg)
-    logger.info("Loaded dataset %s with splits: %s", cfg.hf_dataset, data.keys())
-    # Preprocess the datasets using the defined pipeline.
-    logger.info("Preprocessing splits...")
-    data = preprocess_data(data)
-    logger.info(
-        "Dataset preprocessing complete. Sample from preprocessed dataset: %s",
-        data["train"][0],
-    )
-    return data
-
-
-def tokenize_data(data: DatasetDict, tokenization) -> DatasetDict:
-    """Tokenize the datasets using the model's tokenizer."""
-    # Tokenize the datasets using the model's tokenizer.
-    for split_name in ["train", "dev", "test"]:
-        logger.info("Tokenizing %s set...", split_name)
-        data[split_name] = data[split_name].map(
-            tokenization, batched=False, load_from_cache_file=False
-        )
-        logger.info(
-            "Completed tokenization for %s set. Set size: %d",
-            split_name,
-            len(data[split_name]),
-        )
-
-    logger.info("Tokenization complete.")
-    return data
-
-
-def try_load_tokenized_data(tokenized_data_path, data, tokenization):
-    try:
-        logger.info("Attempting to load tokenized data from %s...", tokenized_data_path)
-        data = load_from_disk(tokenized_data_path)
-    except Exception as e:
-        logger.warning(
-            "Failed to load tokenized data from disk: %s. Tokenizing now...", e
-        )
-        data = tokenize_data(data, tokenization)
-        # save to disk for future runs
-        data.save_to_disk(tokenized_data_path)
-        logger.info("Successfully loaded tokenized data from disk.")
-    return data
 
 
 def main() -> None:
