@@ -2,7 +2,7 @@ bert_model:
   model_name: "bert-base-uncased"
   num_labels: 4
   output_dir: "./bert_output"
-  num_train_epochs: 15
+  num_train_epochs: 2
   save_total_limit: 2
   learning_rate: 2e-5
   max_length: 256
@@ -16,5 +16,5 @@ bert_model:
   head_dropout: 0.1 # Dropout probability for the hidden layers in the classification head
   grid_learning_rates: [1e-5, 1e-4, 1e-3]
   grid_max_lengths: [128, 256, 512]
-  grid_batch_sizes: [16, 32]
+  grid_batch_sizes: [32]
   freeze_bert: true # Whether to freeze BERT layers during training to speed up training and reduce memory usage

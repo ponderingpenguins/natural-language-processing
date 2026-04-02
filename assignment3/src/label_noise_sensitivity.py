@@ -28,21 +28,49 @@ OUTPUT_DIR = "scaling_law_results"
 
 
 def load_best_config(model_type: str) -> dict:
+    """Loads the best hyperparameters from the tuning phase for the given model type.
+    Args:
+        model_type (str): "bert" or "lstm"
+    Returns:
+        dict: The best hyperparameters for the specified model type.
+    Raises:
+        FileNotFoundError: If the config file does not exist.
+    """
+
     path = f"{model_type}_output/config.json"
     if not os.path.exists(path):
         raise FileNotFoundError(
             f"Config not found at {path}. Run hyperparameter tuning first."
         )
-    with open(path) as f:
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def make_model(model_type: str, config: dict):
+    """
+    Creates a model instance based on the specified type and configuration.
+
+    Args:
+        model_type (str): "bert" or "lstm"
+        config (dict): The configuration dictionary containing hyperparameters.
+    Returns:
+        An instance of the specified model type initialized with the given configuration.
+    Raises:
+        ValueError: If an unsupported model type is provided.
+    """
     cls = BertClassifier if model_type == "bert" else LSTMClassifier
     return cls(OmegaConf.create(config), device=DEVICE)
 
 
 def load_data(config, tokenize_fn) -> DatasetDict:
+    """
+    Loads and preprocesses the dataset according to the provided configuration and tokenization function.
+    Args:
+        config (dict): The configuration dictionary containing dataset parameters.
+        tokenize_fn (callable): A function that takes raw text and returns tokenized input suitable for the model.
+    Returns:
+        DatasetDict: A dictionary containing the processed train, dev, and test datasets.
+    """
     data = dataset_prep(config)
     max_samples = config.get("max_samples")
     cache_path = f"./{config.get('hf_dataset', '').replace('/', '__')}_tokenized_{'full' if max_samples is None else f'max{max_samples}'}"
@@ -60,6 +88,21 @@ def load_data(config, tokenize_fn) -> DatasetDict:
 def train_and_evaluate(
     model, train_data, eval_data, test_data, config: dict, output_dir: str
 ) -> dict:
+    """
+    Trains the model on the training data, evaluates on the dev set for early stopping, and finally evaluates on the test set.
+
+    Args:
+        model: The model instance to be trained.
+        train_data: The training dataset.
+        eval_data: The evaluation dataset.
+        test_data: The test dataset.
+        config (dict): The configuration dictionary containing training parameters.
+        output_dir (str): The directory where training outputs will be saved.
+
+    Returns:
+        dict: A dictionary containing the final evaluation metrics on the test set.
+    """
+
     steps_per_epoch = max(
         1, math.ceil(len(train_data) / config.get("per_device_train_batch_size", 16))
     )
@@ -112,6 +155,13 @@ def train_and_evaluate(
 
 
 def run_experiment(model_type: str) -> tuple[dict, dict]:
+    """
+    Runs the scaling law experiment for the specified model type by training on different fractions of the training data and evaluating performance.
+    Args:
+        model_type (str): "bert" or "lstm"
+    Returns:
+        tuple[dict, dict]: A tuple containing the results dictionary and subset sizes for each fraction.
+    """
     config = load_best_config(model_type)
     dataset_cfg = OmegaConf.load("configs/dataset.yaml")
 
@@ -163,16 +213,33 @@ def run_experiment(model_type: str) -> tuple[dict, dict]:
 
 
 def aggregate(results: dict, metric: str) -> tuple[list, list, list]:
+    """
+    Aggregates the results for a given metric across different data fractions by computing the mean and standard deviation.
+    Args:
+        results (dict): The results dictionary containing metrics for each fraction and run.
+        metric (str): The metric to aggregate ("accuracy" or "f1").
+    Returns:
+        tuple[list, list, list]: A tuple containing the list of fractions, mean metric values, and standard deviations.
+    """
     fractions = sorted(results)
     means, stds = [], []
     for f in fractions:
         vals = [r[metric] for r in results[f] if r[metric] is not None]
         means.append(np.mean(vals) if vals else np.nan)
         stds.append(np.std(vals) if vals else 0.0)
+
     return fractions, means, stds
 
 
 def plot_results(bert_results: dict, lstm_results: dict, subset_sizes: dict):
+    """
+    Plots the scaling laws for accuracy and F1 score for both BERT and LSTM models across different training data fractions.
+
+    Args:
+        bert_results (dict): The results dictionary for the BERT model.
+        lstm_results (dict): The results dictionary for the LSTM model.
+        subset_sizes (dict): A dictionary mapping data fractions to the actual number of training samples used.
+    """
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
     for model_name, results in [("BERT", bert_results), ("LSTM", lstm_results)]:
@@ -210,6 +277,12 @@ def plot_results(bert_results: dict, lstm_results: dict, subset_sizes: dict):
 
 
 def save_results(bert_results: dict, lstm_results: dict):
+    """
+    Saves the aggregated results for both BERT and LSTM models to a text file in a tabular format.
+    Args:
+        bert_results (dict): The results dictionary for the BERT model.
+        lstm_results (dict): The results dictionary for the LSTM model.
+    """
     path = os.path.join(OUTPUT_DIR, "scaling_law_results.txt")
     with open(path, "w") as f:
         f.write("LABEL-NOISE SENSITIVITY: SCALING LAW RESULTS\n")
@@ -230,6 +303,7 @@ def save_results(bert_results: dict, lstm_results: dict):
 
 
 def main():
+    """Main function to run the scaling law analysis for BERT and LSTM models."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     logger.info("Starting scaling law analysis")
 

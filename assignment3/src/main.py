@@ -53,14 +53,14 @@ def main() -> None:
     num_params = sum(p.numel() for p in model.parameters())
     logger.info("Model initialized with %d parameters", num_params)
 
-    search_results = hyperparameter_tuning(
-        cfg=cfg.bert_model,
-        data=data,
-        model_fn=lambda: BertClassifier(cfg.bert_model, device=DEVICE),
-    )
-    logger.info(
-        "Hyperparameter search completed. Best trial: %s", search_results["best"]
-    )
+    # search_results = hyperparameter_tuning(
+    #     cfg=cfg.bert_model,
+    #     data=data,
+    #     model_fn=lambda: BertClassifier(cfg.bert_model, device=DEVICE),
+    # )
+    # logger.info(
+    #     "Hyperparameter search completed. Best trial: %s", search_results["best"]
+    # )
 
     search_results = hyperparameter_tuning(
         cfg=cfg.lstm_model,
