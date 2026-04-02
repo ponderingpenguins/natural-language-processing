@@ -4,6 +4,8 @@ Main training script for text classification using BERT and LSTM models with hyp
 This script loads the dataset, initializes the model, and runs hyperparameter tuning using Hugging Face's Trainer API. The configuration is managed using OmegaConf with support for YAML files and CLI overrides.
 """
 
+from typing import cast
+
 import torch
 from datasets import DatasetDict
 from omegaconf import OmegaConf
@@ -25,6 +27,7 @@ def main() -> None:
     bert_model_cfg = OmegaConf.load("configs/bert.yaml")
     lstm_model_cfg = OmegaConf.load("configs/lstm.yaml")
     dataset_cfg = OmegaConf.load("configs/dataset.yaml")
+    training_cfg = OmegaConf.load("configs/training.yaml")
     cli_cfg = OmegaConf.from_cli()
     cfg = OmegaConf.merge(lstm_model_cfg, bert_model_cfg, dataset_cfg, cli_cfg)
     logger.info("Training configuration:\n%s", OmegaConf.to_yaml(cfg))
@@ -36,7 +39,18 @@ def main() -> None:
 
     # Load tokenized data from disk if it exists, otherwise tokenize and save to disk for future runs
     tokenized_data_path = f"./{cfg.dataset.hf_dataset}_tokenized"
-    data = try_load_tokenized_data(tokenized_data_path, data, model.tokenize)
+    tokenization_config = {
+        "hf_dataset": cfg.dataset.hf_dataset,
+        "model": model.__class__.__name__,
+        "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
+        "max_samples": cfg.dataset.max_samples,
+        "sequence_length": getattr(cfg.lstm_model, "sequence_length", None),
+        "max_length": getattr(cfg.bert_model, "max_length", None),
+    }
+    data = try_load_tokenized_data(
+        tokenized_data_path, data, model.tokenize, tokenization_config
+    )
+    data = cast(DatasetDict, data)
 
     logger.info("Starting hyperparameter search for the model...")
     # Drop unnecessary columns before training
@@ -54,7 +68,7 @@ def main() -> None:
     logger.info("Model initialized with %d parameters", num_params)
 
     # search_results = hyperparameter_tuning(
-    #     cfg=cfg.bert_model,
+    #     cfg=OmegaConf.merge(cfg.bert_model, training_cfg.training),
     #     data=data,
     #     model_fn=lambda: BertClassifier(cfg.bert_model, device=DEVICE),
     # )
@@ -63,7 +77,7 @@ def main() -> None:
     # )
 
     search_results = hyperparameter_tuning(
-        cfg=cfg.lstm_model,
+        cfg=OmegaConf.merge(cfg.lstm_model, training_cfg.training),
         data=data,
         model_fn=lambda: LSTMClassifier(cfg.lstm_model, device=DEVICE),
     )

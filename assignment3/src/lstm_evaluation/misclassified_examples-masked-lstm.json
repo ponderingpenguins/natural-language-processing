@@ -1,0 +1,135 @@
+[
+    {
+        "text": "Peru's Toledo Wants New Judges for Guzman Retrial <p></p><p> By Jude Webber</p><p> LIMA, Peru (Reuters) - Peruvian [MASK] Alejandro Toledosaid on [MASK] he wanted new judges to try Shining Pathleader Abimael Guzman after the \"shameful spectacle\" he stagedat the start of his terrorism retrial, punching the air withhis fist and chanting rebel slogans.</p>",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Training is the Key to Defibrillator Success By DANIEL YEE ALPHARETTA, Ga. (AP) -- Because defibrillators are more affordable than ever, they are quickly becoming commonplace in schools, businesses and other public places such as airports...",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "British Bug Splat Survey Springs Surprise (Reuters) Reuters - The results of one of the stranger environmental surveys to be conducted in Britain are in -- and there's a surprise.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Argentina Basketball Coach Magnano Quits Ruben Magnano, who coached Argentina to the Olympic basketball gold medal in Athens, resigned Thursday to accept a coaching job in Italy.",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Canada, [MASK] fail to resolve beef trade dispute Canada and the United States have failed to reach an agreement on resuming [MASK] imports of Canadian live cattle, local press reported Sunday.",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "The Bag of Aeolus quot;Aeolus was keeper of the winds. He gave a bag of evil winds to Odysseus, instructing him to keep it closed while a good breeze wafted him home.",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Symantec warns of weakness in its firewall and gateway products Security specialist Symantec has admitted to a number of vulnerabilities in its firewall and gateway products. The weaknesses make them liable to denial of service attacks and other compromises.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "[MASK] panel to back oil inventories rethink A [MASK] [MASK] advisory panel is to recommend a revision to the minimum level of crude inventories required to ensure adequate supplies of crude oil to the nation 's refiners to produce gasoline",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Sci/Tech - Virus gang wars on the Web Following his arrest in May, the teenage computer wizard admitted to police he wrote the code for Sasser and more than [MASK] dozen Netsky viruses that wreaked havoc across the Internet during the first few months of 2004.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Socialites unite dolphin groups Dolphin groups, or \"pods\", rely on socialites to keep them from collapsing, scientists claim.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Ky. Company Wins Grant to Study Peptides (AP) AP - A company founded by a chemistry researcher at the University of Louisville won a grant to develop a method of producing better peptides, which are short chains of amino acids, the building blocks of proteins.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Oracle gets with the patch programme The company said Thursday that it will release security bulletins and accompanying patches for its products on 18 January, 12 April, 12 July and 18 October.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Rumsfeld Raises Prospect of Limited [MASK] Elections (Reuters) Reuters - Defense Secretary Donald Rumsfeld on Thursday raised the possibility that some areas of [MASK] night be excluded from elections scheduled for January if security could not be guaranteed.",
+        "true_label": 0,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Generals May Pay a Price for [MASK] Abuse WASHINGTON - The Abu Ghraib prisoner abuse scandal could effectively end the careers of four Army generals who are linked indirectly to the misconduct but face no criminal charges. The four are singled out for varying degrees of criticism - mixed with instances of praise - in [MASK] comprehensive investigative reports released last week...",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Back to School and Gaming Kids Internet-ready schools do little to protect kids from seemingly safe sites whose only reason to exist is invasive marketing aimed directly at young web surfers. These corporate-sponsored 'advergames' look interactive but the endgame is 'buy.'",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Music firms reach out to creator of Napster LOS ANGELES As a teenager, Shawn Fanning brought free music to the masses, creating the Napster file-swapping program and unleashing a technological genie that granted the wishes of fans seeking virtually any song at any time - gratis.",
+        "true_label": 3,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Picking Your Perfect PCI Express PC Way back in June I suggested you hold off on buying a new PC until systems with PCI Express shipped. The new technology has the potential to dramatically improve performance because it replaces the pokey old",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Federer back in Open 's fourth round with masterful performance For most tennis players, having about the same number of clean winners as unforced errors translates into a pretty good performance.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "NASA 'scramjet ' makes historic flight off California LOS ANGELES NASA 's unmanned quot;scramjet quot; proved it 's small but it 's fast -- in a record-breaking demonstration above the Pacific Ocean.",
+        "true_label": 3,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "Sci/Tech"
+    }
+]

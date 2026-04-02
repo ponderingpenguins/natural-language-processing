@@ -1,9 +1,17 @@
 """Dataset loading and preprocessing utilities for the AG News dataset."""
 
+import hashlib
 import html
+import json
+from pathlib import Path
 from typing import Any, cast
 
-from datasets import DatasetDict, load_dataset, load_from_disk  # type: ignore
+from datasets import (  # type: ignore
+    ClassLabel,
+    DatasetDict,
+    load_dataset,
+    load_from_disk,
+)
 from penguinlp.helpers import logger
 from sklearn.model_selection import train_test_split  # type: ignore
 from torch.utils.data import DataLoader
@@ -26,11 +34,82 @@ def load_data(cfg: dict) -> DatasetDict:
     dev_ds = full_train_ds.select(dev_indices)
     test_ds = dataset["test"]
 
-    # subsample for quick testing useing dataset.max_samples if set
-    if cfg.max_samples is not None:
-        train_ds = train_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
-        dev_ds = dev_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
-        test_ds = test_ds.shuffle(seed=cfg.seed).select(range(cfg.max_samples))
+    # Normalize 1-based labels before casting to ClassLabel (expects 0..num_classes-1).
+    all_labels = [int(label) for label in train_ds["label"]]
+    all_labels.extend(int(label) for label in dev_ds["label"])
+    all_labels.extend(int(label) for label in test_ds["label"])
+    num_classes = len(cfg.label_mapping)
+
+    if all_labels and min(all_labels) == 1 and max(all_labels) == num_classes:
+        logger.info(
+            "Detected 1-based labels (min=%d, max=%d); converting to 0-based before cast",
+            min(all_labels),
+            max(all_labels),
+        )
+
+        def _to_zero_based(example):
+            example["label"] = int(example["label"]) - 1
+            return example
+
+        train_ds = train_ds.map(
+            _to_zero_based, batched=False, load_from_cache_file=False
+        )
+        dev_ds = dev_ds.map(_to_zero_based, batched=False, load_from_cache_file=False)
+        test_ds = test_ds.map(_to_zero_based, batched=False, load_from_cache_file=False)
+
+    # Convert labels to ClassLabel type for better compatibility with Hugging Face Trainer and metrics
+    names = [cfg.label_mapping[k] for k in sorted(cfg.label_mapping)]
+    train_ds = train_ds.cast_column(
+        "label",
+        ClassLabel(
+            num_classes=len(cfg.label_mapping),
+            names=names,
+        ),
+    )
+    dev_ds = dev_ds.cast_column(
+        "label",
+        ClassLabel(
+            num_classes=len(cfg.label_mapping),
+            names=names,
+        ),
+    )
+    test_ds = test_ds.cast_column(
+        "label",
+        ClassLabel(
+            num_classes=len(cfg.label_mapping),
+            names=names,
+        ),
+    )
+
+    # Optionally perform stratified subsampling for faster experimentation during development.
+    eval_max_samples = getattr(cfg, "eval_max_samples", None)
+
+    if cfg.max_samples and len(train_ds) > cfg.max_samples:
+        logger.info(
+            "Subsampling the training set to %d examples for faster experimentation.",
+            cfg.max_samples,
+        )
+        train_ds = train_ds.train_test_split(
+            test_size=cfg.max_samples, stratify_by_column="label", seed=cfg.seed
+        )["test"]
+
+    if eval_max_samples and len(dev_ds) > eval_max_samples:
+        logger.info(
+            "Subsampling the dev set to %d examples for faster evaluation.",
+            eval_max_samples,
+        )
+        dev_ds = dev_ds.train_test_split(
+            test_size=eval_max_samples, stratify_by_column="label", seed=cfg.seed
+        )["test"]
+
+    if eval_max_samples and len(test_ds) > eval_max_samples:
+        logger.info(
+            "Subsampling the test set to %d examples for faster evaluation.",
+            eval_max_samples,
+        )
+        test_ds = test_ds.train_test_split(
+            test_size=eval_max_samples, stratify_by_column="label", seed=cfg.seed
+        )["test"]
 
     return DatasetDict({"train": train_ds, "dev": dev_ds, "test": test_ds})
 
@@ -83,7 +162,10 @@ def preprocess_data(dataset: DatasetDict) -> DatasetDict:
 
 def _preprocess_sample(sample: dict) -> dict:
     """Preprocess a single sample if needed."""
-    text = sample["title"] + " " + sample["description"]
+    # text = sample["title"] + " " + sample["description"] # Old method (assignment 1 and 2)
+
+    # Combine title and description with a separator for better readability, and to allow the model to learn from both fields. We do this because the the title and description often don't have a clear boundary.
+    text = "Title: " + sample["title"] + " Content: " + sample["description"]
 
     # html unescaping
     text = html.unescape(text)
@@ -154,17 +236,44 @@ def tokenize_data(data: DatasetDict, tokenization) -> DatasetDict:
     return data
 
 
-def try_load_tokenized_data(tokenized_data_path, data, tokenization):
-    """Try to load tokenized data from disk, if it fails, tokenize and save to disk for future runs."""
-    try:
-        logger.info("Attempting to load tokenized data from %s...", tokenized_data_path)
-        data = load_from_disk(tokenized_data_path)
-    except Exception as e:
-        logger.warning(
-            "Failed to load tokenized data from disk: %s. Tokenizing now...", e
-        )
-        data = tokenize_data(data, tokenization)
-        # save to disk for future runs
-        data.save_to_disk(tokenized_data_path)
-        logger.info("Successfully loaded tokenized data from disk.")
+def get_config_hash(config_dict):
+    """Generate hash of config to detect changes."""
+    config_str = json.dumps(config_dict, sort_keys=True)
+    return hashlib.sha256(config_str.encode()).hexdigest()[:8]
+
+
+def try_load_tokenized_data(tokenized_data_path, data, tokenization, config):
+    """Try to load tokenized data from disk with config hash validation."""
+    cache_dir = Path(tokenized_data_path)
+    hash_file = cache_dir / ".config_hash"
+    current_hash = get_config_hash(config)
+
+    # Check if cache exists and hash matches
+    if cache_dir.exists() and hash_file.exists():
+        cached_hash = hash_file.read_text().strip()
+        if cached_hash == current_hash:
+            try:
+                logger.info(
+                    "Loading tokenized data from %s (hash: %s)...",
+                    tokenized_data_path,
+                    current_hash,
+                )
+                data = load_from_disk(tokenized_data_path)
+                return data
+            except Exception as e:
+                logger.warning("Failed to load cached data: %s. Retokenizing...", e)
+        else:
+            logger.info(
+                "Config changed (old: %s, new: %s). Retokenizing...",
+                cached_hash,
+                current_hash,
+            )
+
+    # Tokenize and save with hash
+    logger.info("Tokenizing data...")
+    data = tokenize_data(data, tokenization)
+    data.save_to_disk(tokenized_data_path)
+    hash_file.write_text(current_hash)
+    logger.info("Saved tokenized data with config hash: %s", current_hash)
+
     return data
