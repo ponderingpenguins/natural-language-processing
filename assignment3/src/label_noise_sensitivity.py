@@ -1,11 +1,9 @@
 """
 Label-Noise Sensitivity Analysis: Scaling Laws for BERT and LSTM Models
-
-Trains both models with fixed best hyperparameters on different data fractions
-(25%, 50%, 100%) to measure scaling behavior and sensitivity to training data size.
 """
 
 import json
+import math
 import os
 
 import matplotlib.pyplot as plt
@@ -14,7 +12,6 @@ import torch
 from datasets import DatasetDict
 from omegaconf import OmegaConf
 from penguinlp.helpers import logger
-from sklearn.metrics import accuracy_score, f1_score
 from transformers import EarlyStoppingCallback, Trainer, TrainingArguments
 
 from models.bert import BertClassifier
@@ -22,42 +19,54 @@ from models.lstm import LSTMClassifier
 from utils.dataset import dataset_prep, try_load_tokenized_data
 from utils.training import compute_metrics, set_seed
 
-# Set device
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEVICE = torch.device("mps") if torch.backends.mps.is_available() else DEVICE
 
-# Data fractions to test
 DATA_FRACTIONS = [0.25, 0.5, 1.0]
+RUNS_PER_FRACTION = 1
 OUTPUT_DIR = "scaling_law_results"
-RUNS_PER_FRACTION = 3  # Multiple runs to get error bars
 
 
 def load_best_config(model_type: str) -> dict:
-    """Load the best config from hyperparameter search output."""
-    config_path = f"{model_type}_output/config.json"
-    if not os.path.exists(config_path):
+    path = f"{model_type}_output/config.json"
+    if not os.path.exists(path):
         raise FileNotFoundError(
-            f"Config not found at {config_path}. Run hyperparameter tuning first."
+            f"Config not found at {path}. Run hyperparameter tuning first."
         )
-    with open(config_path) as f:
+    with open(path) as f:
         return json.load(f)
 
 
-def train_model(
-    model,
-    train_data,
-    eval_data,
-    config: dict,
-    model_type: str,
-    fraction: float,
-    run_id: int,
-):
-    """Train a model on a data subset with fixed hyperparameters."""
-    output_dir = os.path.join(
-        OUTPUT_DIR, f"{model_type}_frac{fraction:.2f}_run{run_id}"
+def make_model(model_type: str, config: dict):
+    cls = BertClassifier if model_type == "bert" else LSTMClassifier
+    return cls(OmegaConf.create(config), device=DEVICE)
+
+
+def load_data(config, tokenize_fn) -> DatasetDict:
+    data = dataset_prep(config)
+    max_samples = config.get("max_samples")
+    cache_path = f"./{config.get('hf_dataset', '').replace('/', '__')}_tokenized_{'full' if max_samples is None else f'max{max_samples}'}"
+    data = try_load_tokenized_data(cache_path, data, tokenize_fn)
+    return DatasetDict(
+        {
+            split: ds.remove_columns(
+                [c for c in config.get("cols_to_drop", []) if c in ds.column_names]
+            )
+            for split, ds in data.items()
+        }
     )
 
-    training_args = TrainingArguments(
+
+def train_and_evaluate(
+    model, train_data, eval_data, test_data, config: dict, output_dir: str
+) -> dict:
+    steps_per_epoch = max(
+        1, math.ceil(len(train_data) / config.get("per_device_train_batch_size", 16))
+    )
+    total_steps = steps_per_epoch * config.get("num_train_epochs", 15)
+    warmup_steps = min(config.get("warmup_steps", 500), int(total_steps * 0.1))
+
+    args = TrainingArguments(
         output_dir=output_dir,
         eval_strategy="epoch",
         save_strategy="epoch",
@@ -68,311 +77,169 @@ def train_model(
         per_device_train_batch_size=config.get("per_device_train_batch_size", 16),
         per_device_eval_batch_size=config.get("per_device_eval_batch_size", 16),
         num_train_epochs=config.get("num_train_epochs", 15),
-        warmup_steps=config.get("warmup_steps", 500),
-        logging_dir=os.path.join(output_dir, "logs"),
+        warmup_steps=warmup_steps,
         save_total_limit=2,
     )
 
     trainer = Trainer(
         model=model,
-        args=training_args,
+        args=args,
         train_dataset=train_data,
         eval_dataset=eval_data,
         compute_metrics=compute_metrics,
         callbacks=[
             EarlyStoppingCallback(
                 early_stopping_patience=config.get("early_stopping_patience", 3)
-            ),
+            )
         ],
     )
 
-    logger.info(
-        "Training %s on %.0f%% data (run %d/%d)",
-        model_type,
-        fraction * 100,
-        run_id + 1,
-        RUNS_PER_FRACTION,
-    )
     trainer.train()
+    metrics = trainer.evaluate(test_data, metric_key_prefix="test")
 
-    # Save the best model checkpoint path for evaluation
-    return trainer.state.best_model_checkpoint
-
-
-def evaluate_on_test(model, test_data, device):
-    """Evaluate model on test set."""
-    model.eval()
-    all_preds = []
-    all_labels = []
-
-    batch_size = 64
-    for i in range(0, len(test_data), batch_size):
-        batch = test_data[i : i + batch_size]
-        labels = torch.tensor(batch["labels"]).to(device)
-
-        model_inputs = {
-            "input_ids": torch.tensor(batch["input_ids"]).to(device),
-        }
-        if "attention_mask" in batch:
-            model_inputs["attention_mask"] = torch.tensor(batch["attention_mask"]).to(
-                device
-            )
-        if "token_type_ids" in batch:
-            model_inputs["token_type_ids"] = torch.tensor(batch["token_type_ids"]).to(
-                device
-            )
-        if "lengths" in batch:
-            model_inputs["lengths"] = torch.tensor(batch["lengths"]).to(device)
-
-        with torch.no_grad():
-            outputs = model(**model_inputs, labels=labels)
-
-        preds = torch.argmax(outputs.logits, dim=-1).cpu().numpy()
-        all_preds.extend(preds)
-        all_labels.extend(labels.cpu().numpy())
-
-    acc = accuracy_score(all_labels, all_preds)
-    f1 = f1_score(all_labels, all_preds, average="weighted", zero_division=0)
-
-    return {"accuracy": acc, "f1": f1}
-
-
-def run_scaling_law_experiment(model_type: str):
-    """Run the full scaling law experiment for a model type."""
-    logger.info("Starting scaling law experiment for %s", model_type)
-
-    # Load config
-    best_config = load_best_config(model_type)
-    logger.info(
-        "Loaded best config: lr=%f, batch_size=%d",
-        best_config.get("learning_rate"),
-        best_config.get("per_device_train_batch_size"),
+    accuracy_key = next(
+        (key for key in ("test_accuracy", "test_eval_accuracy") if key in metrics),
+        None,
     )
+    f1_key = next(
+        (key for key in ("test_f1", "test_eval_f1") if key in metrics),
+        None,
+    )
+    if accuracy_key is None or f1_key is None:
+        raise KeyError(f"Unexpected test metric keys: {sorted(metrics.keys())}")
 
-    # Load dataset
+    return {"accuracy": metrics[accuracy_key], "f1": metrics[f1_key]}
+
+
+def run_experiment(model_type: str) -> tuple[dict, dict]:
+    config = load_best_config(model_type)
     dataset_cfg = OmegaConf.load("configs/dataset.yaml")
-    data = dataset_prep(dataset_cfg.dataset)
 
-    # Initialize model to get tokenizer
-    if model_type == "bert":
-        model_template = BertClassifier(OmegaConf.create(best_config), device=DEVICE)
-    else:
-        model_template = LSTMClassifier(OmegaConf.create(best_config), device=DEVICE)
-
-    # Tokenize data
-    tokenized_data_path = f"./{dataset_cfg.dataset.hf_dataset}_tokenized"
-    data = try_load_tokenized_data(tokenized_data_path, data, model_template.tokenize)
-
-    # Clean up
-    data = DatasetDict(
-        {
-            split: ds.remove_columns(
-                [c for c in dataset_cfg.dataset.cols_to_drop if c in ds.column_names]
-            )
-            for split, ds in data.items()
-        }
+    tokenizer_model = make_model(model_type, config)
+    data = load_data(
+        dataset_cfg.dataset,
+        tokenizer_model.tokenize,
     )
 
-    # Store results
-    results = {frac: [] for frac in DATA_FRACTIONS}
+    results = {}
+    subset_sizes = {}
 
-    # Run experiments
     for fraction in DATA_FRACTIONS:
-        subset_size = int(len(data["train"]) * fraction)
-        train_subset = data["train"].select(range(subset_size))
-
-        logger.info(
-            "Running %d runs for %.0f%% (%d samples)",
-            RUNS_PER_FRACTION,
-            fraction * 100,
-            subset_size,
-        )
+        n = int(len(data["train"]) * fraction)
+        subset_sizes[fraction] = n
+        fraction_results = []
 
         for run_id in range(RUNS_PER_FRACTION):
-            # Set seed for reproducibility
             set_seed(42 + run_id)
+            train_subset = data["train"].shuffle(seed=42 + run_id).select(range(n))
+            model = make_model(model_type, config)
+            out_dir = os.path.join(
+                OUTPUT_DIR, f"{model_type}_frac{fraction:.2f}_run{run_id}"
+            )
 
-            # Create fresh model
-            if model_type == "bert":
-                model = BertClassifier(OmegaConf.create(best_config), device=DEVICE)
-            else:
-                model = LSTMClassifier(OmegaConf.create(best_config), device=DEVICE)
-
-            # Train
             try:
-                train_model(
-                    model,
-                    train_subset,
-                    data["dev"],
-                    best_config,
+                metrics = train_and_evaluate(
+                    model, train_subset, data["dev"], data["test"], config, out_dir
+                )
+                logger.info(
+                    "  %s frac=%.2f run=%d | acc=%.4f f1=%.4f",
                     model_type,
                     fraction,
-                    run_id,
-                )
-
-                # Evaluate
-                test_metrics = evaluate_on_test(model, data["test"], DEVICE)
-                results[fraction].append(test_metrics)
-                logger.info(
-                    "  Run %d: Accuracy=%.4f, F1=%.4f",
                     run_id + 1,
-                    test_metrics["accuracy"],
-                    test_metrics["f1"],
+                    metrics["accuracy"],
+                    metrics["f1"],
                 )
             except Exception as e:
-                logger.error("Error in run %d for fraction %f: %s", run_id, fraction, e)
-                results[fraction].append({"accuracy": None, "f1": None})
+                logger.error(
+                    "Error: %s frac=%.2f run=%d | %s", model_type, fraction, run_id, e
+                )
+                metrics = {"accuracy": None, "f1": None}
 
-    return results
+            fraction_results.append(metrics)
+
+        results[fraction] = fraction_results
+
+    return results, subset_sizes
 
 
-def plot_scaling_laws(bert_results, lstm_results):
-    """Plot scaling laws for both models."""
+def aggregate(results: dict, metric: str) -> tuple[list, list, list]:
+    fractions = sorted(results)
+    means, stds = [], []
+    for f in fractions:
+        vals = [r[metric] for r in results[f] if r[metric] is not None]
+        means.append(np.mean(vals) if vals else np.nan)
+        stds.append(np.std(vals) if vals else 0.0)
+    return fractions, means, stds
+
+
+def plot_results(bert_results: dict, lstm_results: dict, subset_sizes: dict):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
-    fractions = sorted(DATA_FRACTIONS)
-    fraction_sizes = [
-        int(f * 120000) for f in fractions
-    ]  # Assuming ~120k training samples
-
-    # Extract means and stds
     for model_name, results in [("BERT", bert_results), ("LSTM", lstm_results)]:
-        accs = []
-        acc_stds = []
-        f1s = []
-        f1_stds = []
-
-        for f in fractions:
-            acc_values = [
-                r["accuracy"] for r in results[f] if r["accuracy"] is not None
+        for ax, metric, marker in [(ax1, "accuracy", "o"), (ax2, "f1", "s")]:
+            fractions, means, stds = aggregate(results, metric)
+            sizes = [subset_sizes[f] for f in fractions]
+            valid = [
+                (s, m, e) for s, m, e in zip(sizes, means, stds) if not np.isnan(m)
             ]
-            f1_values = [r["f1"] for r in results[f] if r["f1"] is not None]
+            if valid:
+                s, m, e = zip(*valid)
+                ax.errorbar(
+                    s,
+                    m,
+                    yerr=e,
+                    marker=marker,
+                    label=model_name,
+                    capsize=5,
+                    linewidth=2,
+                )
 
-            if acc_values:
-                accs.append(float(np.mean(acc_values)))
-                acc_stds.append(float(np.std(acc_values)))
-            else:
-                accs.append(np.nan)
-                acc_stds.append(0.0)
-
-            if f1_values:
-                f1s.append(float(np.mean(f1_values)))
-                f1_stds.append(float(np.std(f1_values)))
-            else:
-                f1s.append(np.nan)
-                f1_stds.append(0.0)
-
-        valid_acc_idx = [i for i, v in enumerate(accs) if not np.isnan(v)]
-        valid_f1_idx = [i for i, v in enumerate(f1s) if not np.isnan(v)]
-
-        if not valid_acc_idx and not valid_f1_idx:
-            logger.warning("No valid points to plot for %s", model_name)
-            continue
-
-        # Plot accuracy
-        if valid_acc_idx:
-            ax1.errorbar(
-                [fraction_sizes[i] for i in valid_acc_idx],
-                [accs[i] for i in valid_acc_idx],
-                yerr=[acc_stds[i] for i in valid_acc_idx],
-                marker="o",
-                label=model_name,
-                capsize=5,
-                linewidth=2,
-            )
-
-        # Plot F1
-        if valid_f1_idx:
-            ax2.errorbar(
-                [fraction_sizes[i] for i in valid_f1_idx],
-                [f1s[i] for i in valid_f1_idx],
-                yerr=[f1_stds[i] for i in valid_f1_idx],
-                marker="s",
-                label=model_name,
-                capsize=5,
-                linewidth=2,
-            )
-
-    ax1.set_xlabel("Training Data Size (samples)")
-    ax1.set_ylabel("Test Accuracy")
-    ax1.set_title("Scaling Laws: Accuracy")
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-    ax1.set_xscale("log")
-
-    ax2.set_xlabel("Training Data Size (samples)")
-    ax2.set_ylabel("Test F1 (weighted)")
-    ax2.set_title("Scaling Laws: F1 Score")
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-    ax2.set_xscale("log")
+    for ax, metric in [(ax1, "Accuracy"), (ax2, "F1 (weighted)")]:
+        ax.set_xlabel("Training Data Size (samples)")
+        ax.set_ylabel(f"Test {metric}")
+        ax.set_title(f"Scaling Laws: {metric}")
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        ax.set_xscale("log")
 
     plt.tight_layout()
-    plt.savefig(os.path.join(OUTPUT_DIR, "scaling_laws.png"), dpi=300)
-    logger.info("Saved plot to %s", os.path.join(OUTPUT_DIR, "scaling_laws.png"))
+    path = os.path.join(OUTPUT_DIR, "scaling_laws.png")
+    plt.savefig(path, dpi=300)
     plt.close()
+    logger.info("Plot saved to %s", path)
 
 
-def save_results_table(bert_results, lstm_results):
-    """Save results as a formatted table."""
-    output_file = os.path.join(OUTPUT_DIR, "scaling_law_results.txt")
-
-    with open(output_file, "w") as f:
-        f.write("=" * 80 + "\n")
+def save_results(bert_results: dict, lstm_results: dict):
+    path = os.path.join(OUTPUT_DIR, "scaling_law_results.txt")
+    with open(path, "w") as f:
         f.write("LABEL-NOISE SENSITIVITY: SCALING LAW RESULTS\n")
         f.write("=" * 80 + "\n\n")
-
         for model_name, results in [("BERT", bert_results), ("LSTM", lstm_results)]:
-            f.write(f"\n{model_name}\n")
-            f.write("-" * 80 + "\n")
+            f.write(f"{model_name}\n{'-' * 40}\n")
             f.write(
-                f"{'Data Frac':<15} {'Accuracy (mean)':<20} {'Accuracy (std)':<20} "
-                f"{'F1 (mean)':<20} {'F1 (std)':<20}\n"
+                f"{'Frac':<8} {'Acc (mean)':<16} {'Acc (std)':<16} {'F1 (mean)':<16} {'F1 (std)':<16}\n"
             )
-            f.write("-" * 80 + "\n")
-
-            for frac in sorted(results.keys()):
-                accs = [
-                    r["accuracy"] for r in results[frac] if r["accuracy"] is not None
-                ]
-                f1s = [r["f1"] for r in results[frac] if r["f1"] is not None]
-
-                if accs and f1s:
-                    f.write(
-                        f"{frac:.2f}{'':<11} "
-                        f"{np.mean(accs):.4f}{'':<15} "
-                        f"{np.std(accs):.4f}{'':<15} "
-                        f"{np.mean(f1s):.4f}{'':<15} "
-                        f"{np.std(f1s):.4f}\n"
-                    )
-
-    logger.info("Results saved to %s", output_file)
+            for frac in sorted(results):
+                _, acc_means, acc_stds = aggregate({frac: results[frac]}, "accuracy")
+                _, f1_means, f1_stds = aggregate({frac: results[frac]}, "f1")
+                f.write(
+                    f"{frac:<8.2f} {acc_means[0]:<16.4f} {acc_stds[0]:<16.4f} {f1_means[0]:<16.4f} {f1_stds[0]:<16.4f}\n"
+                )
+            f.write("\n")
+    logger.info("Results saved to %s", path)
 
 
 def main():
-    """Run scaling law experiments for both models."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    logger.info("Starting scaling law analysis")
 
-    logger.info("=" * 80)
-    logger.info("LABEL-NOISE SENSITIVITY SCALING LAW ANALYSIS")
-    logger.info("=" * 80)
+    bert_results, subset_sizes = run_experiment("bert")
+    lstm_results, _ = run_experiment("lstm")
 
-    # Run experiments
-    logger.info("\nRunning BERT scaling law experiment...")
-    bert_results = run_scaling_law_experiment("bert")
+    save_results(bert_results, lstm_results)
+    plot_results(bert_results, lstm_results, subset_sizes)
 
-    logger.info("\nRunning LSTM scaling law experiment...")
-    lstm_results = run_scaling_law_experiment("lstm")
-
-    # Save results
-    logger.info("\nGenerating results...")
-    save_results_table(bert_results, lstm_results)
-    plot_scaling_laws(bert_results, lstm_results)
-
-    logger.info("\n" + "=" * 80)
-    logger.info("SCALING LAW ANALYSIS COMPLETE")
-    logger.info("Results saved to %s/", OUTPUT_DIR)
-    logger.info("=" * 80)
+    logger.info("Done. Results in %s/", OUTPUT_DIR)
 
 
 if __name__ == "__main__":
