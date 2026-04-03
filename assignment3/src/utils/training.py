@@ -4,7 +4,6 @@ Training utilities for text classification models with hyperparameter tuning.
 This module provides functions to set random seeds for reproducibility, compute evaluation metrics, create a Hugging Face Trainer instance, define the hyperparameter search space, and run hyperparameter tuning using the Trainer's hyperparameter_search() method with Optuna as the backend. The best hyperparameters are saved to a JSON config file in the output directory for later use during evaluation.
 """
 
-import inspect
 import json
 import os
 import random
@@ -172,19 +171,10 @@ def create_trainer(model_init, data, cfg):
     # Build a dynamic-padding collator when a tokenizer is available.
     probe_model = model_init(None)
     tokenizer = getattr(probe_model, "tokenizer", None)
-    expects_lengths = "lengths" in inspect.signature(probe_model.forward).parameters
 
     data_collator = None
     if tokenizer is not None:
-        base_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
-        def dynamic_collator(features):
-            batch = base_collator(features)
-            if expects_lengths and "attention_mask" in batch:
-                batch["lengths"] = batch["attention_mask"].sum(dim=1)
-            return batch
-
-        data_collator = dynamic_collator
+        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
     callbacks = [
         EarlyStoppingCallback(early_stopping_patience=cfg.early_stopping_patience),
