@@ -212,20 +212,34 @@ def main():
     if eval_max_samples is None:
         eval_max_samples = getattr(dataset_cfg.dataset, "eval_max_samples", None)
 
-    data = dataset_prep(dataset_cfg.dataset)
-    tokenization_config = {
-        "hf_dataset": dataset_cfg.dataset.hf_dataset,
-        "model": model.__class__.__name__,
-        "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
-        "max_samples": dataset_cfg.dataset.max_samples,
-        "eval_max_samples": eval_max_samples,
-    }
-    regular_test_set = try_load_tokenized_data(
-        f"./{dataset_cfg.dataset.hf_dataset.replace('/', '__')}_tokenized_full",
-        data,
-        model.tokenize,
-        tokenization_config,
-    )["test"]
+    tokenized_data_path = (
+        f"./{dataset_cfg.dataset.hf_dataset.replace('/', '__')}_tokenized_full"
+    )
+
+    if os.path.exists(tokenized_data_path):
+        logger.info(
+            "Loading cached tokenized dataset from %s for evaluation.",
+            tokenized_data_path,
+        )
+        regular_test_set = load_from_disk(tokenized_data_path)["test"]
+    else:
+        logger.info(
+            "No cached tokenized dataset found at %s. Building it now.",
+            tokenized_data_path,
+        )
+        data = dataset_prep(dataset_cfg.dataset)
+        tokenization_config = {
+            "hf_dataset": dataset_cfg.dataset.hf_dataset,
+            "model": model.__class__.__name__,
+            "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
+            "max_samples": dataset_cfg.dataset.max_samples,
+        }
+        regular_test_set = try_load_tokenized_data(
+            tokenized_data_path,
+            data,
+            model.tokenize,
+            tokenization_config,
+        )["test"]
 
     # Needed for the stratified sampling later
     names = [
