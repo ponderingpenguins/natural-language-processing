@@ -1,0 +1,128 @@
+[
+    {
+        "text": "Title: Belarus Bank Denies Money Laundering Charge Content: A bank in Belarus has denied US charges that it laundered money for former Iraqi leader Saddam Hussein. Infobank, in a statement, said it has strictly followed international agreements related to the fight against illegal transactions.",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: China's Lenovo to buy IBM's PC business Content: TOKYO - China's Lenovo Group Ltd. signed a definitive agreement on Wednesday to acquire IBM Corp.'s personal computing division. Lenovo will pay US$1.25 billion in cash for the business, which is expected to transform it into the world's number three PC maker, the companies announced.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: St. Louis Cardinals News Content: Right-hander Matt Morris threw seven solid innings, but the Cardinals needed a bases-loaded walk to second baseman Tony Womack and a grand slam from new right fielder Larry Walker to key a six-run eighth inning for a ...",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Locusts Encroach on West African Rice-Growing Area (Reuters) Content: Reuters - West Africa's worst locust plague for 15 years has encroached on one of the region's largest rice-growing areas, authorities in Mali said on Friday.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Wenger commits future to Arsenal Content: Arsenal FC have agreed a three-year contract extension with manager Arsne Wenger, retaining the Frenchman 's services until May 2008.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Indonesian police release video tape of embassy blast Content: Indonesian police have released video footage of the explosion outside the Australian embassy in Jakarta. At the same time they say there is no evidence to support the Australian Foreign Minister 's claim that",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Water and robots on Mars chosen as tops in 2004 Science Content: It 's the discovery by two Mars rovers that the Red Planet once had water and possibly could have supported life. That recognition comes today from the journal Science.",
+        "true_label": 3,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Plan Would Turn Restore Wash. Estuary Content: NISQUALLY NATIONAL WILDLIFE REFUGE, Wash. - A 15-year plan would restore salt marshes and mudflats for migrating salmon at the Nisqually National Wildlife Refuge, more than 100 years after the farmland was drained and diked.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: 'Cure' a 4-Letter Word for Cancer Doctors Content: At a time when more people are cured of cancer than ever before, fewer doctors seem willing to say so. They call the cancer undetectable, or in remission. They tell patients they can quit seeing cancer specialists. They quote statistics and say chances are slim that the disease will come back.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Visit to a Potemkin village Content: Gongzhong does not resemble any Tibetan village in Tibet. It is a village more from Epcot Center in Walt Disney World.",
+        "true_label": 0,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Israelis force down Lufthansa jet Content: Israeli jets force a flight to Tel Aviv to land in Cyprus after a bomb alert German officials did not consider serious.",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Unprotected PCs Fall To Hacker Bots In Just Four Minutes Content: The lifespan of a poorly protected PC connected to the Internet is a mere four minutes, research released Tuesday claimed. After that, it 's owned by a hacker.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Cost of '12 Days of Christmas ' now is $66,000 Content: PNC Financial Services says the luxury cars and vintage watch would cost you just as much as all the gifts listed in the Christmas carol quot;The Twelve Days of Christmas.",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Intel in new chip breakthrough Content: Intel creates a more powerful memory chip without increasing its size, confounding the firm's critics.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: A great catch? Lobsters Content: How does he like lobster? Boiled, steamed, broiled, baked, grilled? Newburg? Bahar Uttam prefers his with a capital L -- Lobsters -- and sees them frolicking on a tennis court rather than laid out on a plate. In Uttam's mind lurks a tasty dish for the town's sporting crowd, one that could satisfy the five-year hunger of tennis junkies, a ...",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Ken Caminiti, Former NL MVP, Dies of Heart Attack at Age 41 Content: Ken Caminiti, the 1996 National League Most Valuable Player who admitted to using steroids during his Major League Baseball career, died yesterday of a heart attack, his agent said.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Briefly: Israel, Egypt and US trade pact Content: Egypt, Israel and the United States have reached an agreement that allows Egyptian industry to sell products using Israeli parts duty free in America.",
+        "true_label": 0,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Wonder Bread, Twinkies maker files for bankruptcy Content: Interstate Bakeries Corp. , the purveyor of lunch box staples Wonder Bread and Twinkies, filed for bankruptcy protection yesterday, felled by the combination of a more health conscious public and smothering operational costs.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    }
+]

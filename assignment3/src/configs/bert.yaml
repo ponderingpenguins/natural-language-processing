@@ -1,0 +1,19 @@
+bert_model:
+  model_name: "bert-base-uncased"
+  num_labels: 4
+  output_dir: "./bert_output"
+  learning_rate: 2e-5
+  weight_decay: 0.01
+  max_length: 256
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  warmup_steps: 5
+  logging_dir: "./bert_logs"
+  early_stopping_patience: 3
+  batch_size: 16
+  head_dims: [256] # Optional hidden layers. If empty, only one linear layer is used.
+  head_dropout: 0.5 # Dropout probability for the hidden layers in the classification head
+  grid_learning_rates: [2e-4]
+  grid_max_lengths: [128]
+  grid_batch_sizes: [16]
+  freeze_bert: false # Whether to freeze BERT layers during training to speed up training and reduce memory usage

@@ -1,0 +1,21 @@
+lstm_model:
+  vocab_size: 30522
+  embed_dim: 128        # reduce further
+  hidden_dim: 128       # reduce further
+  num_classes: 4
+  num_layers: 1
+  bidirectional: true
+  learning_rate: 5e-4   # reduce LR significantly
+  sequence_length: 128
+  dropout: 0.3         # reduce dropout, it's hurting learning
+  weight_decay: 0.01    # reduce from 0.1
+  tokenizer_name: "bert-base-uncased"
+  init_embeddings_from_bert: false   # USE BERT embeddings—critical for LSTM
+  bert_init_model_name: "bert-base-uncased"
+  output_dir: "./lstm_output"
+  per_device_train_batch_size: 32   # increase batch size
+  per_device_eval_batch_size: 32
+  logging_dir: "./lstm_logs"
+  grid_learning_rates: [1e-3]
+  grid_max_lengths: [256]
+  grid_batch_sizes: [32]

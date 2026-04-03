@@ -1,0 +1,9 @@
+sh0416
+sh0416*
+masked_test_set
+tfidf_scores_by_label.json
+
+# Ignore scaling_law_results contents, except .txt and .png
+scaling_law_results/*
+!scaling_law_results/*.txt
+!scaling_law_results/*.png
