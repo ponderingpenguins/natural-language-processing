@@ -1,91 +1,96 @@
 """LSTM model definition for text classification."""
 
 import torch
-from torch import nn
+import torch.nn as nn
+from penguinlp.helpers import logger
+from transformers import AutoModel, AutoTokenizer
+from transformers.modeling_outputs import SequenceClassifierOutput
 
-from utils.tokenizer import BPETokenizer
 from .base_model import BaseModel
 
-class LSTM(BaseModel):
+
+class LSTMClassifier(BaseModel):
     """LSTM model for text classification.
 
     Supports both unidirectional and bidirectional LSTM with proper handling
     of variable-length sequences using pack_padded_sequence.
     """
 
-    def __init__(
-        self,
-        vocab_size: int,
-        embed_dim: int,
-        hidden_dim: int,
-        num_classes: int,
-        num_layers: int = 2,
-        bidirectional: bool = False,
-        dropout: float = 0.5,
-    ) -> None:
-        """Initialize LSTM model.
-
-        Args:
-            vocab_size: Size of the vocabulary.
-            embed_dim: Dimension of word embeddings.
-            hidden_dim: LSTM hidden dimension.
-            num_classes: Number of output classes.
-            num_layers: Number of stacked LSTM layers (default: 2).
-            bidirectional: Whether to use bidirectional LSTM (default: False).
-            dropout: Dropout probability applied to hidden states (default: 0.5).
-        """
+    def __init__(self, config, device=None, **kwargs):
+        """Initialize LSTM model with config object (LSTMConfig or DictConfig)."""
         super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.tokenizer = BPETokenizer()
-        self.lstm = nn.LSTM(
-            embed_dim,
-            hidden_dim,
-            num_layers=num_layers,
-            batch_first=True,
-            bidirectional=bidirectional,
-            dropout=dropout if num_layers > 1 else 0,
+        self.init_embeddings_from_bert = bool(
+            getattr(config, "init_embeddings_from_bert", False)
         )
-        self.dropout = nn.Dropout(dropout)
-        self.fc = nn.Linear(hidden_dim * (2 if bidirectional else 1), num_classes)
+        self.bert_init_model_name = getattr(
+            config, "bert_init_model_name", config.tokenizer_name
+        )
 
-    def forward(
-        self, x: torch.Tensor, lengths: torch.Tensor | None = None
-    ) -> torch.Tensor:
-        """Forward pass through the model.
+        self.embedding = nn.Embedding(
+            config.vocab_size, config.embed_dim, padding_idx=0
+        )
 
-        Args:
-            x: Input tensor of shape (batch_size, seq_len).
-            lengths: Real sequence lengths before padding (batch_size,).
-                    If None, assumes all sequences are used fully.
+        self.tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_name)
+        self.lstm = nn.LSTM(
+            config.embed_dim,
+            config.hidden_dim,
+            num_layers=config.num_layers,
+            batch_first=True,
+            bidirectional=config.bidirectional,
+            dropout=config.dropout if config.num_layers > 1 else 0,
+        )
+        self.dropout = nn.Dropout(config.dropout)
+        self.fc = nn.Linear(
+            config.hidden_dim * (2 if config.bidirectional else 1), config.num_classes
+        )
 
-        Returns:
-            Logits tensor of shape (batch_size, num_classes).
-        """
-        embedded = self.embedding(x)
+        if self.init_embeddings_from_bert:
+            self._init_embeddings_from_bert()
 
+    def _init_embeddings_from_bert(self) -> None:
+        """Initialize the embedding matrix from a pretrained BERT-like model."""
+        logger.info("Initializing LSTM embeddings from %s", self.bert_init_model_name)
+        bert_model = AutoModel.from_pretrained(self.bert_init_model_name)
+        bert_embeddings = bert_model.get_input_embeddings().weight.detach()
+
+        if bert_embeddings.shape != self.embedding.weight.shape:
+            raise ValueError(
+                "Embedding shape mismatch for BERT initialization: "
+                f"LSTM={tuple(self.embedding.weight.shape)} vs "
+                f"BERT={tuple(bert_embeddings.shape)}. "
+                "Set lstm_model.embed_dim and lstm_model.vocab_size to match the "
+                "selected BERT model, or disable init_embeddings_from_bert."
+            )
+
+        with torch.no_grad():
+            self.embedding.weight.copy_(bert_embeddings)
+            # Keep PAD embedding neutral when padding_idx=0.
+            self.embedding.weight[0].zero_()
+
+    def forward(self, input_ids, labels=None, lengths=None, **kwargs):
+        """Forward pass through the model. Handles variable-length sequences if lengths are provided."""
+        # For LSTM, we need to handle variable-length sequences. If lengths are provided, we use pack_padded_sequence.
+        embedded = self.embedding(input_ids)
         if lengths is not None:
-            # Pack sequences to ignore padding tokens
             packed = nn.utils.rnn.pack_padded_sequence(
                 embedded, lengths.cpu(), batch_first=True, enforce_sorted=False
             )
             _, (hidden, _) = self.lstm(packed)
-            # hidden shape: (num_layers * num_directions, batch, hidden_dim)
         else:
-            # No packing - process all positions
             _, (hidden, _) = self.lstm(embedded)
 
-        # Extract final hidden state
+        # For bidirectional LSTM, concatenate the final forward and backward hidden states
         if self.lstm.bidirectional:
-            # Concatenate final forward and backward hidden states
-            # hidden[-2] is the last forward layer, hidden[-1] is the last backward layer
             last_hidden = torch.cat([hidden[-2], hidden[-1]], dim=1)
         else:
-            # Just take the last layer's hidden state
             last_hidden = hidden[-1]
 
-        # Apply dropout and classification layer
-        return self.fc(self.dropout(last_hidden))
-    
-    def tokenize(self, dataset: dict):
+        logits = self.fc(self.dropout(last_hidden))
+        loss = nn.CrossEntropyLoss()(logits, labels) if labels is not None else None
+
+        # Trainer expects a ModelOutput or a tuple of (loss, logits, ...)
+        return SequenceClassifierOutput(loss=loss, logits=logits)
+
+    def tokenize(self, dataset: dict, **kwargs) -> dict:
         """Tokenize input dataset using the provided BPE tokenizer."""
-        return self.tokenizer(dataset["text"])
+        return self.tokenizer(dataset["text"], **kwargs)

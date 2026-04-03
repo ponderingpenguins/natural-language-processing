@@ -1,62 +1,90 @@
+"""
+Main training script for text classification using BERT and LSTM models with hyperparameter tuning.
+
+This script loads the dataset, initializes the model, and runs hyperparameter tuning using Hugging Face's Trainer API. The configuration is managed using OmegaConf with support for YAML files and CLI overrides.
+"""
+
+from typing import cast
+
 import torch
-
-from penguinlp.config import TrainingConfig
+from datasets import DatasetDict
+from omegaconf import OmegaConf
 from penguinlp.helpers import logger
-from utils.dataset import load_data, preprocess_data
-from utils.training import run_bert_grid_search
-from utils.config import LSTMConfig, BERTConfig
 
-cfg = TrainingConfig()
-bert_cfg = BERTConfig()
-lstm_cfg = LSTMConfig()
+from models.bert import BertClassifier
+from models.lstm import LSTMClassifier
+from utils.dataset import dataset_prep, try_load_tokenized_data
+from utils.training import hyperparameter_tuning
 
+# Set the device for training (GPU if available, otherwise CPU).
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("mps") if torch.backends.mps.is_available() else DEVICE
 
-def dataset_prep():
-    data = load_data(cfg)
-    logger.info("Loaded dataset %s with splits: %s", cfg.hf_dataset, data.keys())
-        
-    # Preprocess the datasets using the defined pipeline.
-    logger.info("Preprocessing splits...")
-    data = preprocess_data(data)
-    logger.info("Dataset preprocessing complete. Sample from preprocessed dataset: %s", data["train"][0])
-    
-    return data
 
-def tokenize_data(data, model):
-    # Tokenize the datasets using the model's tokenizer.
-    tokenizer_function = model.tokenize
-    for split_name in ["train", "dev", "test"]:
-        logger.info("Tokenizing %s set...", split_name)
-        data[split_name] = data[split_name].map(tokenizer_function, batched=False, load_from_cache_file=False)
-        logger.info("Completed tokenization for %s set. Set size: %d", split_name, len(data[split_name]))
+def main() -> None:
+    """Main function to run the training pipeline with OmegaConf YAML config and CLI overrides."""
+    # Load config from YAML file (default: configs/bert.yaml)
+    bert_model_cfg = OmegaConf.load("configs/bert.yaml")
+    lstm_model_cfg = OmegaConf.load("configs/lstm.yaml")
+    dataset_cfg = OmegaConf.load("configs/dataset.yaml")
+    training_cfg = OmegaConf.load("configs/training.yaml")
+    cli_cfg = OmegaConf.from_cli()
+    cfg = OmegaConf.merge(lstm_model_cfg, bert_model_cfg, dataset_cfg, cli_cfg)
+    logger.info("Training configuration:\n%s", OmegaConf.to_yaml(cfg))
 
-    logger.info("Tokenization complete.")
-    # data = tokenize_data(data, tokenizer_function)
-    return data
+    data = dataset_prep(cfg.dataset)
+    logger.info("Initializing model and tokenizer...")
+    model = BertClassifier(cfg.bert_model, device=DEVICE)
+    model = LSTMClassifier(cfg.lstm_model, device=DEVICE)
 
-def main():
-    data = dataset_prep()
-    
-    # lstm_model = LSTM(
-    #     lstm_cfg.vocab_size,
-    #     lstm_cfg.embed_dim,
-    #     lstm_cfg.hidden_dim,
-    #     lstm_cfg.num_classes,
-    #     lstm_cfg.num_layers,
-    #     lstm_cfg.bidirectional,
-    #     lstm_cfg.dropout,
+    # Load tokenized data from disk if it exists, otherwise tokenize and save to disk for future runs
+    tokenized_data_path = f"./{cfg.dataset.hf_dataset}_tokenized"
+    tokenization_config = {
+        "hf_dataset": cfg.dataset.hf_dataset,
+        "model": model.__class__.__name__,
+        "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
+        "max_samples": cfg.dataset.max_samples,
+        "sequence_length": getattr(cfg.lstm_model, "sequence_length", None),
+        "max_length": getattr(cfg.bert_model, "max_length", None),
+    }
+    data = try_load_tokenized_data(
+        tokenized_data_path, data, model.tokenize, tokenization_config
+    )
+    data = cast(DatasetDict, data)
+
+    logger.info("Starting hyperparameter search for the model...")
+    # Drop unnecessary columns before training
+    data = DatasetDict(
+        {
+            split: ds.remove_columns(
+                [c for c in cfg.dataset.cols_to_drop if c in ds.column_names]
+            )
+            for split, ds in data.items()
+        }
+    )
+
+    # Print number of parameters in the model
+    num_params = sum(p.numel() for p in model.parameters())
+    logger.info("Model initialized with %d parameters", num_params)
+
+    # search_results = hyperparameter_tuning(
+    #     cfg=OmegaConf.merge(cfg.bert_model, training_cfg.training),
+    #     data=data,
+    #     model_fn=lambda: BertClassifier(cfg.bert_model, device=DEVICE),
     # )
-    # lstm_model.to(DEVICE)
-    # lstm_data = tokenize_data(data, lstm_model)
-    
-    logger.info("Starting grid search for BERT model...")
-    search_results = run_bert_grid_search(data, bert_cfg, tokenize_data, DEVICE)
-    logger.info("Grid search completed. Best trial: %s", search_results["best"])
+    # logger.info(
+    #     "Hyperparameter search completed. Best trial: %s", search_results["best"]
+    # )
 
-    # # Train the LSTM model.
-    # logger.info("Starting training for LSTM model...")
-    # train_lstm(lstm_model, lstm_data, lstm_cfg)
+    search_results = hyperparameter_tuning(
+        cfg=OmegaConf.merge(cfg.lstm_model, training_cfg.training),
+        data=data,
+        model_fn=lambda: LSTMClassifier(cfg.lstm_model, device=DEVICE),
+    )
+    logger.info(
+        "Hyperparameter search completed. Best trial: %s", search_results["best"]
+    )
+
 
 if __name__ == "__main__":
     main()
