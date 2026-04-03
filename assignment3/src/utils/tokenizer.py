@@ -4,7 +4,6 @@ Copied from Assignment 2 and modified to only to support BPE Tokenizer.
 """
 import pickle
 from pathlib import Path
-from typing import Literal
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
