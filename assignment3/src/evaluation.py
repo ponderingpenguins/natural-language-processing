@@ -7,6 +7,7 @@ This script loads the trained LSTM model from disk, evaluates it on both the reg
 import argparse
 import json
 import os
+import re
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -28,11 +29,52 @@ if torch.backends.mps.is_available():
     DEVICE = torch.device("mps")
 
 
+def _infer_lstm_architecture_from_state_dict(state_dict: dict) -> dict:
+    """Infer LSTM architecture values needed to instantiate the model."""
+    layer_indices = []
+    bidirectional = False
+
+    for key in state_dict:
+        match = re.match(r"lstm\.weight_ih_l(\d+)(?:_reverse)?$", key)
+        if not match:
+            continue
+        layer_indices.append(int(match.group(1)))
+        if key.endswith("_reverse"):
+            bidirectional = True
+
+    inferred = {}
+    if layer_indices:
+        inferred["num_layers"] = max(layer_indices) + 1
+    inferred["bidirectional"] = bidirectional
+    return inferred
+
+
 def load_model(model_type: str, model_path: str, config_path: str):
     """Load the trained model and its configuration from disk."""
 
     with open(config_path, encoding="utf-8") as f:
         config = OmegaConf.create(json.load(f))
+
+    state_dict = load_file(f"{model_path}/model.safetensors")
+
+    if model_type == "lstm":
+        # Evaluation loads trained weights directly, so skip expensive/random init from BERT.
+        if hasattr(config, "init_embeddings_from_bert"):
+            config.init_embeddings_from_bert = False
+
+        inferred = _infer_lstm_architecture_from_state_dict(state_dict)
+        for field, inferred_value in inferred.items():
+            if hasattr(config, field):
+                configured_value = getattr(config, field)
+                if configured_value != inferred_value:
+                    logger.warning(
+                        "Config/model mismatch for %s: config=%s checkpoint=%s. "
+                        "Using checkpoint value.",
+                        field,
+                        configured_value,
+                        inferred_value,
+                    )
+            setattr(config, field, inferred_value)
 
     model = (
         LSTMClassifier(config, device=DEVICE)
@@ -40,8 +82,13 @@ def load_model(model_type: str, model_path: str, config_path: str):
         else BertClassifier(config, device=DEVICE)
     )
 
-    state_dict = load_file(f"{model_path}/model.safetensors")
-    model.load_state_dict(state_dict)
+    missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+    if missing_keys or unexpected_keys:
+        raise RuntimeError(
+            "Model/checkpoint mismatch after alignment. "
+            f"Missing keys: {missing_keys}; Unexpected keys: {unexpected_keys}."
+        )
+
     model.eval()
     model.to(DEVICE)
 
@@ -58,15 +105,27 @@ def evaluate(model, dataset, batch_size=16, suffix="", output_dir="."):
         input_tensors = [
             torch.tensor(ids, dtype=torch.long) for ids in batch["input_ids"]
         ]
-        lengths = torch.tensor(
-            [len(ids) for ids in batch["input_ids"]], dtype=torch.long
-        )
-        input_ids = pad_sequence(input_tensors, batch_first=True, padding_value=0).to(
-            DEVICE
-        )
+        if "attention_mask" in batch:
+            mask_tensors = [
+                torch.tensor(mask, dtype=torch.long) for mask in batch["attention_mask"]
+            ]
+        else:
+            mask_tensors = [
+                torch.tensor([1 if token_id != 0 else 0 for token_id in ids])
+                for ids in batch["input_ids"]
+            ]
+        attention_mask = pad_sequence(
+            mask_tensors, batch_first=True, padding_value=0
+        ).to(DEVICE)
+        input_ids = pad_sequence(input_tensors, batch_first=True, padding_value=0)
+        input_ids = input_ids.to(DEVICE)
         labels = torch.tensor(batch["labels"], dtype=torch.long).to(DEVICE)
         with torch.no_grad():
-            outputs = model(input_ids=input_ids, labels=labels, lengths=lengths)
+            outputs = model(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                labels=labels,
+            )
         preds = torch.argmax(outputs.logits, dim=-1).cpu().numpy()
         all_preds.extend(preds)
         all_labels.extend(labels.cpu().numpy())
@@ -134,7 +193,7 @@ def main():
     )
     args = parser.parse_args()
 
-    MODEL_PATH = "lstm_output/run-0/checkpoint-626"
+    MODEL_PATH = "lstm_output/run-0/checkpoint-160"
     CONFIG_PATH = "lstm_output/config.json"
     MODEL_TYPE = "lstm"
     OUTPUT_DIR = f"{MODEL_TYPE}_evaluation"
@@ -153,20 +212,34 @@ def main():
     if eval_max_samples is None:
         eval_max_samples = getattr(dataset_cfg.dataset, "eval_max_samples", None)
 
-    data = dataset_prep(dataset_cfg.dataset)
-    tokenization_config = {
-        "hf_dataset": dataset_cfg.dataset.hf_dataset,
-        "model": model.__class__.__name__,
-        "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
-        "max_samples": dataset_cfg.dataset.max_samples,
-        "eval_max_samples": eval_max_samples,
-    }
-    regular_test_set = try_load_tokenized_data(
-        f"./{dataset_cfg.dataset.hf_dataset.replace('/', '__')}_tokenized_full",
-        data,
-        model.tokenize,
-        tokenization_config,
-    )["test"]
+    tokenized_data_path = (
+        f"./{dataset_cfg.dataset.hf_dataset.replace('/', '__')}_tokenized_full"
+    )
+
+    if os.path.exists(tokenized_data_path):
+        logger.info(
+            "Loading cached tokenized dataset from %s for evaluation.",
+            tokenized_data_path,
+        )
+        regular_test_set = load_from_disk(tokenized_data_path)["test"]
+    else:
+        logger.info(
+            "No cached tokenized dataset found at %s. Building it now.",
+            tokenized_data_path,
+        )
+        data = dataset_prep(dataset_cfg.dataset)
+        tokenization_config = {
+            "hf_dataset": dataset_cfg.dataset.hf_dataset,
+            "model": model.__class__.__name__,
+            "tokenizer_name": getattr(model, "tokenizer", None).__class__.__name__,
+            "max_samples": dataset_cfg.dataset.max_samples,
+        }
+        regular_test_set = try_load_tokenized_data(
+            tokenized_data_path,
+            data,
+            model.tokenize,
+            tokenization_config,
+        )["test"]
 
     # Needed for the stratified sampling later
     names = [

@@ -1,0 +1,44 @@
+In this assignment, we compare two neural models for news classification: a Convolutional Neural Network (CNN) and a Long Short-Term Memory network (LSTM). To make the comparison fair, both models use the same data splits, preprocessing pipeline, and evaluation setup. The overall classification task pipelines is illustrated in Figure~\ref{fig:pipeline}.
+
+
+
+\paragraph{Shared input representation.}
+Both models receive the same preprocessed and tokenized text (see Section~\ref{sec:dataset} for preprocessing and tokenization details). Sequences are padded or truncated to the chosen maximum length. Both models begin with a trainable embedding layer that maps token ids to dense vectors. Note that the CNN has inherent feature extraction through its convolutional layers, while the LSTM relies on the embeddings and recurrent connections for representation learning.
+
+\paragraph{CNN model.}
+The CNN is based on the text classification model of \cite{kim-2014-convolutional}. After the embedding layer, the model applies several 1-dimensional convolution filters in parallel. These filters are used to detect informative local patterns in the text, such as short phrases or combinations of nearby words. We use multiple kernel sizes so the model can capture patterns of different lengths. After the convolution step, a ReLU activation function is applied, followed by max-pooling to keep the strongest signal from each filter. The resulting features are then concatenated, followed by dropout for regularisation, and finally passed to a linear layer that predicts one of the four classes.
+
+\paragraph{LSTM model.}
+The LSTM model is based on the Long Short-Term Memory architecture introduced by \cite{hochreiter1997lstm}. It reads the input sequence token by token, which makes it suitable for modelling word order and longer dependencies in the text. We use a stacked 2-layer LSTM. To avoid learning from padding tokens, we handle variable-length sequences by skipping over padded positions during the recurrent computation, so the model only processes the real tokens in each example. For classification, we use the final hidden state of the top LSTM layer as the representation of the whole article. In the bidirectional setting, the model combines information from both directions before making the final prediction. As in the CNN, dropout is applied before the final linear layer.
+
+\paragraph{Hyperparameters.}
+Table~\ref{tab:hyperparameters} shows the hyperparameter search space for both models. For each model, the best setting was selected based on macro-F1 on the development set.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{CNN} & \textbf{LSTM} \\
+\midrule
+Embedding dim $d$    & \{128, 512\}       & \{128, 256\} \\
+Filters $F$          & \{100, 300\}       & --- \\
+Kernel sizes $K$     & \{[3,5], [3,5,7]\} & --- \\
+Hidden dim $H$       & ---                & \{128, 256, 512\} \\
+Bidirectional        & ---                & \{False, True\} \\
+Dropout              & \{0.3, 0.5\}       & 0.5 \\
+Learning rate        & \{1e-3, 1e-4\}     & \{1e-3, 1e-4\} \\
+Weight decay         & \{1e-5, 1e-3\}     & \{0, 1e-5\} \\
+\bottomrule
+\end{tabular}
+\caption{Hyperparameter search spaces for the CNN and LSTM models.}
+\label{tab:hyperparameters}
+\end{table}
+
+\paragraph{Shared training settings.}
+Both models were trained with the Adam optimiser. We used gradient clipping with a maximum norm of 1.0 and early stopping with a patience of 3 epochs based on validation loss. The batch size was set to 512, sequence length to 128, and the final training runs lasted for at most 15 epochs. During hyperparameter tuning, each configuration was trained for 5 epochs.
+
+\paragraph{Ablation: maximum sequence length.}
+As our ablation study, we vary the maximum sequence length and compare settings of 64, 128, and 256 tokens. To clarify, the hyperparameters in Table~\ref{tab:hyperparameters} were only tuned for the seq128 setting. For the other two sequence lengths, we kept all hyperparameters fixed to the best values found in the seq128 runs. This allows us to study how much context the models need and whether giving them longer (or shorter) input sequences improves performance enough to justify the extra computation.
+
+

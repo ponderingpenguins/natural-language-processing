@@ -1,0 +1,21 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Model} & \textbf{Seq Len} & \textbf{Dev F1} & \textbf{Test Acc} & \textbf{Macro F1} \\
+\midrule
+\multicolumn{5}{l}{\textit{Main model comparison (seq length = 128)}} \\
+\textbf{CNN} & \textbf{128} & 0.9101 & 0.9071 & 0.9069 \\
+\textbf{LSTM} & \textbf{128} & 0.9090 & 0.9057 & 0.9059 \\
+\midrule
+\multicolumn{5}{l}{\textit{Ablation: sequence length}} \\
+CNN & 64 & 0.9096 & \textbf{0.9099} & \textbf{0.9096} \\
+CNN & 256 & \textbf{0.9109} & 0.9075 & 0.9072 \\
+LSTM & 64 & 0.9086 & 0.9034 & 0.9032 \\
+LSTM & 256 & 0.9076 & 0.9074 & 0.9074 \\
+\bottomrule
+\end{tabular}
+\caption{Main comparison at sequence length 128 (CNN vs. LSTM), followed by sequence-length ablations. Dev F1 is the best development macro-F1 found during tuning. Best scores per metric column are bolded.}
+\label{tab:test_results}
+\end{table}

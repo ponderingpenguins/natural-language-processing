@@ -1,0 +1,72 @@
+\documentclass{article}
+
+% import preamble
+\input{preamble.tex}
+\setlength{\droptitle}{-5em}
+\title{\textbf{Natural Language Processing: Assignment 2}}
+\author{Efe Özbal (s5996821), Sigurdur Haukur Birgisson (s5982960), Josh van Vliet (s5950465)}
+\date{March 13, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Dataset \& Setup}
+\label{sec:dataset}
+% (splits, preprocessing)
+\import{sections/}{1_dataset_setup.tex}
+
+
+
+\section{Models}
+% (baselines and/or neural/Transformer)
+\import{sections/}{2_models.tex}
+
+\section{Experimental Protocol}
+% (tuning, early stopping, selection)
+\import{sections/}{3_experimental_protocol.tex}
+
+\section{Results}
+\label{sec:results}
+% (tables, confusion matrix)
+\import{sections/}{4_results.tex}
+
+\section{Error Analysis}
+% (categories + examples)
+\import{sections/}{5_error_analysis.tex}
+
+\section{Discussion}
+% (what worked, what didn’t, why)
+\import{sections/}{6_discussion.tex}
+
+\section{Limitations}
+% (required in Assignment 3)
+\import{sections/}{7_limitations.tex}
+
+% references apa
+\bibliographystyle{apalike}
+\bibliography{references}
+\newpage
+
+\appendix
+\newpage
+\newgeometry{margin=1.4cm}
+\begin{landscape}
+\section{Detailed Misclassification Examples}
+\label{app:misclass}
+\import{sections/}{8_appendix.tex}
+
+\clearpage
+
+\end{landscape}
+\restoregeometry
+
+\section{Classification Reports and Confusion Matrices}
+\label{app:reports}
+\import{sections/}{9_appendixb.tex}
+
+\section{Additional Figures}
+\label{app:additional_figures}
+\import{sections/}{10_appendixc.tex}
+
+\end{document}

@@ -1,9 +1,149 @@
 [
     {
-        "text": "Title: Belarus Bank Denies Money Laundering Charge Content: A bank in Belarus has denied US charges that it laundered money for former Iraqi leader Saddam Hussein. Infobank, in a statement, said it has strictly followed international agreements related to the fight against illegal transactions.",
+        "text": "Title: Sony looks under the Christmas tree Content: Americans will go gadget shopping this holiday season even if oil prices go up, Sony execs say.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: India launches rural aid project Content: India launches a $445m food-for-work programme aimed at tackling hunger in poor rural areas.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Toy Safety Glance Content: 398,000 Bumble Bee toys distributed by Graco Children 's Products. Graco received 26 reports of antennae breaking off the toys, including five reports of children who started to choke on the broken parts.",
         "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Intel in new chip breakthrough Content: Intel creates a more powerful memory chip without increasing its size, confounding the firm's critics.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: New EU Executive Chief Announces Revamped Team Content: The incoming head of the European Union 's executive body has announced changes to his group of commissioners and says he is ready to go to the European Parliament to seek its approval of his team.",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Barents Sea Under Threat from Fishing, Oil (Reuters) Content: Reuters - The Arctic Barents Sea is under threat from overfishing, oil and gas exploration and Soviet-era radioactive waste, the U.N. Environment Program said on Tuesday.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: GM Protests Spread Across Europe Content: Tens of thousands of General Motors workers across Europe were set to stop working on Tuesday in a sign of solidarity with their German colleagues, who face massive job cuts.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Campaign Spending on Rise in House Races (AP) Content: AP - Ground zero for the country's costliest House race is Dallas, where two congressmen shoehorned into the same new district have each raised $4.1 million #151; and counting #151; to bash each other with television ads and sophisticated mailings.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: CBS 's Moonves Gives Loyalists a Piece of the Eye 's Pie Content: Viacom co-president and CBS Chairman Leslie Moonves officially whacked the head of the media conglom 's television studio yesterday, and divvied up the job among loyal CBS staffers.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Study: 39 Million Americans In Working Poor Families Content: WASHINGTON -- A new report indicates that one in every five US jobs pays less than a poverty-level wage for a family of four. As a result, nearly 39 million Americans, including 20 million children, are members",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Agassi Overcomes Verdasco Power Content: STOCKHOLM (Reuters) - Andre Agassi marched into the Stockholm Open semifinals Friday, beating Spanish eighth seed Fernando Verdasco 7-6, 6-2 in his toughest match of the tournament.",
+        "true_label": 1,
         "predicted_label": 0,
         "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Mexico Struggles to Preserve Ancient Ruins (Reuters) Content: Reuters - The majestic pyramids and temples of the ancient Zapotec kingdom of Monte Alban sit spectacularly atop a hill in Mexico's southern state of Oaxaca.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Worldwide PC Market Seen Doubling by 2010 Content: NEW YORK (Reuters) - The number of personal computers worldwide is expected to double to about 1.3 billion by 2010, driven by explosive growth in emerging markets such as China, Russia and India, according to a report released on Tuesday by Forrester Research Inc.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Indians Trade Lawton Content: A small-markets swap takes place on Saturday as the Indians send outfielder Matt Lawton to the Pirates for left-handed reliever Arthur Rhodes, sources say.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Pfizer's Gloom Factor Content: The stock will continue to be depressed, but things will improve if Celebrex's safety is proven.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Visit to a Potemkin village Content: Gongzhong does not resemble any Tibetan village in Tibet. It is a village more from Epcot Center in Walt Disney World.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Guinn 's lack of fire does him in Content: Amazing what a change of scenery will do. After moving training camps from Houston to San Antonio after a couple of lackluster performances, featherweight contender Rocky",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Cocoa prices down but Ivorian exports still blocked Content: World cocoa prices were down on Tuesday but off the day 's lows as exports remained on hold after mob violence and military clashes in Ivory Coast, the key global supplier, traders said.",
+        "true_label": 0,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Pinkel reinstates Damien Nash Content: Missouri tailback Damien Nash was reinstated by coach Gary Pinkel, ending a one-game suspension for the teams ' leading rusher.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: New federal law ends check floating Content: A new federal law that went into effect yesterday will eventually eliminate the days of check floating.. However, some Sumner County bankers say it depends on where you bank and",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Vivendi, Messier Are Fined $1.35M Each Content: French regulators fined Vivendi Universal SA and its former boss Jean-Marie Messier nearly $1.4 million each on Tuesday for deceiving investors with a litany of inaccurate financial communications issued over a two-year period.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
         "true_label_name": "Business"
     },
     {
@@ -14,13 +154,6 @@
         "true_label_name": "Sci/Tech"
     },
     {
-        "text": "Title: St. Louis Cardinals News Content: Right-hander Matt Morris threw seven solid innings, but the Cardinals needed a bases-loaded walk to second baseman Tony Womack and a grand slam from new right fielder Larry Walker to key a six-run eighth inning for a ...",
-        "true_label": 1,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sports"
-    },
-    {
         "text": "Title: Locusts Encroach on West African Rice-Growing Area (Reuters) Content: Reuters - West Africa's worst locust plague for 15 years has encroached on one of the region's largest rice-growing areas, authorities in Mali said on Friday.",
         "true_label": 3,
         "predicted_label": 0,
@@ -28,70 +161,21 @@
         "true_label_name": "Sci/Tech"
     },
     {
-        "text": "Title: Wenger commits future to Arsenal Content: Arsenal FC have agreed a three-year contract extension with manager Arsne Wenger, retaining the Frenchman 's services until May 2008.",
+        "text": "Title: Warne ends India 's teen resistance Content: India posted 199/7 and trail Australia by 275 runs at lunch on the third day of the first Test at Bangalore. India 's two teenagers Pathiv Patel and Irfan Pathan, who resumed on 18 and one respectively, fought",
         "true_label": 1,
-        "predicted_label": 3,
-        "predicted_label_name": "Sci/Tech",
+        "predicted_label": 0,
+        "predicted_label_name": "World",
         "true_label_name": "Sports"
     },
     {
-        "text": "Title: Indonesian police release video tape of embassy blast Content: Indonesian police have released video footage of the explosion outside the Australian embassy in Jakarta. At the same time they say there is no evidence to support the Australian Foreign Minister 's claim that",
-        "true_label": 0,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
-        "true_label_name": "World"
-    },
-    {
-        "text": "Title: Water and robots on Mars chosen as tops in 2004 Science Content: It 's the discovery by two Mars rovers that the Red Planet once had water and possibly could have supported life. That recognition comes today from the journal Science.",
-        "true_label": 3,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Title: Plan Would Turn Restore Wash. Estuary Content: NISQUALLY NATIONAL WILDLIFE REFUGE, Wash. - A 15-year plan would restore salt marshes and mudflats for migrating salmon at the Nisqually National Wildlife Refuge, more than 100 years after the farmland was drained and diked.",
-        "true_label": 3,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Title: 'Cure' a 4-Letter Word for Cancer Doctors Content: At a time when more people are cured of cancer than ever before, fewer doctors seem willing to say so. They call the cancer undetectable, or in remission. They tell patients they can quit seeing cancer specialists. They quote statistics and say chances are slim that the disease will come back.",
-        "true_label": 3,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Title: Visit to a Potemkin village Content: Gongzhong does not resemble any Tibetan village in Tibet. It is a village more from Epcot Center in Walt Disney World.",
-        "true_label": 0,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "World"
-    },
-    {
-        "text": "Title: Israelis force down Lufthansa jet Content: Israeli jets force a flight to Tel Aviv to land in Cyprus after a bomb alert German officials did not consider serious.",
-        "true_label": 0,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
-        "true_label_name": "World"
-    },
-    {
-        "text": "Title: Unprotected PCs Fall To Hacker Bots In Just Four Minutes Content: The lifespan of a poorly protected PC connected to the Internet is a mere four minutes, research released Tuesday claimed. After that, it 's owned by a hacker.",
-        "true_label": 3,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Title: Cost of '12 Days of Christmas ' now is $66,000 Content: PNC Financial Services says the luxury cars and vintage watch would cost you just as much as all the gifts listed in the Christmas carol quot;The Twelve Days of Christmas.",
+        "text": "Title: Unions protest as overtime rules take effect Content: WASHINGTON -- Hundreds of workers rallied on the steps of the Labor Department yesterday to protest the implementation of new rules they say will cause as many as 6 million Americans to lose their overtime pay. But the Bush administration officials who crafted the complex regulations insisted more workers will actually qualify for extra pay under the plan, which almost ...",
         "true_label": 2,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
         "true_label_name": "Business"
     },
     {
-        "text": "Title: Intel in new chip breakthrough Content: Intel creates a more powerful memory chip without increasing its size, confounding the firm's critics.",
+        "text": "Title: Boeing to build cargo version of 777 Content: NEW YORK: Boeing Co said today it will manufacture a cargo version of the twin-engine Boeing 777 commercial airliner. Due to enter service late in the fourth quarter of 2008, the Boeing 777 Freighter will",
         "true_label": 2,
         "predicted_label": 3,
         "predicted_label_name": "Sci/Tech",
@@ -105,21 +189,119 @@
         "true_label_name": "Sports"
     },
     {
-        "text": "Title: Ken Caminiti, Former NL MVP, Dies of Heart Attack at Age 41 Content: Ken Caminiti, the 1996 National League Most Valuable Player who admitted to using steroids during his Major League Baseball career, died yesterday of a heart attack, his agent said.",
+        "text": "Title: Westwood Closes in on First Title of 2004 Content: SUN CITY, South Africa (Reuters) - Briton Lee Westwood closed in on his first title of 2004 when he claimed the third-round lead in the Sun City Golf Challenge Saturday.",
         "true_label": 1,
         "predicted_label": 0,
         "predicted_label_name": "World",
         "true_label_name": "Sports"
     },
     {
-        "text": "Title: Briefly: Israel, Egypt and US trade pact Content: Egypt, Israel and the United States have reached an agreement that allows Egyptian industry to sell products using Israeli parts duty free in America.",
-        "true_label": 0,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "World"
+        "text": "Title: Danger - falling dollars Content: The sharp fall in the dollar on the foreign exchange markets - and the consequent rise in the value of the euro - may seem like problems that are of little direct concern to the UK, which never signed up to the euro in the first place.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
     },
     {
         "text": "Title: Wonder Bread, Twinkies maker files for bankruptcy Content: Interstate Bakeries Corp. , the purveyor of lunch box staples Wonder Bread and Twinkies, filed for bankruptcy protection yesterday, felled by the combination of a more health conscious public and smothering operational costs.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: A perfect storm of political peril, unless... Content: The extended train wreck that has been American-dominated Iraq is winding its way toward a decisive intersection: the national elections scheduled for Jan. 30, 2005, where voters will be asked",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Plan Would Turn Restore Wash. Estuary Content: NISQUALLY NATIONAL WILDLIFE REFUGE, Wash. - A 15-year plan would restore salt marshes and mudflats for migrating salmon at the Nisqually National Wildlife Refuge, more than 100 years after the farmland was drained and diked.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Clubbing Wet Seal Content: A same-stores sales drop that's less crummy than expected can't fix this sick pup.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Nursery rhymes more violent than TV (Reuters) Content: Reuters - Children's nursery rhymes contain 10 times more violence than television shows broadcast before the 9 p.m. \"watershed\" after which more adult content can be shown, research has said.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Tough to predict a hurricane landfall Content: this season 's busy season of landfalling Atlantic hurricanes has seen a few less-than-perfect calls by tropical",
+        "true_label": 3,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Finance: Losing the Right to Sue Content: WASHINGTON (Reuters) - More and more businesses are sticking mandatory arbitration clauses into their contracts, forcing consumers to give up their right to sue if they want to conduct business, and consumer groups have made the elimination of these clauses a top priority.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Panel: U.S. Must Diversify Oil Supplies Content: WASHINGTON (Reuters) - The United States must diversify its global oil supplies, expand a world network of strategic petroleum reserves and raise fuel efficiency standards to ensure its energy security, a panel of experts will recommend on Wednesday.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: FCC OK's paging company deal (TheDeal.com) Content: TheDeal.com - Arch Wireless Inc. can complete its $367 million acquisition of Metrocall Holdings Inc.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Title: Lucent's history a case study in wild rides Content: If you've ever wondered what ignited America's late-1990s obsession with telecom and tech stocks, you could well argue it all started with Lucent Technologies .",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Shell Warns of New Cuts in Reserves of Oil and Gas Content: The warning came during its earnings report and on a day when Shell said it would merge the two entities that make up the company, unifying the boards and management.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: Guilty Plea Seen in Computer Associates Case Content: Steven Woghin, the former general counsel of Computer Associates, will plead guilty to criminal charges.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Title: F1 power struggle now in session. Content: The legal battle for control of Formula One gets underway in earnest today, with Bernie Ecclestone and the three German banks that make up the major shareholding in the sport going to court to decide who has the right to power.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Title: Future Doctors, Crossing Borders Content: Students at the Mount Sinai School of Medicine learn that diet and culture shape health in East Harlem.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Title: Boeing gets downpayments Content: Boeing has received downpayments for up to 200 of its new 7E7 planes in addition to the known 52 orders it has gained, Chief Executive Harry Stonecipher said in an interview published on Thursday.",
         "true_label": 2,
         "predicted_label": 3,
         "predicted_label_name": "Sci/Tech",
