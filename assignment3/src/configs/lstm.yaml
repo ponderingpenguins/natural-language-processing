@@ -1,21 +1,23 @@
 lstm_model:
   vocab_size: 30522
-  embed_dim: 768 # Match BERT's hidden size for compatibility
-  init_embeddings_from_bert: true    # Use BERT's embeddings to initialize the LSTM's embedding layer
+  embed_dim: 256
+  init_embeddings_from_bert: false
   hidden_dim: 256
   num_classes: 4
-  num_layers: 1
+  num_layers: 2
   bidirectional: true
-  learning_rate: 5e-4
-  sequence_length: 256
+  pooling_type: "mean"
+  pack_sequences: false
+  learning_rate: 3e-4
+  sequence_length: 128
   dropout: 0.4
-  weight_decay: 0.1
+  weight_decay: 0.01
   tokenizer_name: "bert-base-uncased"
   output_dir: "./lstm_output"
   bert_init_model_name: "bert-base-uncased"
   per_device_train_batch_size: 32
   per_device_eval_batch_size: 32
   logging_dir: "./lstm_logs"
-  grid_learning_rates: [0.001]
-  grid_max_lengths: [256]
+  grid_learning_rates: [0.0003]
+  grid_max_lengths: [128]
   grid_batch_sizes: [32]

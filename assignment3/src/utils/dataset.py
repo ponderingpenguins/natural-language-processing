@@ -8,6 +8,7 @@ from typing import Any, cast
 
 from datasets import (  # type: ignore
     ClassLabel,
+    Dataset,
     DatasetDict,
     load_dataset,
     load_from_disk,
@@ -20,7 +21,12 @@ from torch.utils.data import Dataset as TorchDataset
 
 def load_data(cfg: dict) -> DatasetDict:
     """Load the AG News dataset and create train/dev/test splits."""
-    dataset = load_dataset(cfg.hf_dataset)
+    try:
+        dataset = load_dataset(cfg.hf_dataset)
+    except Exception as exc:
+        logger.warning("Primary dataset load failed for %s: %s", cfg.hf_dataset, exc)
+        dataset = _load_cached_ag_news(cfg.hf_dataset)
+
     # Even though AG News is balanced across classes, we use stratified sampling
     # to guarantee the dev set preserves the label distribution.
     full_train_ds = dataset["train"]
@@ -112,6 +118,37 @@ def load_data(cfg: dict) -> DatasetDict:
         )["test"]
 
     return DatasetDict({"train": train_ds, "dev": dev_ds, "test": test_ds})
+
+
+def _load_cached_ag_news(hf_dataset: str) -> DatasetDict:
+    """Fallback loader for locally cached AG News Arrow files.
+    
+    TODO: Maybe clean this up a bit :)"""
+    if hf_dataset != "sh0416/ag_news":
+        raise RuntimeError(
+            f"No offline fallback is configured for dataset {hf_dataset!r}."
+        )
+
+    cache_root = Path(
+        "/home/ubuntu/.cache/huggingface/datasets/"
+        "sh0416___ag_news/default/0.0.0/70e3fa1915be9a8daebec5e840f20df9a8e18793"
+    )
+    train_path = cache_root / "ag_news-train.arrow"
+    test_path = cache_root / "ag_news-test.arrow"
+
+    if not train_path.exists() or not test_path.exists():
+        raise FileNotFoundError(
+            "Offline AG News cache not found. Expected arrow files at "
+            f"{train_path} and {test_path}."
+        )
+
+    logger.info("Loading AG News from offline cached arrow files in %s", cache_root)
+    return DatasetDict(
+        {
+            "train": Dataset.from_file(str(train_path), in_memory=True),
+            "test": Dataset.from_file(str(test_path), in_memory=True),
+        }
+    )
 
 
 def preprocess_data(dataset: DatasetDict) -> DatasetDict:

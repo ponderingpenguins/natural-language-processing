@@ -1,0 +1,14 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{l l r r r r}
+\hline
+Model & Category & Dev Acc & Dev Macro-F1 & Test Acc & Test Macro-F1 \\
+\hline
+A2 CNN (seq64) & baseline & 0.9097 & 0.9096 & 0.9099 & 0.9096 \\
+A3 LSTM (updated_full) & neural & 0.9103 & 0.9106 & 0.9099 & 0.9100 \\
+A3 DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
+\hline
+\end{tabular}
+\caption{Assignment 3 model comparison on AG News (same split).}
+\label{tab:a3_model_comparison}
+\end{table}

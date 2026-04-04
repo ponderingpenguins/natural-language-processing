@@ -1,0 +1,10 @@
+              precision    recall  f1-score   support
+
+       World     0.9466    0.8858    0.9152      1900
+      Sports     0.9517    0.9642    0.9579      1900
+    Business     0.8579    0.8932    0.8752      1900
+    Sci/Tech     0.8874    0.8963    0.8919      1900
+
+    accuracy                         0.9099      7600
+   macro avg     0.9109    0.9099    0.9100      7600
+weighted avg     0.9109    0.9099    0.9100      7600

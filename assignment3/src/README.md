@@ -1,146 +1,148 @@
 # Assignment 3: Transformer Fine-tuning, Robustness, and Limitations
 
-This repository contains code for AG News text classification with two model families:
+This repository contains AG News text classification code with two model families:
 
-- BERT-based classifier (fine-tuning a pretrained encoder)
+- DistilBERT classifier (fine-tuned pretrained encoder)
 - LSTM baseline classifier
 
-The project also includes two robustness analyses required by the assignment:
+The robustness part includes:
 
-- Keyword masking probe
-- Label-noise sensitivity / scaling-law style data-fraction study
+- Length-bucket + keyword-masking slices (`robustness_slices.py`)
+- Reduced-training-size sensitivity (`label_noise_sensitivity.py`)
 
 ## Project Scope
 
-The assignment requirements are described in [instructions.md](instructions.md). This codebase is organized to support:
+Assignment requirements are in [instructions.md](instructions.md).  
+This codebase supports:
 
-- model training and hyperparameter tuning
-- model evaluation on regular and masked test sets
-- robustness experiments with reduced training fractions
-- reporting artifacts for the final write-up
+- model training and optional hyperparameter search
+- evaluation on regular test (and masked test when provided)
+- robustness experiments
+- report artifact generation
 
 ## Repository Layout
 
-- [main.py](main.py): runs hyperparameter tuning for BERT and LSTM
-- [evaluation.py](evaluation.py): evaluates a saved LSTM checkpoint on regular vs masked test sets
-- [label_noise_sensitivity.py](label_noise_sensitivity.py): runs 25/50/100 percent data-fraction experiments for both models
-- [data-exploration.ipynb](data-exploration.ipynb): TF-IDF exploration and keyword masking dataset creation
-- [configs/bert.yaml](configs/bert.yaml): BERT training and search config
-- [configs/lstm.yaml](configs/lstm.yaml): LSTM training and search config
-- [configs/dataset.yaml](configs/dataset.yaml): dataset split/preprocessing config
+- [main.py](main.py): train BERT/LSTM; optional hyperparameter search
+- [evaluation.py](evaluation.py): evaluate saved BERT/LSTM checkpoint
+- [robustness_slices.py](robustness_slices.py): length buckets + keyword masking (+ random control)
+- [label_noise_sensitivity.py](label_noise_sensitivity.py): 25/50/100 percent train-size sensitivity
+- [generate_comparison_table.py](generate_comparison_table.py): build final comparison tables
+- [run_assignment3_pipeline.py](run_assignment3_pipeline.py): run eval + slices + tables in one command
+- [configs/](configs): dataset/model/training configs
 - [models/](models): model implementations
 - [utils/](utils): dataset + training utilities
 
-Generated experiment artifacts:
+Main generated artifacts:
 
-- [bert_output/](bert_output): BERT search outputs/checkpoints
-- [lstm_output/](lstm_output): LSTM search outputs/checkpoints
-- [masked_test_set/](masked_test_set): keyword-masked test split saved to disk
-- [scaling_law_results/](scaling_law_results): data-fraction experiment checkpoints/plots/tables
+- `bert_output/`
+- `bert_evaluation_full/`
+- `lstm_evaluation_updated_full/`
+- `robustness_slices/`
+- `comparison_tables/`
+- `scaling_law_results/`
 
 ## Environment Setup
 
-This project uses Python 3.12+ and a local package dependency on `penguinlp`.
-
-1. Create and sync the environment with uv:
+Use Python 3.12+ and `uv`:
 
 ```bash
 uv sync
 ```
 
-2. Confirm that the local dependency path exists:
+Local dependency path expected by scripts:
 
-- [../../penguinlp](../../penguinlp)
+- `../../penguinlp`
 
-3. Run scripts through uv:
+Run commands with:
 
 ```bash
-uv run python main.py
+uv run python <script>.py ...
 ```
 
 ## Data and Preprocessing
 
-Dataset loading and preprocessing is handled in [utils/dataset.py](utils/dataset.py):
+Dataset handling is in [utils/dataset.py](utils/dataset.py):
 
-- loads `sh0416/ag_news` via Hugging Face datasets
-- creates train/dev split from the original train set using stratification
+- loads `sh0416/ag_news` from Hugging Face
+- uses official AG News train/test
+- creates stratified train/dev split from train (`seed=67`)
 - constructs `text = title + description`
-- applies HTML/escaping cleanup
-- converts 1-based labels to 0-based if needed
-- renames `label` to `labels` for Trainer compatibility
+- normalizes text and converts labels to 0-based when needed
 
-Important default in [configs/dataset.yaml](configs/dataset.yaml):
+Current defaults in [configs/dataset.yaml](configs/dataset.yaml):
 
-- `max_samples: 100`
+- `max_samples: null`
+- `eval_max_samples: null`
 
-This is useful for quick debugging but produces tiny-data results. For full training, override from CLI.
-
-Example:
+For quick debug runs:
 
 ```bash
-uv run python main.py dataset.max_samples=null
+uv run python main.py dataset.max_samples=1000 dataset.eval_max_samples=200
 ```
 
-## Training and Hyperparameter Tuning
+## Training and Hyperparameter Search
 
-Run both BERT and LSTM hyperparameter search from [main.py](main.py):
+Single-run training:
 
 ```bash
-uv run python main.py dataset.max_samples=null
+uv run python main.py run.model_type=bert run.use_hp_search=false dataset.max_samples=null dataset.eval_max_samples=null
+uv run python main.py run.model_type=lstm run.use_hp_search=false dataset.max_samples=null dataset.eval_max_samples=null
 ```
 
-What this does:
-
-- loads and merges config from [configs/bert.yaml](configs/bert.yaml), [configs/lstm.yaml](configs/lstm.yaml), and [configs/dataset.yaml](configs/dataset.yaml)
-- tokenizes and caches data to `./<hf_dataset>_tokenized`
-- runs Optuna-backed search (learning rate + train batch size)
-- saves best config to:
-	- `bert_output/config.json`
-	- `lstm_output/config.json`
-
-## Robustness Evaluation 1: Keyword Masking Probe
-
-Keyword masking dataset creation is implemented in [data-exploration.ipynb](data-exploration.ipynb):
-
-- compute class-wise TF-IDF terms
-- export scores to [tfidf_scores_by_label.json](tfidf_scores_by_label.json)
-- replace top keywords in test text with tokenizer mask token
-- re-tokenize and save masked split to [masked_test_set/](masked_test_set)
-
-Then evaluate a trained LSTM checkpoint on regular and masked test sets:
+Hyperparameter search (optional):
 
 ```bash
-uv run python evaluation.py
+uv run python main.py run.model_type=bert run.use_hp_search=true
+uv run python main.py run.model_type=lstm run.use_hp_search=true
 ```
 
-Note: [evaluation.py](evaluation.py) currently points to a fixed checkpoint path (`lstm_output/run-0/checkpoint-1`). Update `model_path` and `config_path` in that file if your best run differs.
+## Robustness Evaluation 1: Slices
 
-## Robustness Evaluation 2: Label-Noise Sensitivity
-
-Run scaling-law style data-fraction experiments for both models:
+Run:
 
 ```bash
-uv run python label_noise_sensitivity.py
+uv run python robustness_slices.py --models lstm bert cnn_a2
 ```
 
-Default behavior in [label_noise_sensitivity.py](label_noise_sensitivity.py):
+Outputs:
 
-- fractions: 0.25, 0.50, 1.00
-- runs per fraction: 3
-- metrics: test accuracy and weighted F1
-- outputs saved under [scaling_law_results/](scaling_law_results)
+- `robustness_slices/length_buckets.json`
+- `robustness_slices/keyword_masking.json`
+- `robustness_slices/summary.md`
 
-Main summary table:
+## Robustness Evaluation 2: Reduced Training Size
 
-- [scaling_law_results/scaling_law_results.txt](scaling_law_results/scaling_law_results.txt)
+Run:
+
+```bash
+uv run python label_noise_sensitivity.py --models bert lstm --fractions 0.25 0.5 1.0 --runs-per-fraction 1
+```
+
+Outputs are saved under `scaling_law_results/`.
+
+## Standard Evaluation and Tables
+
+Evaluate saved checkpoints:
+
+```bash
+uv run python evaluation.py --model-type bert
+uv run python evaluation.py --model-type lstm
+```
+
+Generate final comparison table:
+
+```bash
+uv run python generate_comparison_table.py
+```
+
+One-command run (eval + slices + tables):
+
+```bash
+uv run python run_assignment3_pipeline.py
+```
 
 ## Reproducibility Notes
 
-- Seeds are set in [utils/training.py](utils/training.py) for random/NumPy/PyTorch.
-- Device selection prefers CUDA, then Apple MPS, else CPU.
-- Tokenized datasets are cached to disk for repeatability and speed.
-
-## Current Status and Caveats
-
-- Existing scaling-law summary values are very low and likely reflect the `max_samples: 100` setting.
-- For report-quality numbers, rerun with full dataset and track the best checkpoints used for each comparison.
+- Seeds are set in [utils/training.py](utils/training.py).
+- Device selection is CUDA -> MPS -> CPU.
+- `REQUIRE_CUDA=1` can be used to block CPU fallback.

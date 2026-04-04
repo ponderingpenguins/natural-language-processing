@@ -1,7 +1,7 @@
 import torch.nn as nn
 from omegaconf import DictConfig
 from penguinlp.helpers import logger
-from transformers import AutoModel, BertTokenizer
+from transformers import AutoModel, AutoTokenizer
 from transformers.modeling_outputs import SequenceClassifierOutput
 
 from .base_model import BaseModel
@@ -16,7 +16,7 @@ class BertClassifier(BaseModel):
         self.max_length = config.max_length
 
         self.bert = AutoModel.from_pretrained(self.model_name, **kwargs)
-        self.tokenizer = BertTokenizer.from_pretrained(self.model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
 
         hidden_size = self.bert.config.hidden_size
         self.classifier = self._build_head(hidden_size, config)
@@ -46,9 +46,13 @@ class BertClassifier(BaseModel):
 
     def forward(self, input_ids, attention_mask, labels=None, **kwargs):
         """Forward pass through the model."""
-        pooled = self.bert(
-            input_ids=input_ids, attention_mask=attention_mask, **kwargs
-        ).pooler_output
+        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
+        # Some encoders (e.g. DistilBERT) do not expose pooler_output FYI
+        pooled = (
+            outputs.pooler_output
+            if getattr(outputs, "pooler_output", None) is not None
+            else outputs.last_hidden_state[:, 0, :]
+        )
         logits = self.classifier(pooled)
 
         loss = self.loss_fn(logits, labels) if labels is not None else None

@@ -38,18 +38,23 @@ def set_seed(seed: int) -> None:
 
 
 def compute_metrics(eval_pred):
-    """Compute evaluation metrics for the BERT model."""
+    """Compute evaluation metrics with macro-F1 as the primary signal."""
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
     acc = accuracy_score(labels, predictions)
-    precision, recall, f1, _ = precision_recall_fscore_support(
+    macro_precision, macro_recall, macro_f1, _ = precision_recall_fscore_support(
+        labels, predictions, average="macro", zero_division=0
+    )
+    _, _, weighted_f1, _ = precision_recall_fscore_support(
         labels, predictions, average="weighted", zero_division=0
     )
     return {
         "eval_accuracy": acc,
-        "eval_precision": precision,
-        "eval_recall": recall,
-        "eval_f1": f1,
+        "eval_precision": macro_precision,
+        "eval_recall": macro_recall,
+        "eval_f1": macro_f1,
+        "eval_macro_f1": macro_f1,
+        "eval_weighted_f1": weighted_f1,
     }
 
 
