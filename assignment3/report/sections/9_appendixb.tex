@@ -1,37 +1,36 @@
-% This appendix provides the full test-set classification report and confusion matrix for each experimental run.
+This appendix provides the full test-set classification report and confusion matrix for each experimental run.
+\subsection{LSTM}
 
-% \subsection{CNN (Max Sequence Length: 64)}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{../../src/lstm_evaluation_updated_full/confusion-matrix-regular-lstm.png}
+\caption{Confusion matrix for LSTM.}
+\end{figure}
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.62\textwidth]{../../src/experiment_cnn_seq64/confusion_matrix_cnn.png}
-% \caption{Confusion matrix for CNN with maximum sequence length 64.}
-% \end{figure}
+\lstinputlisting[
+    basicstyle=\ttfamily\scriptsize,
+    numbers=none,
+    frame=single,
+    breaklines=true
+]{../../src/lstm_evaluation_updated_full/classification_report-regular-lstm.txt}
 
-% \lstinputlisting[
-%     basicstyle=\ttfamily\scriptsize,
-%     numbers=none,
-%     frame=single,
-%     breaklines=true
-% ]{../../src/experiment_cnn_seq64/classification_report.txt}
+\clearpage
 
-% \clearpage
-% \subsection{CNN (Max Sequence Length: 128)}
+\subsection{DistilBERT}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{../../src/bert_evaluation_full/confusion-matrix-regular-bert.png}
+\caption{Confusion matrix for DistilBERT with maximum sequence length 128.}
+\end{figure}
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.62\textwidth]{../../src/experiment_cnn_seq128/confusion_matrix_cnn.png}
-% \caption{Confusion matrix for CNN with maximum sequence length 128.}
-% \end{figure}
+\lstinputlisting[
+    basicstyle=\ttfamily\scriptsize,
+    numbers=none,
+    frame=single,
+    breaklines=true
+]{../../src/bert_evaluation_full/classification_report-regular-bert.txt}
 
-% \lstinputlisting[
-%     basicstyle=\ttfamily\scriptsize,
-%     numbers=none,
-%     frame=single,
-%     breaklines=true
-% ]{../../src/experiment_cnn_seq128/classification_report.txt}
-
-% \clearpage
+\clearpage
 % \subsection{CNN (Max Sequence Length: 256)}
 
 % \begin{figure}[H]
