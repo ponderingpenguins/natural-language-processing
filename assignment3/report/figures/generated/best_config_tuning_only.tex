@@ -1,15 +1,22 @@
-\begin{table}[h]
+
+\begin{table}[H]
 \centering
 \small
-\begin{tabular}{llllllll}
+\begin{tabular}{lll}
 \toprule
-\textbf{Model} & \textbf{Embed} & \textbf{Filters} & \textbf{Hidden} & \textbf{BiLSTM} & \textbf{LR} & \textbf{Dropout} & \textbf{WD} \\
+\textbf{Parameter} & \textbf{Value} \\
 \midrule
-CNN & 512 & 300 & --- & --- & 0.001 & 0.3 & 1e-5 \\
-LSTM & 256 & --- & 512 & Yes & 0.001 & --- & 0.0 \\
+Hidden dim $H$          & 768 \\
+Sequence length         & 128 \\
+Learning rate           & 2e-5\\
+Weight decay            & 0.01\\
+Layers $L$              & 12\\
+Bidirectional           & True\\
+Attention heads $A$     & 12  \\
+Head dim                & 256 \\
+Head dropout            & 0.1 \\
 \bottomrule
 \end{tabular}
-\caption{Best hyperparameter configurations from dedicated tuning runs. Embed: embedding dimension, WD: weight decay.}
-
-\label{tab:best_configs}
+\caption{Best hyperparameters for the BERT model.}
+\label{tab:bert_hyperparameters}
 \end{table}
