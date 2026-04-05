@@ -1,70 +1,46 @@
 \subsection{Best hyperparameters}
 
-Table~\ref{tab:bert_hyperparameters} summarises the best hyperparameters for BERT model. 
+The final hyperparameters for both models are shown in Table~\ref{tab:hyperparameters}.
 
-\import{../figures/generated/}{best_config_tuning_only.tex}
-
-\subsection{Test set performance of base models}
-
-Figure~\ref{fig:hyperparameter_devf1_distributions} shows the distribution of dev macro-F1 scores for both models across all hyperparameter search trials. The distributions are relatively tight, especially for the LSTM, indicating that the tuning process was stable and not overly sensitive to hyperparameter choices. The CNN shows a slightly wider distribution, suggesting that its performance may be more sensitive to hyperparameter settings than the LSTM. Overall, both models achieved high dev macro-F1 scores across a range of hyperparameters, which is a positive sign for their generalization capabilities.
-
-\begin{figure}[H]
+\begin{table}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{../figures/generated/hyperparameter_devf1_distributions.png}
-\caption{Distribution of dev macro-F1 scores across all hyperparameter search trials, grouped by model. Higher and tighter distributions indicate more stable tuning.}
-\label{fig:hyperparameter_devf1_distributions}
-\end{figure}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{BERT} & \textbf{LSTM} \\
+\midrule
+Embedding dim $d$       & ---                & 256 \\
+Hidden dim $H$          & 768                & 256 \\
+Sequence length         & 128                & 128 \\
+Learning rate           & 2e-5               & 3e-4 \\
+Weight decay            & 0.01               & 0.01 \\
+Dropout                 & ---                & 0.4 \\
+Layers $L$              & 6                 & 2 \\
+Bidirectional           & True               & True \\
+Attention heads $A$     & 6                 & --- \\
+Classification Head dim                & 256                & --- \\
+Classification Head dropout            & 0.1                & --- \\
+\bottomrule
+\end{tabular}
+\caption{Hyperparameter search space for the BERT and best hyperparameters for the LSTM model.}
+\label{tab:hyperparameters}
+\end{table}
 
-Table~\ref{tab:tokenizer_coverage} reports tokenizer statistics for the shared BPE vocabulary used across all runs. Because BPE decomposes unknown words into subword units rather than discarding them, coverage is effectively complete, but complete coverage does not imply zero fragmentation. Words are split into roughly 1.19 subword tokens on average, meaning the tokenizer is unlikely to hurt performance through out-of-vocabulary terms, though named entities and domain-specific vocabulary may still be harder to represent consistently when broken across multiple pieces.
-
-\import{../figures/generated/}{tokenizer_coverage_summary.tex}
+\subsection{Model comparison}
 
 
-The test results are shown in Table~\ref{tab:test_results}. These numbers come from the fixed-length final training protocol, where early stopping was intentionally disabled to obtain complete learning curves. They are therefore useful for comparing model behaviour under the same schedule, but they should not be read as guaranteed best-checkpoint performance for either architecture. At the main comparison sequence length of 128 tokens, the CNN slightly outperformed the LSTM, achieving a test accuracy of 90.71\% and a macro-F1 of 90.69\%, compared to the LSTM's accuracy of 90.57\% and macro-F1 of 90.59\%.
+The final performance of the best BERT and LSTM models on the development and test sets is shown in Table~\ref{tab:model_comparison}. The fine-tuned BERT model significantly outperforms the LSTM model, achieving an accuracy of 94.86\% and macro-F1 of 94.86\% on the test set, compared to the LSTM's 90.99\% accuracy and 91.00\% macro-F1. This demonstrates the strong performance of transformer-based models like BERT on text classification tasks, likely due to their ability to capture complex contextual relationships in the text through self-attention mechanisms. The LSTM model, while still performing well, may struggle to capture long-range dependencies and complex patterns in the text as effectively as BERT, which could explain the performance gap between the two models.
 
-Interestingly, the ablation results reveal that longer sequences do not consistently improve performance. For the CNN, the best test macro-F1 was actually achieved at sequence length 64 (90.96\%), while the highest dev F1 was at 256 (91.09\%). The LSTM showed a more monotonic trend, improving from 90.32\% at seq64 to 90.74\% at seq256. The gap between the two models was relatively small across all sequence lengths, with a difference of at most 0.64 percentage points in macro-F1 (at seq64).
-
-
-\import{../figures/generated/}{test_results_main_vs_ablation.tex}
-
-\subsection{Ablation study: effect of maximum sequence length}
-
-Figure~\ref{fig:test_metrics_vs_seq} shows how test accuracy and macro-F1 vary with sequence length.
-
-\begin{figure}[H]
+\begin{table}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{../figures/generated/test_metrics_vs_seq.png}
-\caption{Test accuracy and macro-F1 as a function of maximum sequence length for CNN and LSTM.}
-\label{fig:test_metrics_vs_seq}
-\end{figure}
+\caption{Model Comparison (Dev + Test)}
+\label{tab:model_comparison}
+\begin{tabular}{lc|cc|cc}
+\textbf{Model} & \textbf{Category} & \multicolumn{2}{c|}{\textbf{Dev}} & \multicolumn{2}{c}{\textbf{Test}} \\
+& & \textbf{Acc} & \textbf{F1} & \textbf{Acc} & \textbf{F1} \\
+\hline
+LSTM & neural & 0.9103 & 0.9106 & 0.9099 & 0.9100 \\
+DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
+\end{tabular}
+\end{table}
 
-The overall trend is clear: The CNN does not benefit from longer sequences, with the best test macro-F1 at seq64. The LSTM, on the other hand, shows a consistent improvement with longer sequences, achieving its best test macro-F1 at seq256. This suggests that the LSTM is better able to leverage the additional context provided by longer input sequences, while the CNN may be more prone to overfitting or may not effectively utilize the extra information. This is especially evident by the fact that the CNN outperforms the LSTM at seq64, but is outperformed by the LSTM at seq256 (see Figure~\ref{fig:test_metrics_vs_seq}).
-
-\subsection{Class-wise analysis}
-
-Figure~\ref{fig:class_f1_heatmap} presents the per-class macro-F1 scores. The confusion matrices per model and sequence length are shown in Appendix~\ref{app:reports} along with the full classification reports.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{../figures/generated/class_f1_heatmap.png}
-\caption{Heatmap of per-class test F1 scores across all runs. World and Sports are easier to classify; Business is the most challenging.}
-\label{fig:class_f1_heatmap}
-\end{figure}
-
-The \textit{World} and \textit{Sports} classes are generally easier to classify, with F1 scores above 90\% in most configurations. The \textit{Sci/Tech} class is slightly harder, with F1 scores typically around 87--88\%. The most challenging class is \textit{Business}, where F1 scores range from 86\% to 87\%, depending on the model and sequence length. One detail that is not fully visible from the heatmap alone is that the LSTM at seq128 has noticeably lower recall on the \textit{World} class than the CNN at the same sequence length (89.63\% vs.\ 92.16\%). This suggests that, even when the overall macro-F1 values are very close, the CNN is somewhat better at recovering \textit{World} examples at the main comparison length. A plausible explanation is that \textit{World} articles often contain relatively local lexical cues, such as country names, political actors, and event words, which may be captured more reliably by the CNN.
-
-\subsection{Learning curves}
-
-Figure~\ref{fig:full_training_curves_comparison} displays the learning curves for the final training runs on the training set and validation set for all six runs (CNN and LSTM at seq64, seq128, and seq256) with the tuned hyperparameters from the dedicated tuning runs. Both training and validation curves are shown for loss and accuracy. The F1 curves are shown in Appendix~\ref{app:additional_figures}.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{../figures/generated/full_training_curves_comparison.png}
-\caption{Training and validation loss/accuracy curves for all six runs. Both models show rapid early convergence and stable learning trajectories.}
-\label{fig:full_training_curves_comparison}
-\end{figure}
-
-Both models show rapid convergence, with validation loss decreasing sharply in the first few epochs and then stabilizing. Both models converge to similar final validation accuracies at a similar number of epochs (e.g., around 1--2 epochs). The CNN shows a slightly more stable validation loss curve, while the LSTM shows signs of overfitting after epoch 4, where the validation loss starts to increase while training loss continues to decrease. Most notably, the LSTM at seq256 converges more rapidly as indicated by the steepest initial drop in validation loss, which may explain its superior performance at this sequence length. At the same time, these curves also illustrate the cost of disabling early stopping in the final runs: some models appear to move past their best validation region, so the reported test numbers should be read with that caveat in mind.
-\subsection{Summary}
-
-Under the fixed-length final training protocol, the best overall test result is achieved by the CNN at the shortest sequence length (seq64), with a macro-F1 of 90.96\%. The LSTM reaches its best result at seq256 (90.74\%), indicating that it benefits more from longer input sequences, while the CNN performs best with shorter inputs. Both models show stable tuning and learning trajectories, with the Business class being the most challenging to classify.

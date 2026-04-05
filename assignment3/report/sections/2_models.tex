@@ -8,31 +8,3 @@ The LSTM model is based on the Long Short-Term Memory architecture introduced by
 
 We use DistilBERT \cite{Sanh2019DistilBERTAD}, a distilled variant of BERT with 6 layers, hidden size 768, and 12 attention heads (66M parameters). We extract the [CLS] token representation from the final hidden layer as input to a feed-forward classification head. A warmup phase of 500 steps gradually increases the learning rate from zero to stabilize early training. Dropout is applied in the classification head to prevent overfitting.
 
-
-
-% --- should be in the result section ---
-% The final hyperparameters for both models are shown in Table~\ref{tab:hyperparameters}.
-
-% \begin{table}[H]
-% \centering
-% \small
-% \begin{tabular}{lll}
-% \toprule
-% \textbf{Parameter} & \textbf{BERT} & \textbf{LSTM} \\
-% \midrule
-% Embedding dim $d$       & ---                & 256 \\
-% Hidden dim $H$          & 768                & 256 \\
-% Sequence length         & 128                & 128 \\
-% Learning rate           & 2e-5               & 3e-4 \\
-% Weight decay            & 0.01               & 0.01 \\
-% Dropout                 & ---                & 0.4 \\
-% Layers $L$              & 6                 & 2 \\
-% Bidirectional           & True               & True \\
-% Attention heads $A$     & 6                 & --- \\
-% Classification Head dim                & 256                & --- \\
-% Classification Head dropout            & 0.1                & --- \\
-% \bottomrule
-% \end{tabular}
-% \caption{Hyperparameter search space for the BERT and best hyperparameters for the LSTM model.}
-% \label{tab:hyperparameters}
-% \end{table}

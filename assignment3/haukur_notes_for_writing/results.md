@@ -1,6 +1,22 @@
 ## Results
 
 This document summarizes the methods and results of our experiments. I will use this later to write the method/discussion sections of the report, but I wanted to have a single place to write down all the details and numbers first.
+
+Bert
+- ./bert_evaluation_full
+LSTM
+- ./lstm_evaluation_full
+
+make sure to also take a look at
+
+- (model comparison table)[comparison_tables/model_comparison.md](comparison_tables/model_comparison.md)
+
+
+---
+
+Analysis
+
+
 ### Robustness and evaluation results are saved in
 
 - Length buckets and kayword masking results: (robustness_slices/summary.md)[robustness_slices/summary.md]
