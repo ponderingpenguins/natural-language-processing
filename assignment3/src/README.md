@@ -12,7 +12,7 @@ The robustness part includes:
 
 ## Project Scope
 
-Assignment requirements are in [instructions.md](instructions.md).  
+Assignment requirements are in [instructions.md](instructions.md).
 This codebase supports:
 
 - model training and optional hyperparameter search
