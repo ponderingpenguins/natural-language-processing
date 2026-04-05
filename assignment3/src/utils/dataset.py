@@ -4,7 +4,6 @@ import hashlib
 import html
 import json
 from pathlib import Path
-from typing import Any, cast
 
 from datasets import (  # type: ignore
     ClassLabel,
@@ -15,8 +14,6 @@ from datasets import (  # type: ignore
 )
 from penguinlp.helpers import logger
 from sklearn.model_selection import train_test_split  # type: ignore
-from torch.utils.data import DataLoader
-from torch.utils.data import Dataset as TorchDataset
 
 
 def load_data(cfg: dict) -> DatasetDict:
@@ -122,7 +119,7 @@ def load_data(cfg: dict) -> DatasetDict:
 
 def _load_cached_ag_news(hf_dataset: str) -> DatasetDict:
     """Fallback loader for locally cached AG News Arrow files.
-    
+
     TODO: Maybe clean this up a bit :)"""
     if hf_dataset != "sh0416/ag_news":
         raise RuntimeError(

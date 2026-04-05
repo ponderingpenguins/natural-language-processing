@@ -47,8 +47,8 @@ Train with reduced training size (e.g., 25%, 50%, 100%) and compare trends.
 
 ### The one we chose: **Keyword Masking Probe** and **Label-Noise Sensitivity** (Simple)
 
-- We wan't to see if the model relies heavily on a few keywords (which could indicate overfitting or lack of robustness)
-- And how sensitive it is to training data size, which can reveal its learning efficiency and generalization capabilities. If we do it well, we could even calculate the "scaling law" for our model, which is a very interesting analysis to do.
+<!-- - We wan't to see if the model relies heavily on a few keywords (which could indicate overfitting or lack of robustness)
+- And how sensitive it is to training data size, which can reveal its learning efficiency and generalization capabilities. If we do it well, we could even calculate the "scaling law" for our model, which is a very interesting analysis to do. -->
 
 ---
 
