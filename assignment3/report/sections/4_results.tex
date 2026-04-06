@@ -1,6 +1,8 @@
 \subsection{Best hyperparameters}
 
-The final hyperparameters for both models are shown in Table~\ref{tab:hyperparameters}.
+For BERT the full grid search results across all 18 configurations were not retained after model selection. The winning configuration (lr=2e-5, seq\_len=128, batch\_size=16) was selected based on macro-F1 on the development set; the final dev macro-F1 of 0.9450 reflects this best configuration.
+
+For the LSTM, we also did not retain the full results of the manual tuning experiments, but the final selected hyperparameters are shown in Table~\ref{tab:hyperparameters}. The final dev macro-F1 of 0.9106 reflects the performance of the best configuration after tuning.
 
 \begin{table}[H]
 \centering
@@ -22,22 +24,23 @@ Classification Head dim                & 256                & --- \\
 Classification Head dropout            & 0.1                & --- \\
 \bottomrule
 \end{tabular}
-\caption{Hyperparameter search space for the BERT and best hyperparameters for the LSTM model.}
+\caption{Final hyperparameters for the best BERT and LSTM models.}
 \label{tab:hyperparameters}
 \end{table}
 
 \subsection{Model comparison}
 
-The final performance of the best BERT and LSTM models on the development and test sets is shown in Table~\ref{tab:model_comparison}. The fine-tuned BERT model significantly outperforms the LSTM model, achieving an accuracy of 94.86\% and macro-F1 of 94.86\% on the test set, compared to the LSTM's 90.99\% accuracy and 91.00\% macro-F1. This demonstrates the strong performance of transformer-based models like BERT on text classification tasks, likely due to their ability to capture complex contextual relationships in the text through self-attention mechanisms. The LSTM model, while still performing well, may struggle to capture long-range dependencies and complex patterns in the text as effectively as BERT, which could explain the performance gap between the two models.
+The final performance of all three model families on the test set is shown in Table~\ref{tab:model_comparison}. The classical Linear SVM baseline already achieves a strong accuracy of 92.00\% and macro-F1 of 92.00\%, demonstrating that TF-IDF features are highly effective for this classification task. The LSTM model improves only marginally over the SVM, with 90.99\% accuracy and 91.00\% macro-F1, a surprising result suggesting that, for AG News, the added complexity of a recurrent architecture does not translate into meaningful gains over a well-tuned classical baseline. The fine-tuned DistilBERT model, however, significantly outperforms both, achieving 94.86\% accuracy and 94.86\% macro-F1 on the test set. This gap is consistent across dev and test sets, indicating that the performance gain is robust rather than incidental. The superiority of DistilBERT is likely due to its bidirectional self-attention mechanism, which allows it to capture complex contextual relationships that neither bag-of-words representations nor sequential LSTM hidden states can fully encode.
 
 \begin{table}[h]
 \centering
-\caption{Model Comparison (Dev + Test)}
+\caption{Model Comparison on development and test sets. Dev scores unavailable for Linear SVM baseline; not retained from Assignment 1.}
 \label{tab:model_comparison}
 \begin{tabular}{lc|cc|cc}
 \textbf{Model} & \textbf{Category} & \multicolumn{2}{c|}{\textbf{Dev}} & \multicolumn{2}{c}{\textbf{Test}} \\
 & & \textbf{Acc} & \textbf{F1} & \textbf{Acc} & \textbf{F1} \\
 \hline
+Linear SVM & baseline & ~ & ~ & 0.9200 & 0.9200 \\
 LSTM & neural & 0.9103 & 0.9106 & 0.9099 & 0.9100 \\
 DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
 \end{tabular}
@@ -47,7 +50,25 @@ DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
 
 \subsubsection{Length buckets}
 
-As mentioned in Section~\ref{sec:methods}, we evaluated the models on different length buckets; \textit{shortest} (0-34 words), \textit{short} (35-39 words), \textit{long} (40-45 words), and \textit{longest} (46+ words), to see how performance varies with input length. The results are shown in Table~\ref{tab:length_buckets}.
+As mentioned in Section~\ref{sec:methods}, we evaluated the models on different length buckets; \textit{shortest} (0-34 words), \textit{short} (35-39 words), \textit{long} (40-45 words), and \textit{longest} (46+ words), to see how performance varies with input length. The results are shown in Table~\ref{tab:length_buckets}. Although bins were defined using word count, the average token-to-word ratio in the training set is 1.41 (using the distilbert-base-uncased WordPiece tokenizer), meaning the word-count boundaries approximate token counts of 0-48, 49-55, 56-63, and 65+ respectively. The relative ordering of bins is therefore preserved under tokenization, and the analysis remains valid as a proxy for input length.
+
+\begin{table}[H]
+\centering
+\caption{Length bucket definitions based on word count and approximate token count. The token:word ratio is based on the average token-to-word ratio in the training set using the distilbert-base-uncased WordPiece tokenizer.}
+\label{tab:length_buckets_definitions}
+\begin{tabular}{lcc}
+\hline
+\textbf{Bucket} & \textbf{Word range} & \textbf{Approx. token range} \\
+\hline
+\text{Shortest} & 0\text{–}34 \text{ words} & 0\text{–}48 \text{ tokens} \\
+\text{Short} & 35\text{–}39 \text{ words} & 49\text{–}55 \text{ tokens} \\
+\text{Long} & 40\text{–}45 \text{ words} & 56\text{–}63 \text{ tokens} \\
+\text{Longest} & 46{+} \text{ words} & 65{+} \text{ tokens} \\
+\hline
+\end{tabular}
+\end{table}
+
+The results show that both models perform better on longer sequences, with the highest accuracy and macro-F1 scores in the \textit{long} bucket (40-45 words) for both models. However, the fact that the \textit{longest} bucket has decreased performance metrics indicates long-term dependency issues in both models. Though this issue is subtler in DistilBERT, with 0.0055 drop in accuracy and 0.0066 drop in macro-F1 compared to the previous bucket, the LSTM model demonstrates a more significant drop of 0.0130 in accuracy and 0.0140 in macro-F1. This disparity in performance suggests that the LSTM struggles more with sequences longer than 45 words because of its limited capacity to efficiently handle long-range dependencies compared to DistilBERT.
 
 \begin{table}[H]
 \centering
@@ -70,7 +91,6 @@ DistilBERT & longest & 1740 & 0.9517 & 0.9501 \\
 \end{tabular}
 \end{table}
 
-The results show that both models perform better on longer sequences, with the highest accuracy and macro-F1 scores in the \textit{long} bucket (40-45 words) for both models. However, the fact that the \textit{longest} bucket has decreased performance metrics indicates long-term dependency issues in both models. Though this issue is subtler in DistilBERT, with 0.0055 drop in accuracy and 0.0066 drop in macro-F1 compared to the previous bucket, the LSTM model demonstrates a more significant drop of 0.0130 in accuracy and 0.0140 in macro-F1. This disparity in performance suggests that the LSTM struggles more with sequences longer than 45 words because of its limited capacity to efficiently handle long-range dependencies compared to DistilBERT.
 
 Furthermore, both models had the lowest accuracy and macro-F1 scores in the shortest bucket (0-34 words), likely due to the limited context available in shorter sequences, which makes it harder for the models to accurately classify the news articles.
 
