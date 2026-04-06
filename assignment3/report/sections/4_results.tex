@@ -1,0 +1,154 @@
+\subsection{Best hyperparameters}
+
+For BERT the full grid search results across all 18 configurations were not retained after model selection. The winning configuration (lr=2e-5, seq\_len=128, batch\_size=16) was selected based on macro-F1 on the development set; the final dev macro-F1 of 0.9450 reflects this best configuration.
+
+For the LSTM, we also did not retain the full results of the manual tuning experiments, but the final selected hyperparameters are shown in Table~\ref{tab:hyperparameters}. The final dev macro-F1 of 0.9106 reflects the performance of the best configuration after tuning.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{BERT} & \textbf{LSTM} \\
+\midrule
+Embedding dim $d$       & ---                & 256 \\
+Hidden dim $H$          & 768                & 256 \\
+Sequence length         & 128                & 128 \\
+Learning rate           & 2e-5               & 3e-4 \\
+Weight decay            & 0.01               & 0.01 \\
+Dropout                 & ---                & 0.4 \\
+Layers $L$              & 6                 & 2 \\
+Bidirectional           & True               & True \\
+Attention heads $A$     & 6                 & --- \\
+Classification Head dim                & 256                & --- \\
+Classification Head dropout            & 0.1                & --- \\
+\bottomrule
+\end{tabular}
+\caption{Final hyperparameters for the best BERT and LSTM models.}
+\label{tab:hyperparameters}
+\end{table}
+
+\subsection{Model comparison}
+
+The final performance of all three model families on the test set is shown in Table~\ref{tab:model_comparison}. The classical Linear SVM baseline already achieves a strong accuracy of 92.00\% and macro-F1 of 92.00\%, demonstrating that TF-IDF features are highly effective for this classification task. The LSTM model improves only marginally over the SVM, with 90.99\% accuracy and 91.00\% macro-F1, a surprising result suggesting that, for AG News, the added complexity of a recurrent architecture does not translate into meaningful gains over a well-tuned classical baseline. The fine-tuned DistilBERT model, however, significantly outperforms both, achieving 94.86\% accuracy and 94.86\% macro-F1 on the test set. This gap is consistent across dev and test sets, indicating that the performance gain is robust rather than incidental. The superiority of DistilBERT is likely due to its bidirectional self-attention mechanism, which allows it to capture complex contextual relationships that neither bag-of-words representations nor sequential LSTM hidden states can fully encode.
+
+\begin{table}[h]
+\centering
+\caption{Model Comparison on development and test sets. Dev scores unavailable for Linear SVM baseline; not retained from Assignment 1.}
+\label{tab:model_comparison}
+\begin{tabular}{lc|cc|cc}
+\textbf{Model} & \textbf{Category} & \multicolumn{2}{c|}{\textbf{Dev}} & \multicolumn{2}{c}{\textbf{Test}} \\
+& & \textbf{Acc} & \textbf{F1} & \textbf{Acc} & \textbf{F1} \\
+\hline
+Linear SVM & baseline & ~ & ~ & 0.9200 & 0.9200 \\
+LSTM & neural & 0.9103 & 0.9106 & 0.9099 & 0.9100 \\
+DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
+\end{tabular}
+\end{table}
+
+\subsection{Robustness/Slice Evaluations}
+
+\subsubsection{Length buckets}
+
+As mentioned in Section~\ref{sec:methods}, we evaluated the models on different length buckets; \textit{shortest} (0-34 words), \textit{short} (35-39 words), \textit{long} (40-45 words), and \textit{longest} (46+ words), to see how performance varies with input length. The results are shown in Table~\ref{tab:length_buckets}. Although bins were defined using word count, the average token-to-word ratio in the training set is 1.41 (using the distilbert-base-uncased WordPiece tokenizer), meaning the word-count boundaries approximate token counts of 0-48, 49-55, 56-63, and 65+ respectively. The relative ordering of bins is therefore preserved under tokenization, and the analysis remains valid as a proxy for input length.
+
+\begin{table}[H]
+\centering
+\caption{Length bucket definitions based on word count and approximate token count. The token:word ratio is based on the average token-to-word ratio in the training set using the distilbert-base-uncased WordPiece tokenizer.}
+\label{tab:length_buckets_definitions}
+\begin{tabular}{lcc}
+\hline
+\textbf{Bucket} & \textbf{Word range} & \textbf{Approx. token range} \\
+\hline
+\text{Shortest} & 0\text{–}34 \text{ words} & 0\text{–}48 \text{ tokens} \\
+\text{Short} & 35\text{–}39 \text{ words} & 49\text{–}55 \text{ tokens} \\
+\text{Long} & 40\text{–}45 \text{ words} & 56\text{–}63 \text{ tokens} \\
+\text{Longest} & 46{+} \text{ words} & 65{+} \text{ tokens} \\
+\hline
+\end{tabular}
+\end{table}
+
+The results show that both models perform better on longer sequences, with the highest accuracy and macro-F1 scores in the \textit{long} bucket (40-45 words) for both models. However, the fact that the \textit{longest} bucket has decreased performance metrics indicates long-term dependency issues in both models. Though this issue is subtler in DistilBERT, with 0.0055 drop in accuracy and 0.0066 drop in macro-F1 compared to the previous bucket, the LSTM model demonstrates a more significant drop of 0.0130 in accuracy and 0.0140 in macro-F1. This disparity in performance suggests that the LSTM struggles more with sequences longer than 45 words because of its limited capacity to efficiently handle long-range dependencies compared to DistilBERT.
+
+\begin{table}[H]
+\centering
+\caption{Length bucket results on the test set.}
+\label{tab:length_buckets}
+\begin{tabular}{llccc}
+\toprule
+\textbf{Model} & \textbf{Bucket} & \textbf{Count} & \textbf{Accuracy} & \textbf{Macro-F1} \\
+\midrule
+LSTM & shortest & 2144 & 0.8843 & 0.8815 \\
+LSTM & short & 1730 & 0.9145 & 0.9145 \\
+LSTM & long & 1986 & 0.9285 & 0.9287 \\
+LSTM & longest & 1740 & 0.9155 & 0.9147 \\
+\midrule
+DistilBERT & shortest & 2144 & 0.9324 & 0.9302 \\
+DistilBERT & short & 1730 & 0.9555 & 0.9555 \\
+DistilBERT & long & 1986 & 0.9572 & 0.9571 \\
+DistilBERT & longest & 1740 & 0.9517 & 0.9501 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+Furthermore, both models had the lowest accuracy and macro-F1 scores in the shortest bucket (0-34 words), likely due to the limited context available in shorter sequences, which makes it harder for the models to accurately classify the news articles.
+
+\subsubsection{Keyword Masking Probe}
+
+As described in Section~\ref{sec:methods}, we conducted a keyword masking probe to evaluate the reliance of the models on specific class-indicative keywords. The identified top 6 keywords for each class, seen in Table~\ref{tab:top_keywords}, were masked.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Top 6 class-indicative keywords per class used for masking.}
+\label{tab:top_keywords}
+\begin{tabular}{ll}
+\toprule
+\textbf{Class} & \textbf{Top keywords} \\
+\midrule
+World & afp, iraq, iraqi, killed, minister, president \\
+Sports & cup, game, league, season, team, win \\
+Business & fullquote, oil, percent, prices, reuters, stocks \\
+Sci/Tech & internet, microsoft, music, search, software, space \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+24 random control words that were frequency-matched to the top keywords over the whole training vocabulary are shown in Table~\ref{tab:control_words}.
+
+\begin{table}[H]
+\centering
+\caption{Frequency-matched random control words (\(n=24\)) sampled from the global training vocabulary.}
+\label{tab:control_words}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Control words} \\
+\midrule
+agreed, big, billion, business, computer, earnings, firm, general, help, higher, href, investor, investors, just, london, man, months, network, news, play, quickinfo, red, sports, trade \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The results of the keyword masking probe are shown in Table~\ref{tab:keyword_masking_probe}, which includes the macro-F1 scores for the regular test set, the keyword-masked test set, and the random control-masked test set. The table also shows the drop in macro-F1 for both the keyword-masked and random control-masked test sets compared to the regular test set.
+
+\begin{table}[H]
+\centering
+\caption{Keyword masking probe results on the test set.}
+\label{tab:keyword_masking_probe}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} &
+\shortstack{\textbf{Regular}\\\textbf{Macro-F1}} &
+\shortstack{\textbf{Keyword-}\\\textbf{Masked F1}} &
+\shortstack{\textbf{Random-}\\\textbf{Control F1}} &
+\shortstack{\textbf{Keyword}\\\textbf{Drop}} &
+\shortstack{\textbf{Random}\\\textbf{Drop}} \\
+\midrule
+LSTM & 0.9100 & 0.8958 & 0.9090 & 0.0142 & 0.0010 \\
+DistilBERT & 0.9486 & 0.9396 & 0.9477 & 0.0090 & 0.0009 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both models show a greater drop in macro-F1 when the informative keywords are masked compared to when random control words are masked, demonstrating that both models rely on these keywords for classification. However, the LSTM model experiences a larger drop (0.0142) compared to DistilBERT (0.0090). This suggests that the LSTM model is more dependent on keywords for making predictions, while DistilBERT is less sensitive to the masking of these keywords. Hence, DistilBERT appears to be using more contextual information and learning more generalizable patterns for classification, while the LSTM model may be more prone to memorizing specific terms, which limits its robustness and generalization to unseen data.

@@ -1,0 +1,3130 @@
+[
+  {
+    "index": 9,
+    "text": "Title: Card fraud unit nets 36,000 cards Content: In its first two years, the UK's dedicated card fraud unit, has recovered 36,000 stolen cards and 171 arrests - and estimates it saved 65m.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 23,
+    "text": "Title: Some People Not Eligible to Get in on Google IPO Content: Google has billed its IPO as a way for everyday people to get in on the process, denying Wall Street the usual stranglehold it's had on IPOs. Public bidding, a minimum of just five shares, an open process with 28 underwriters - all this pointed to a new level of public participation. But this isn't the case.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 36,
+    "text": "Title: Venezuela Prepares for Chavez Recall Vote Content: Supporters and rivals warn of possible fraud; government says Chavez's defeat could produce turmoil in world oil market.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 47,
+    "text": "Title: Dell Exits Low-End China Consumer PC Market Content: HONG KONG (Reuters) - Dell Inc. <DELL.O>, the world's largest PC maker, said on Monday it has left the low-end consumer PC market in China and cut its overall growth target for the country this year due to stiff competition in the segment.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 55,
+    "text": "Title: Promoting a Shared Vision Content: As Michael Kaleko kept running into people who were getting older and having more vision problems, he realized he could do something about it.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 83,
+    "text": "Title: Intel to delay product aimed for high-definition TVs Content: SAN FRANCISCO -- In the latest of a series of product delays, Intel Corp. has postponed the launch of a video display chip it had previously planned to introduce by year end, putting off a showdown with Texas Instruments Inc. in the fast-growing market for high-definition television displays.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 110,
+    "text": "Title: Yahoo! Ups Ante for Small Businesses Content: Web giant Yahoo! is gambling that price cuts on its domain name registration and Web hosting products will make it more competitive with discounters in the space -- which means that small businesses looking to move online get a sweeter deal through ...",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 111,
+    "text": "Title: IBM Buys Two Danish Services Firms Content: IBM said Tuesday it has acquired a pair of Danish IT services firms as part of its effort to broaden its presence in Scandinavia. As a result of the moves, IBM will add about 3,700 IT staffers to its global head count. Financial terms of ...",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 120,
+    "text": "Title: Oil prices bubble to record high Content: The price of oil has continued its sharp rise overnight, closing at a record high. The main contract in New York, light sweet crude for delivery next month, has closed at a record $US46.75 a barrel - up 70 cents on yesterday 's close.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 207,
+    "text": "Title: Intuit Posts Wider Loss After Charge (Reuters) Content: Reuters - Intuit Inc. (INTU.O), maker of the No. 1 U.S. tax presentation software TurboTax, on Wednesday posted a wider quarterly loss after taking a goodwill impairment charge during its seasonally weaker fourth quarter.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 240,
+    "text": "Title: Bill Clinton Helps Launch Search Engine Content: Former president Bill Clinton on Monday helped launch a new Internet search company backed by the Chinese government which says its technology uses artificial intelligence to produce better results than Google Inc.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 248,
+    "text": "Title: Caterpillar snaps up another remanufacturer of engines Content: PEORIA - Caterpillar Inc. said Wednesday it will acquire a South Carolina remanufacturer of engines and automatic transmissions, increasing its US employment base by 500 people.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 305,
+    "text": "Title: Don 't expect Tiger to relinquish his top ranking without a fight Content: They 're calling Ohio a quot;battleground state, quot; one of the two or three places likely to decide November 's presidential election. On local TV, the Bush and Kerry ads air so frequently that it 's easy to forget it 's Bob Costas who actually runs the country.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 310,
+    "text": "Title: Clicking on Profits Content: The latest data from the US Department of Commerce further bolsters what we have all suspected: E-commerce sales are increasing. Not only might one suspect that consumer confidence has been bolstered since last year, there ...",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 311,
+    "text": "Title: French Take Gold, Bronze in Single Kayak Content: ATHENS, Greece - Winning on whitewater runs in the family for Frenchman Benoit Peschier, though an Olympic gold is something new. Peschier paddled his one-man kayak aggressively but penalty free in both his semifinal and final runs on the manmade Olympic ...",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 316,
+    "text": "Title: Crude Price Spike May Send Gas Higher (AP) Content: AP - Amid soaring crude oil prices, gasoline costs have been dropping. But don't expect that to last, economists say.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 317,
+    "text": "Title: Amazon Snaps Up China's Largest Web Retailer (NewsFactor) Content: NewsFactor - Amazon.com (Nasdaq: AMZN) has said it will buy Joyo.com Limited -- a British Virgin Islands company that operates the largest Internet retail Web site in China -- for US $75 million.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 344,
+    "text": "Title: Glory Comes Amid Empty Seats and Closed Shutters Content: HERE in Old Europe, people install shutters outside their windows to keep out the heat, the pollution, the daylight, the noise. They also lock the shutters tight when they go away on holiday.",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 355,
+    "text": "Title: Greek weightlifter awaits verdict Content: Greek weightlifter Leonidas Sampanis will find out on Sunday if he is to be stripped of his medal.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 363,
+    "text": "Title: A Founding Father? Content: Give the guy some credit. Tung Chee-hwa, Hong Kong 's embattled Chief Executive, gets precious little of it from his people these daysand heaps of",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 408,
+    "text": "Title: Chavez rejects CD as opposition Content: Venezuela 's President Hugo Chavez has announced that he will no longer recognize the Democratic Coordination or CD as the opposition coalition.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 436,
+    "text": "Title: Students Pay More for Beer Than Books Content: British students spend about $1.8 billion on drink every year, nearly three times as much as they cough up for books, a survey released on Monday showed.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 467,
+    "text": "Title: Deal has S2io champing at the gigabit Content: OTTAWA -- A local firm that says it can help shrink backup times at large data centres is growing its business thanks to an alliance with Sun Microsystems Inc.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 481,
+    "text": "Title: Dark arts of spin evident in phoney war for Abbey Content: THE phoney war over the fate of Abbey grinds on. Along the way, on all sides, it is producing its predictable crop of knowing winks and destabilising nudges.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 526,
+    "text": "Title: Cisco Reaches High And Low Content: NEW YORK - Cisco Systems is aggressively trying to build its presence in key growth markets, and it 's using both new products and new acquisitions to do it.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 528,
+    "text": "Title: Update 1: Passengers Stranded by Canceled Flights Content: Thousands of disgruntled vacationers were stranded at Heathrow Airport Tuesday after British Airways canceled scores of flights because of staff shortages and technical hitches.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 549,
+    "text": "Title: Branson: Virgin Billionaire Eyes China Telecom Deal Content: Can you hear him now: Virgin Group Chairman Richard Branson said in Hong Kong that his company has earmarked $300 million for a cell phone joint venture in China.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 565,
+    "text": "Title: India's Tata makes powerful debut Content: Shares in Indian software services giant Tata Consultancy close 16 higher on their market debut, raising $1.2bn for the company.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 582,
+    "text": "Title: MOM 2005 Released to Manufacturing Content: Microsoft on Wednesday announced the release to manufacturing of Microsoft Operations Manager (MOM) 2005 and MOM 2005 Workgroup Edition, a new edition that the company previously called MOM 2005 Express.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 643,
+    "text": "Title: Nepal blockade 'blow to tourism' Content: Nepal tour operators say tourists cancelled millions of dollars of bookings due to the rebel blockade of Kathmandu.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 656,
+    "text": "Title: Nigeria gives Shell $1.5 billion eco-bill Content: The Shell oil company has been handed a $1.5 billion bill for ecological compensation in the Niger delta by the government of Nigeria.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 664,
+    "text": "Title: TiVo loss widens Content: SAN FRANCISCO (CBS.MW) - TiVo said its second-quarter loss widened from a year earlier on higher customer acquisition costs. Free!",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 689,
+    "text": "Title: Vote 2004 - a guide to the primary Content: Get ready for the primary with the Herald-Tribunes special news section profiling all the federal, state and local candidates in races in Tuesdays election.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 707,
+    "text": "Title: Dominicans' Swift Step Into Crisis Content: SANTO DOMINGO, Dominican Republic -- When Sandro Batista smashed his banana truck into a tree in April, leaving him with two hideously shattered legs and a broken arm, his orthopedic surgeon sent his sister shopping.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 719,
+    "text": "Title: US economic growth slips to 2.8 Content: Annual US economic growth fell to 2.8 in the second quarter of 2004, marking a slowdown from the 3 estimated a month ago.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 744,
+    "text": "Title: HP to tempt holiday shoppers with sights and sounds Content: The computer-hardware giant, best known for products such as PCs and printers, on Friday laid out its plan to become a brand-name in consumer electronics products such as flat-screen TVs, music players and the devices that move content between them.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 747,
+    "text": "Title: Argentina Beats U.S. Men's Basketball Team Content: Argentina defeated the United States team of National Basketball Association stars 89-81 here Friday in the Olympic semi-finals, dethroning the three-time defending champions.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 762,
+    "text": "Title: Siemens Says Cellphone Flaw May Hurt Users and Its Profit Content: Siemens, the world 's fourth-largest maker of mobile phones, said Friday that a software flaw that can create a piercing ring in its newest phone models might hurt earnings in its handset division.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 835,
+    "text": "Title: US Bells Do Video on Path Blazed by Small Telcos Content: The three largest US local telephone corporations made a splash this summer with plans to sell video services on their voice and data lines in a few years.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 839,
+    "text": "Title: Our mobile margins will fall: Telstra Content: TELSTRA chief financial officer John Stanhope has admitted Telstra 's margins in its $4.5 billion a year mobile phone business will shrink this year in the face of increased price competition and the growing cost of acquiring new customers.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 877,
+    "text": "Title: For Now, Unwired Means Unlisted. That May Change. Content: In October, most major cellphone carriers plan to start compiling a publicly accessible listing of wireless phone numbers.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 887,
+    "text": "Title: On TV -- from the Internet Content: SAN MATEO, Calif. -- The promise of Internet-based video has long been hamstrung by copyright and piracy worries, slow dial-up connections, technical challenges, and consumer disdain for watching blotchy videos on their home computers.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 892,
+    "text": "Title: Intel in new chip breakthrough Content: Intel creates a more powerful memory chip without increasing its size, confounding the firm's critics.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 912,
+    "text": "Title: Bryant Makes First Appearance at Trial (AP) Content: AP - NBA star Kobe Bryant arrived at his sexual assault trial Monday as attorneys in the case who spent the weekend poring over questionnaires prepared to question potential jurors individually.",
+    "true_label": 3,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 942,
+    "text": "Title: Japan should outsource more Content: The Japanese information services industry clocked up sales of 13,703.9 billion yen in fiscal 2001, according to a report on selected service industries for 2001 released by the Ministry of Economy, Trade and Industry (METI).",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 951,
+    "text": "Title: Hall of Shame Hall of Fame Content: We spotlight people and products that pester us...and the heroes saving us from annoyances.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 955,
+    "text": "Title: UBS pays 265 million dollars for Schwab capital markets business (AFP) Content: AFP - Swiss banking group UBS said that it had paid 265 million dollars (219 million euros) to buy SoundView, the capital markets division of online broker Charles Schwab to strengthen its position on the US Nasdaq market.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1017,
+    "text": "Title: Paris Tourists Search for Key to 'Da Vinci Code' (Reuters) Content: Reuters - A funny thing happened on the way to the Mona Lisa. Visitors to the Louvre museum in Paris, home of the world's most famous painting, started quizzing tour guides about Dan Brown's best-selling novel \"The Da Vinci Code.\"",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1042,
+    "text": "Title: Make hotels just like home Content: HOTEL operators, take note: Todays hotel guests are making a nonsense of room-pricing strategies with their aggressive, Internet-aided discount-hunting.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1051,
+    "text": "Title: Software Service Aims to Outfox Caller ID Content: A new computerized service enables customers to create phony outbound phone numbers in order to mask their telephone identities.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1062,
+    "text": "Title: Red Hat replaces CFO Content: Red Hat on Thursday named Charles Peters Jr. as executive vice president and chief financial officer. Peters replaces Kevin Thompson, who unexpectedly announced his resignation in June, a few days before the",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1084,
+    "text": "Title: Megawati kicks off 36th ASEAN economic meeting Content: JAKARTA (Agencies): President Megawati Soekarnoputri opened high-level economic talks between members of the Association of Southeast Asian Nations (ASEAN) on Friday with a warning to ASEAN leaders that they must stay the course on their agreed",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1087,
+    "text": "Title: Semiconductor Manufacturing to Boost Capacity by Half (Update2) Content: Semiconductor Manufacturing International Corp., China 's biggest supplier of made-to-order chips, said its factory capacity will rise by more than half in the second half as the company brings more plants on line.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1098,
+    "text": "Title: The Bahamas - the real medal winner of the Athens Olympics Content: A different way of calculating the medal standings brings some interesting results.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1110,
+    "text": "Title: EU foreign ministers hope to break deadlock over ASEM summit Content: The European Union said Friday it quot;hoped to reach a conclusion quot; at a meeting of foreign ministers on the participation of military-ruled Myanmar in an upcoming summit of Asian and European nations.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1124,
+    "text": "Title: Judge: Geico can sue Google, Overture over ads Content: A federal judge in Virginia has ruled that a trademark infringement suit filed by the Government Employees Insurance Co. (GEICO) against Internet search giants Google Inc. and Overture Services Inc. can proceed.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1141,
+    "text": "Title: Yankees, Brown go down swinging Content: Kevin Brown's frustrating season finally reached a boiling point, and now his hot temper could cost the New York Yankees at the most important time. Brown broke his non-pitching hand when he punched a wall in the clubhouse last night during a 3-1 loss to the Baltimore Orioles that cut New York's lead in the AL East ...",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 1160,
+    "text": "Title: Wal-Mart Anchors Windows Media Mall Content: The world 's largest software company has teamed with the world 's largest retailer to help kick off the latest version of Windows Media Player.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1168,
+    "text": "Title: ASEAN moves closer to single market with 'road map ', global trade <b>...</b> Content: JAKARTA : ASEAN finance ministers ended a meeting which saw Southeast Asia edge closer to a Europe-style single market, laying out a quot;road map quot; for integration and opening doors to wider global trade.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1183,
+    "text": "Title: Global sales of mobile phones hit record levels Content: PARIS Global cellphone sales rose to record levels in the second quarter as Nokia clawed back some of its lost market share, according to figures released Thursday.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1197,
+    "text": "Title: World briefs Content: LONDON - A man wielding a machete and a knife attacked two security guards at the building housing the headquarters of the British domestic intelligence service MI5 on Friday, police said.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1232,
+    "text": "Title: 2 charged after Chicago area pals are slain in NC tragedy Content: Ever since they met in fourth grade, Brett Johnson Harman and Kevin McCann were as close as brothers. quot;They had the same mannerisms, the same kind of humor, and they even looked alike, quot; said McCann 's father, Dennis McCann.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 1252,
+    "text": "Title: Retailers Looking to Move Plasma TV's (AP) Content: AP - Hanging stockings by the chimney with care? Retailers hope that St. Nicholas soon will be there #151; to hang a 42-inch plasma-screen TV.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1269,
+    "text": "Title: Philippines mourns dead in Russian school siege Content: The Philippines Saturday expressed quot;deepest sympathy quot; to the families of the dead in the Russian school siege on Friday, in which 322 people were killed when Russian troops stormed",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1273,
+    "text": "Title: Summer Box Office Hits a High, Despite Lows Content: In a summer when many of the studios' biggest bets failed to pay off, it was familiarity in the form of sequels and low-budget comedies that resonated with movie audiences.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1280,
+    "text": "Title: Dell cuts prices on many corporate products Content: Dell on Monday said it had cut prices by as much as fifth for a range of products aimed at US corporate customers, as the computer maker passed along savings from cheaper components.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1296,
+    "text": "Title: Israel to close Erez industrial zone before March Content: Israel would start liquidating the Erez industrial zone in the northern Gaza Strip before launching the first stage of the disengagement plan in March 2005,local newspaper Ha 'aretz reported on Tuesday.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1317,
+    "text": "Title: Florida deaths blamed on Hurricane Frances Content: State and local officials Tuesday said nine people have died in Florida because of Hurricane Frances. The following describes those deaths: - A 15-year-old grandson and a former son",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 1341,
+    "text": "Title: The Discreet Charm of the Very Bourgeois Toy Store? Content: F.A.O. Schwarz may be shuttered and dark, but its catalog is somersaulting back in the direction of well-heeled children and the adults who indulge them.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1361,
+    "text": "Title: Movies in a snap: Netflix and TiVo discuss downloads Content: Bee Staff Writer. The high-tech ground is shifting underfoot again, amid rumblings of a new Silicon Valley alliance that would let owners of TiVo Inc.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1364,
+    "text": "Title: Hyundai signs deal for China truck plant Content: Hyundai Motor Co. said yesterday that it has signed an agreement with a Chinese company, Jianghuai Automobile Corp., to build a commercial vehicle and engine plant in China 's Anhui province.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1388,
+    "text": "Title: Ex-WorldCom CEO Wants Witness Immunity (Reuters) Content: Reuters - Lawyers for former WorldCom Chief Executive Bernard Ebbers are seeking immunity for two witnesses who they believe could clear their client of fraud charges related to the company's $11 billion accounting scandal, according to court papers filed on Wednesday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1447,
+    "text": "Title: Florida Starts To Recover in the Wake of Hurricane Frances Content: President Bush will travel to Florida Wednesday to survey damage from Hurricane Frances. He sent a letter to Congress asking for $2 billion to help with recovery efforts.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1494,
+    "text": "Title: Telescope snaps distant 'planet' Content: The first direct image of a planet circling another star may have been obtained by a US-European team of astronomers.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1513,
+    "text": "Title: California group sues Albertson's over privacy concerns Content: A California-based privacy advocacy group is suing supermarket giant Albertson's over alleged privacy violations involving its pharmacy customers.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1527,
+    "text": "Title: Storms Seem to Cure Floridians of Hurricane Amnesia Content: The state 's East Coast hadn 't been hit by a hurricane since 1999. That, and the fact that Florida hasn 't had its historic share of such storms in recent decades, has led to some complacency about their effects.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1548,
+    "text": "Title: Post-Olympic Greece tightens purse, sells family silver to fill budget holes (AFP) Content: AFP - Squeezed by a swelling public deficit and debt following last month's costly Athens Olympics, the Greek government said it would cut defence spending and boost revenue by 1.5 billion euros (1.84 billion dollars) in privatisation receipts.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1599,
+    "text": "Title: Two gored to death in Spanish bull-run Content: Two Spanish men were gored to death by fighting bulls yesterday during the bull-run at the local fiestas in Ampuero, a town 30 miles east of the northern port city of Santander.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1603,
+    "text": "Title: Let a Thousand Ideas Flower: China Is a New Hotbed of Research Content: In recent years, hundreds of multinational companies have set up research laboratories in China.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1668,
+    "text": "Title: EU increases pressure for rights in Myanmar Content: EU foreign ministers agreed Monday to tighten sanctions against Myanmar if it does not improve its human rights record by Oct. 8, when an EU meeting with Asian countries starts in Vietnam.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1691,
+    "text": "Title: German investor confidence slumped in September Content: BERLIN - German investor confidence dropped sharply in September, a key economic indicator released Tuesday showed amid concerns about the impact of high oil prices on consumer demand and the outlook for the global economy.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1704,
+    "text": "Title: Flower power turns up the volume Content: A Japanese company has come up with a way of turning flowers into loudspeakers.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1712,
+    "text": "Title: Tyncastle sale gets official go ahead Content: Of the votes received by proxy and from shareholders in the room at a stormy extraordinary general meeting last night, 62.5 were in favour of the resolution.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 1774,
+    "text": "Title: Slowing population 'lacks funds' Content: Rich countries are giving only half the amount they promised to help to slow world population growth, the UN says.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1781,
+    "text": "Title: 'Cities in crisis' leaders warn Content: World leaders warn that rapid urbanisation will become one of the biggest challenges of the 21st Century.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1790,
+    "text": "Title: HP Wins Defense Contract Content: HP (Quote, Chart) was awarded a $290 million, 10-year outsourcing contract with the Defense Logistics Agency 's (DLA) Enterprise Data Center (EDC) program, officials announced Wednesday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1823,
+    "text": "Title: Infineon to Pay a Fine in the Fixing Of Chip Prices Content: Federal prosecutors announced on Wednesday that they had cracked a global cartel that had illegally fixed prices of memory chips in personal computers and servers for",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1838,
+    "text": "Title: European Stocks Open Flat, Havas Falls (Reuters) Content: Reuters - European shares opened steady on Thursday, with French advertising group Havas falling after news of a capital increase along with its first-half results but Richemont rallied after reporting strong luxury goods sales.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1840,
+    "text": "Title: Icing call Content: Out of money, out of patience, out of time, and for the foreseeable future, out of business.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 1881,
+    "text": "Title: Hurricane Ivan Slams U.S. Gulf Coast Content: Hurricane Ivan roared into the Gulf Coast near Mobile, Alabama, early this morning with peak winds exceeding 125 miles an hour (200 kilometers an hour).",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1890,
+    "text": "Title: AOL drops Microsoft antispam technology Content: com September 16, 2004, 1:15 PM PT. This fourth priority 's main focus has been improving or obtaining CRM and ERP software for the past year and a half.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1919,
+    "text": "Title: Forecasters: More Hurricanes May Be on Way Content: Ivan, Frances and Charley delivered three staggering blows to the Gulf Coast and Florida, as well as Caribbean island nations, all in just five weeks.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 1927,
+    "text": "Title: California slashes legal fees in settlement of Microsoft case Content: California lawyers who reached a $1.1 billion class-action settlement with Microsoft will get less than half the legal fees they requested.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1946,
+    "text": "Title: $78,000 for a Cane That Helped a Legend Walk the Line Content: Many of Johnny Cash's possessions were sold at Sotheby's, collecting $3,984,260 for the Cash family, more than double the pre-auction estimate.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 1961,
+    "text": "Title: Boxer Begs Bush to Back Bum Bill Content: Members of California's congressional team make one last effort to look good for the tech industry back home.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1974,
+    "text": "Title: Pen can pick some bike U-locks Content: That U-shaped bike lock that you thought was so secure may be easy pickings for thieves who have nothing more sophisticated than a Bic pen.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 1991,
+    "text": "Title: MCI Creditors Are Target Of SEC Subpoenas Content: 11 members of MCI Inc.'s former creditors committee asked for documents related to confidential communications between the company and its bondholders, according to federal bankruptcy court filings.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2017,
+    "text": "Title: Florida, Alabama pick up the pieces after Ivan Content: People in Florida and Alabama have started to clean up after hurricane Ivan - the third such pummelling for Florida alone in just five weeks.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2028,
+    "text": "Title: Ryder Cup: Europe close on victory Content: Another good day at Oakland Hills sees Europe move 11-5 clear of the USA going into Sunday's Ryder Cup singles.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2053,
+    "text": "Title: EU transport chief hails Alitalia accord (AFP) Content: AFP - EU transport and energy commissioner Loyola de Palacio hailed the accord reached between Alitalia management and staff on a major restructuring plan aimed at keeping the struggling airline in the air.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2062,
+    "text": "Title: VoIP becomes new option Content: Jackson is one of the first to take advantage of Time Warner Cable 's new venture into Voice over Internet Provider (VoIP) telephone service here and she says it works great.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2105,
+    "text": "Title: Malaysia expects to resume poultry exports to Singapore soon Content: By Channel NewsAsia 's Malaysia Correspondent Melissa Goh. KUALA LUMPUR : Malaysia expects to resume export of poultry and eggs from two states to Singapore by the end of this month but only after meeting conditions set by the island.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2110,
+    "text": "Title: United Apology over Website Abuse Content: Manchester United have been forced to issue an embarrassing apology to Liverpool for an ill-advised attack on the Anfield outfit on its own website.",
+    "true_label": 1,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 2120,
+    "text": "Title: Rogers Wireless Whistles and Fido Responds Content: Its official. Microcell Telecommunications Fido wireless service will be the new dog in Rogers Wireless Communications Canadian kennel, and that puppy wasnt cheap.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2122,
+    "text": "Title: Hyperion targets broader base Content: New Essbase 7X is intended to draw customers beyond Hyperion's usual corporate-finance crowd.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2124,
+    "text": "Title: AOL pushes into Internet shopping Content: Looking for new ways to boost its revenue, America Online is launching an online shopping service that won 't require an AOL account to access.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2126,
+    "text": "Title: Bush Scraps Most U.S. Sanctions on Libya (Reuters) Content: Reuters - President Bush on Monday formally ended the U.S. trade embargo on Libya to reward it for giving up weapons of mass destruction but left in place U.S. terrorism-related sanctions.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2145,
+    "text": "Title: A 'Plan B ' for PeopleSoft customers Content: com September 20, 2004, 6:13 PM PT. This fourth priority 's main focus has been improving or obtaining CRM and ERP software for the past year and a half.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2169,
+    "text": "Title: Ask Jeeves retools search engine in bid to catch Google, Yahoo Content: SAN FRANCISCO -- Hoping to emerge from the shadow of its more popular rivals, Ask Jeeves Inc. is adding new tools for visitors to save and organize links to Web pages they find through the company's online search engine.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2186,
+    "text": "Title: Jolly Online Shoppers Making Cash Registers Jingle Content: Online holiday shoppers this year are making cash registers jingle and meeting analysts ' expectations as they spent $8.8 billion in November, researchers said Monday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2207,
+    "text": "Title: PeopleSoft CEO Conway maintains defiant tone Content: SEPTEMBER 21, 2004 (IDG NEWS SERVICE) - With 15,000 attendees at PeopleSoft Inc. 's Connect 2004 user show waiting to hear how the company would handle Oracle Corp.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2219,
+    "text": "Title: Senate Panel Gives NASA Extra Money (AP) Content: AP - NASA would get $16.4 billion next year under a bill a Senate committee approved Tuesday, reversing a decision by House lawmakers to cut the space agency's budget below this year's levels.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2233,
+    "text": "Title: Guilty Plea Seen in Computer Associates Case Content: Steven Woghin, the former general counsel of Computer Associates, will plead guilty to criminal charges.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2234,
+    "text": "Title: Spread of GM grass raises fears of crossbreeding Content: Pollen from a genetically modified grass was found 21 kilometres from where it was planted, scientists reported in a study published Tuesday, raising fears of transgenic crossbreeding.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2247,
+    "text": "Title: Asia to outperform this year, lower growth seen in 2005: ADB (AFP) Content: AFP - Developing Asia is set to outperform this year with higher-than-expected growth of 7.0 percent despite high oil prices but it will slow in 2005 in tandem with the developed world, the Asian Development Bank (ADB) said.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2253,
+    "text": "Title: Vodafone targets Japan with 3G offensive Content: Vodafone has unveiled plans for 10 new third-generation handsets for Christmas to help shore up its struggling Japanese unit. Vodafone VOD.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2267,
+    "text": "Title: Olympic traffic measures needed at Paralympics: experts Content: Experts recommend that the traffic control measures taken during last month 's Olympic Summer Games and the current Paralympics should be kept in Athens permanently, as they",
+    "true_label": 1,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 2306,
+    "text": "Title: Deal in Congress to Keep Tax Cuts, Widening Deficit Content: Republican and Democratic leaders agreed to extend $150 billion worth of tax cuts sought by President Bush without trying to pay for them.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2333,
+    "text": "Title: Rumours surround Google browser Content: The search giant Google is rumoured to be working on its own web browser.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2337,
+    "text": "Title: Japanese Baseball Players, Owners Reach Deal (Reuters) Content: Reuters - Japanese baseball players and club representatives reached a deal Thursday to end the first strike in the 70-year history of the sport in Japan, with owners agreeing to let newcomers into the leagues as early as next season.",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 2386,
+    "text": "Title: In Indonesia, Businesses Hopeful After Election Content: After suffering through two shambling administrations, Indonesia appears to have a new president who many of its business leaders say they believe will uproot corruption and revive investment.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2397,
+    "text": "Title: Islands press Govt to reverse phone call decision Content: Diplomats from a number of islands in the South Pacific are reported to be pressing the Government to reverse a decision to block all phone calls made to the islands.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2400,
+    "text": "Title: Dogs said to smell cancer signs Content: LONDON -- It has long been suspected that man's best friend has a special ability to sense when something is wrong with us. Now, the first experiment to verify that scientifically has demonstrated that dogs are able to smell cancer.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2417,
+    "text": "Title: Baby for ovary transplant woman Content: A Belgian cancer patient made infertile by chemotherapy has given birth following revolutionary treatment.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2435,
+    "text": "Title: Airbus drops out of Microsoft appeal Content: Aircraft builder withdraws its request to intervene in Microsoft's antitrust appeal; Boeing also forgoes intervention.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2438,
+    "text": "Title: Mom Hugs 'Miracle' Baby After Ovarian Transplant (Reuters) Content: Reuters - Ouarda Touirat, her day-old baby daughter nestling in her arms, said Friday she had never lost hope that she could conceive after cancer treatment left her infertile.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2451,
+    "text": "Title: CA, Partners Move On As Kumar Faces Charges Content: Concern over the fate of former Computer Associates International chairman and CEO Sanjay Kumar accompanied the collective sigh of relief felt by CA partners last week when federal prosecutors settled a two-year-old accounting fraud investigation with the",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2566,
+    "text": "Title: A wandering Congress trips over the US Constitution Content: That is the one-word message of advice that citizens wanted to send to members of Congress at the end of last week. Both the House of Representatives and the Senate looked as if they are having trouble seizing",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2574,
+    "text": "Title: Adobe updates RAW plug-in with digital negative format Content: Adobe has updated Photoshop 's support for digital cameras ' RAW image formats. The new plug-in adds to the number of camera models supported and includes a utility for converting images into the DNG, digital negative format.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2579,
+    "text": "Title: SC to hear Zee petition tommorrow Content: Five judges of the top court will hear a petition filed by Zee Telefilms on Tuesday. A three-judge panel of the Supreme Court said a five-judge bench would hear the dispute that threatens the rights of India 's",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 2612,
+    "text": "Title: Gold Indian Coin Expected to Fetch $27,000 (Reuters) Content: Reuters - An Indian gold coin which is nearly 1,900 years old and shows one of the earliest depictions of Buddha is to be sold at auction where it is expected to fetch up to 15,000 pounds ( $27,000).",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2613,
+    "text": "Title: Embattled Mortgage Giant Agrees to Meet New Standards Content: Fannie Mae agreed to keep more cash on hand while it corrects accounting problems, a U.S. regulator said.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2625,
+    "text": "Title: Cray promotes two execs Content: Ly-Huong Pham becomes the supercomputer maker's senior vice president of operations, and Peter Ungaro is made senior vice president for sales, marketing and services.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2660,
+    "text": "Title: Gas prices up 5 cents after Hurricane Ivan Content: CAMARILLO, Calif. - Gas prices jumped more than 5 cents a gallon in the past two weeks, largely because of supply problems related to Hurricane Ivan, an industry analyst said.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2670,
+    "text": "Title: Nigerian oil flows despite rebel threat-companies Content: Oil should continue to flow from Nigeria, the world 's seventh largest exporter, despite a rebel threat to attack foreign oil workers in an quot;all-out war quot; due to start on Friday, multinational energy companies said.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2694,
+    "text": "Title: Virgin Starts (70) Mile-High Club Content: With the misery that has plagued the airline industry recently, the last place you 'd expect to see some inspiring -- heck, potentially rule-breaking -- thinking would be from an airline entrepreneur.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2718,
+    "text": "Title: Amazon sues spammers for misleading consumers Content: SEATTLE -- Amazon.com has filed three lawsuits in King County Superior Court against unidentified defendants who allegedly forged e-mails and Web sites to fool consumers into thinking they are doing business with the Internet retailer.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2752,
+    "text": "Title: BlueGene sneaks past Earth Simulator Content: The Earth Simulator, an NEC supercomputer, is surpassed, at last. IBM announced yesterday that its Blue Gene/L supercomputer had achieved a sustained performance of 36.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2759,
+    "text": "Title: Telecom equipment maker Agere to cut 500 employees, 7.6 of <b>...</b> Content: Telecommunications equipment maker Agere Systems Inc. said Wednesday it will lay off 500 employees, or 7.6 per cent of its workforce, as part of a corporate restructuring.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2806,
+    "text": "Title: Immunity in Ebbers Case Opposed in U.S. Filing Content: NEW YORK, Sept. 29 -- Federal prosecutors told a judge in a filing late Tuesday night that they have evidence that former WorldCom Inc. chief executive Bernard J. Ebbers knew company officials had improperly tinkered with the telecommunications firm's accounting to boost its publicly reported profits.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2812,
+    "text": "Title: Microsoft, Amazon to combine forces Content: Individually theyve been unstoppable in their respective industries. Theyre both legends that have survived the dot com burst and came out winners.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2822,
+    "text": "Title: Poor? Who 's poor? Poverty is down Content: The proportion of people living on less than $1 a day decreased from 40 to 21 per cent of the global population between 1981 and 2001, says the World Bank 's latest annual report.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2828,
+    "text": "Title: IBM Claims Its BlueGene Supercomputer Is the Fastest Content: IBM Corp. on Wednesday said it has developed the world 's fastest computer - a 16,000-processor version of its BlueGene/L supercomputer.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2833,
+    "text": "Title: Man arrested for fatally stabbing elderly parents Content: SAITAMA -- A middle-aged man who fatally stabbed his parents has been arrested, police said. Hideo Nakajima, an unemployed man from Soka, Saitama Prefecture, apparently called police shortly before 8 pm, Wednesday.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2847,
+    "text": "Title: Tough Talks Ahead After EU Is Criticized Content: Efforts to forge the world's largest free trade zone between the European Union and South America's Mercosur economic bloc are unlikely to be concluded by an Oct. 31 deadline, the EU said Thursday, with both sides declaring each other's trade offers insufficient.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2848,
+    "text": "Title: Pharma Groups Work on EPC Issues Content: Sept. 30, 2004Reacting to calls from pharmaceutical retailers, distributors and manufacturers, EPCglobal has added a new action group to specifically study the pharmaceutical industry",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2857,
+    "text": "Title: Hasbro's No Conehead Content: Its Saturday Night Live version of \"Trivial Pursuit\" is good strategy for staying ahead of age compression.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2873,
+    "text": "Title: August chip sales up Content: Global semiconductor sales rose 1.1 percent to $18.2 billion in August from the previous month and it appears as though chip inventories are declining, an industry trade group said Thursday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2879,
+    "text": "Title: Opportunity Rings (Forbes.com) Content: Forbes.com - This past summer 25,000 consumers, aged 18 to 24, received short text messages on their cell phones alerting them to numbers on 225 million bottle caps of Snapple iced tea, pink lemonade and the like. People holding a winning number, announced by text message and traditional media, landed overseas trips and walk-on parts on TV shows.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2914,
+    "text": "Title: Netflix, TiVo sign VoD alliance Content: Netflix, the online DVD rental company, and TiVo yesterday said they will work together to deliver movies digitally down the wires, presumably specifically to the latter 's PVR equipment.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2919,
+    "text": "Title: EU Accuses Microsoft of Paternal View Content: Microsoft Corp. said Friday that small companies and their customers would suffer most if it is forced to remove its digital media software from Windows, while the European Union accused it of being \"paternalistic\" in trying to decide what's best for everyone.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 2935,
+    "text": "Title: Hewlett-Packard buys Synstar Content: Palo Alto-based Hewlett-Packard Co. has bought IT services company Synstar plc, of Bracknell, England for about $293.3 million. Synstar has some 1,500 customers across Europe, selling IT support for various computer platforms.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2939,
+    "text": "Title: Research Is Definitely in Motion Content: The Blackberry wireless device maker is straining to exceed expectations.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2940,
+    "text": "Title: Level 3 Acquires Sprint 's Wholesale Dial-Up Internet Business Content: Level 3 today announced that it has purchased Sprint 's wholesale dial-up Internet access business for $34 million in cash. Sprint is one of the largest providers of wholesale dial-up service to ISPs in North America.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 2976,
+    "text": "Title: Bangkok animal trade talks open Content: The rules controlling the trade in many at-risk wildlife species may change at a Bangkok meeting starting on Saturday. The 166 member states of the Convention on International Trade in Endangered Species of",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 2982,
+    "text": "Title: Gates: US Need Not Fear Overseas Tech Content: The United States has nothing to fear from rapidly growing technology markets in China and India, Bill Gates, chairman and chief software architect of Microsoft Corp.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3001,
+    "text": "Title: Corporate Krueger haunts PeopleSoft Content: A few weeks ago the then-CEO of PeopleSoft, Craig Conway, posed the following question to attendees at a technology conference: quot;Have you ever had a bad dream that never ended?",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3027,
+    "text": "Title: The C.E.O. Vanishes, and Other Mysteries Content: Why did PeopleSoft, in the midst of a takeover fight with Oracle, fire its chief executive and president? Who knows? And that's a problem.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3060,
+    "text": "Title: You have mail, always, with a BlackBerry Content: Washington lawyer William Wilhelm knows from experience that not everybody loves his BlackBerry as much as he does. The girlfriend was fed up with a relationship",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3076,
+    "text": "Title: SUSAN TOMPOR: Stores turn paper into e-checks Content: I picked up my 6-year-old son from school last week, and we drove to Wal-Mart to see the future for paper checks. We grabbed a few of life 's staples: some Legos, a pack of 3x5 cards to create",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3077,
+    "text": "Title: Brewers buyer expected to step out of the shadows Monday Content: MILWAUKEE - Paul Attanasio says the story of his brother buying a baseball team is like a script straight out of Hollywood. He should know.",
+    "true_label": 2,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3116,
+    "text": "Title: OPM Delving Deeper Into Employees ' Backgrounds Content: which sets hiring and employment standards for the government -- is reviewing its employees to ensure that they are suitable for jobs involving the quot;public trust.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3133,
+    "text": "Title: Halliburton Set for Spotlight in VP Debates (Reuters) Content: Reuters - A name likely to come up in Tuesday's vice presidential debate is Halliburton, the Texas company once run by Dick Cheney that Democrats say is an example of cronyism because of its lucrative Iraq deals.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3147,
+    "text": "Title: Voters Flock to Register by Deadline Content: In a glimpse of what the nation might see a month from now, people lined up at election offices and caused parking lot traffic jams as voter registration deadlines fell Monday in more than a dozen states. Many officials reported record numbers of new voters, some said they were overwhelmed, and allegations were already flying about fraud and the disqualification of some voters' applications...",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3155,
+    "text": "Title: PeopleSoft down on testimony, forecast Content: Investors react to a disappointing earnings projection and to testimony that dampens hopes of negotiations with Oracle.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3156,
+    "text": "Title: New Siebel Chief Outlines Chapter 2 For CRM Vendor Content: After 10 years of focusing on product development and delivery, CEO Michael Lawrie says Siebel had to recognize that technology is only one part of the CRM equation.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3163,
+    "text": "Title: U.S. Seeks Reconciliation with Oil-Rich Venezuela Content: SAO PAULO, Brazil (Reuters) - The United States said on Monday it will seek better ties with oil-rich Venezuela in the clearest sign since President Hugo Chavez won a recall referendum in August that Washington is looking for reconciliation with the firebrand populist.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3170,
+    "text": "Title: Feds kick off digital TV consumer campaign Content: WASHINGTON - It 's one of the biggest technical changes in television since color TV: the digital transition. And because many Americans remain in the dark about it, federal regulators began an education campaign Monday to enlighten them.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3180,
+    "text": "Title: Russia May Ratify Kyoto Protocol in Oct. -- Minister (Reuters) Content: Reuters - The Russian government expects parliament to ratify the Kyoto Protocol this month in a move allowing the long-delayed climate change treaty to come into force worldwide, a senior minister said Monday.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3183,
+    "text": "Title: webcrawler: A9.com is cool Content: NOW heres something else thats off the mind. Theres no more need to make mental or computer notes while searching the Internet.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3258,
+    "text": "Title: PeopleSoft CEO Ousted for 'Situational Ethics ' Content: AccountingWEB.com - October 06, 2004 - The opening of a trial related to Oracle 's takeover bid of PeopleSoft featured the revelation that CEO Craig Conway was fired last week for making misleading statements about PeopleSoft 's sales.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3265,
+    "text": "Title: How to take the perfect penalty Content: A sports psychologist says how footballers should prepare themselves for the high-pressure penalties.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3306,
+    "text": "Title: Ex-Bush Official on Cybersecurity Returns (AP) Content: AP - Howard Schmidt, a highly regarded technology executive who was former special adviser to President Bush for cybersecurity, is returning to work with the Homeland Security Department on efforts to protect the nation's computer networks.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3312,
+    "text": "Title: Howard Stern Says He Plans to Jump to Satellite Radio Content: After heavy F.C.C. fines, Howard Stern expects to deliver \"my show my way\" in the mostly unregulated medium.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3334,
+    "text": "Title: 34 tech firms sued for alleged LCD patent theft Content: Honeywell has issued lawsuits against 34 companies, including Dell, Apple, Sony and Toshiba alleging LCD panels used in their products infringe a 1992 patent the company holds.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3343,
+    "text": "Title: Unisys to lay off 1,400 workers Content: Unisys Corp. plans to cut 1,400 jobs, primarily in general and administrative areas, and consolidate its office space worldwide, it announced Wednesday. The cuts represent 3.8 percent of the company's staff of 37,000.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3354,
+    "text": "Title: Nintendo to Unveil Handheld Upgrade Content: Facing its biggest threat ever from the arrival of Sony Corp. in the portable video-game machine market, Japanese game-maker Nintendo Co.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3356,
+    "text": "Title: Fujitsu Siemens profit grows 60 percent Content: Fujitsu Siemens Computers (Holding) BV, Europe 's largest remaining computer manufacturer, posted a 60 percent leap in profit for the first half of its fiscal year on higher sales of laptops and servers to business customers, the company said Wednesday.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3455,
+    "text": "Title: Sun settles Kodak patent suit Content: Sun Microsystems says it will pay Kodak $92 million to settle a high-profile patent suit involving Sun 's Java programming technology.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3466,
+    "text": "Title: Flu Shot Shortage Highlights U.S. Crisis Content: WASHINGTON (Reuters) - Concerned health officials began investigating on Friday what went wrong at a British vaccine plant where half the U.S. flu shots were made, and called on more companies to get into the vaccine business.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3537,
+    "text": "Title: Shock Jock Group Boosts Satellite Radio Profile Content: When radio shock jocks Opie and Anthony considered their next career move after two firings in four years, the twisted twosome was ready to feign rehabilitation. Or at least that was the plan when they sat down with satellite radio executives.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3538,
+    "text": "Title: American Economist Expected to Win Nobel (AP) Content: AP - Americans have dominated the annual Nobel Memorial Prize in Economic Sciences five years running, and it may not surprise Nobel watchers if the trend continues.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3548,
+    "text": "Title: New pension 'would help millions' Content: Britain's pension system could easily be replaced by a new payment that would make millions better off, a report says.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3561,
+    "text": "Title: Cellphone Industry Hits Snag as It Woos Untapped Market Content: The mobile phone industry is turning its attention to the last untapped demographic - people over 65.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3570,
+    "text": "Title: Legendary all-rounder Miller dies Content: Keith Miller, arguably Australia's greatest all-rounder in Test cricket, has died in Melbourne aged 84.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3580,
+    "text": "Title: T-Online returns to Deutsche Telekom mothership Content: German incumbent telco Deutsche Telekom announced over the weekend it is to begin taking its internet division, T-Online, back entirely within the mother corporation.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3590,
+    "text": "Title: Finnish Watchdog Raps TV Game Operators (Reuters) Content: Reuters - Finland's consumer watchdog said on Monday it had reprimanded broadcasters for causing children to run up huge mobile phone bills with interactive television game and chat programs.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3595,
+    "text": "Title: A Senator 's Outrage Delays Passage of Corporate Tax Bill Content: The Senate cleared a path on Sunday for a bill to hand out about $140 billion in corporate tax breaks, but it was blocked from a final vote by a fight over a provision aimed at helping reservists on duty in Iraq.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3616,
+    "text": "Title: Cocoa farmers issue strike threat Content: Unions are threatening a general strike in the Ivory Coast in a protest against the prices farmers are paid for their cocoa supplies.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3617,
+    "text": "Title: Linux: Paris weighs a shift to open-source camp Content: PARIS The open-source computer system known as Linux won a tough battle over Microsoft earlier this year when the city of Munich decided to change the operating software of 14,000 government computers, despite the personal intervention of Steve Ballmer",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3627,
+    "text": "Title: SKorea's Samsung to invest 24 billion dollars in new chip lines (AFP) Content: AFP - South Korea's Samsung Electronics Co., the world's largest memory chipmaker, said it would invest some 24 billion dollars in building new chip production lines over the next six years.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3664,
+    "text": "Title: Oracle vs. PeopleSoft: Lies and Lying CEOs Who Tell Them Content: PeopleSoft 's board knew that CEO Craig Conway had erred in his comments, so it filed a corrected version of the meeting transcript with the Securities and Exchange Commission.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3671,
+    "text": "Title: Microsoft Launches New Media Center PC Content: Microsoft Corp. MSFT.O on Tuesday unveiled a new version of its Windows XP Media Center, adding features such as instant messaging and high-definition television to a personal computer designed for the living room.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3672,
+    "text": "Title: Rumors Suggest Photo Ability To Be Added to iPod Content: quot;Apple has invested heavily in technology to edit pictures. Not having a portable device to show them seemed an obvious oversight that would be corrected once the price of the displays",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3675,
+    "text": "Title: DreamWorks Animation IPO Set at 29M Shares Content: Underwriters for DreamWorks Animation SKG Inc., producer of the blockbuster \"Shrek\" movies, Tuesday set the terms of the company's pending initial public offering at 29 million common shares, with an estimated price range of $23 to $25 a share.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3683,
+    "text": "Title: Australia: Wallets trump war Content: A majority of Australians oppose the Iraq war, but they turned out to be more concerned about the economy.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3688,
+    "text": "Title: Ljubicic Downs Hanescu at Open De Moselle Content: Top-seeded Ivan Ljubicic of Croatia beat Victor Hanescu of Romania 6-4, 6-4 Tuesday in the first round of the Open de Moselle.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3702,
+    "text": "Title: Intel Posts Higher Profit, Sales Content: Computer-chip maker Intel Corp. said yesterday that earnings for its third quarter were $1.9 billion -- up 15 percent from the same quarter a year ago -- but the company cautioned that computer-processor demand in the United States is likely to remain low.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3741,
+    "text": "Title: QUALCOMM Acquires UK-Based, Mobile User Interface Leader Trigenix Content: SAN DIEGO, Oct. 12 -QUALCOMM Incorporated (Nasdaq: QCOM), pioneer and world leader of Code Division Multiple Access (CDMA) digital wireless technology, today announced it has acquired Trigenix, a mobile user interface company, based in the United Kingdom.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3747,
+    "text": "Title: Ban for former Ahold executives Content: Dutch retailer Ahold's former chairman and its ex-finance officer are barred from executive posts as part of a US fraud case settlement.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3790,
+    "text": "Title: Oil exports flow as strike woes ease Content: A general strike in Nigeria, which has raised fears over oil supply from the world 's seventh-largest exporter, will likely end its first phase on Thursday quot;all going well quot;, union leaders said.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3797,
+    "text": "Title: Transport strike hits Netherlands Content: Public transport grinds to a halt in the Netherlands as workers strike against the government's planned welfare cuts.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3882,
+    "text": "Title: For Many Airline Pilots, the Thrill Is Gone Content: While pilots still feel in command in the air, they increasingly are feeling slighted on the ground, as airlines extract salary and benefits concessions from them.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3916,
+    "text": "Title: Kerry to reverse stem cell policy Content: US presidential candidate John Kerry says he will make stem cell research a priority, dropping George Bush's policy.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 3945,
+    "text": "Title: Sun posts narrower quarterly loss Content: OCTOBER 14, 2004 (REUTERS) - SAN FRANCISCO -- Sun Microsystems Inc. today posted a narrower quarterly loss as revenue rose year over year for the second consecutive quarter after three years of declines, sending shares slightly higher.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3953,
+    "text": "Title: Toughest athlete is female and unknown Content: You probably haven't heard about one of the toughest endurance sports around: the deca-ironman. That's 38 km swimming, immediately followed by an 1800 km bicycle ride and a 420 km run. Currently, the world record stands at about 187 hours, held by a German housewife. Nobody else has ever finished the course below 192 hours.",
+    "true_label": 3,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 3968,
+    "text": "Title: US consumers unaware of spyware Content: The findings come in a report from the newly formed Consumer Spyware Initiative, a joint effort by Dell and the non-profit Internet Education Foundation that aims to increase awareness of spyware.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 3970,
+    "text": "Title: Wi-Fi successor is called high-speed hype -- for now Content: SAN FRANCISCO -- At virtually every turn, Intel Corp. executives are heaping praise on an emerging long-range wireless technology known as WiMAX, which can blanket entire cities with high-speed Internet access.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4000,
+    "text": "Title: Google puts desktop search privacy up front Content: Google has announced a new desktop search application that enables users to search their e-mail, files, web history, and chats. Perhaps learning from previous mistakes, Google says it has designed the product quot;from the ground up to respect user privacy.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4030,
+    "text": "Title: IBM posts broad Q3 revenue growth Content: NEW YORK - IBM Corp. posted quarterly results on Monday showing 9 percent revenue growth from last year and slight earnings growth, despite a $320 million charge it took during the quarter to settle some claims in a lawsuit over its pension plan.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4058,
+    "text": "Title: Regulators Approve Artificial Heart Content: The Food and Drug Administration approved the use of an artificial heart made by SynCardia Systems as a temporary device for people awaiting transplants.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4072,
+    "text": "Title: Intel gets off chip speed roller coaster: Content: Technology India: New York, Oct 19 : The world 's leading computer chipmaker Intel has jumped off the chip speed roller coaster by yanking its four giga hertz (4 GHz) Pentium 4 processor off the drawing board.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4088,
+    "text": "Title: Glazer stake in Man Utd nears 30 Content: US tycoon Malcolm Glazer lifts his stake in Manchester Utd to 28.11, one day after spending 17m on further share buys.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4097,
+    "text": "Title: Greenspan: Debt, home prices not dangerous Content: The record level of debt carried by American households and soaring home prices do not appear to represent serious threats to the US economy, Federal Reserve Chairman Alan Greenspan said Tuesday.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4102,
+    "text": "Title: Ancient fungus 'revived' in lab Content: Fungus from a deep-sea sediment core that is hundreds of thousands of years old will grow when placed in culture, scientists discover.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4138,
+    "text": "Title: Web-based kidney match raises ethics questions Content: A Colorado man who placed a quot;transplant wanted quot; ad on a Massachusetts-based Internet site is expected today to receive a kidney donated by a total stranger who simply wanted to do quot;something big. quot; The transaction marks the first time an organ transplant has been brokered by a commercial web company.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4148,
+    "text": "Title: Motorola Quarterly Earnings Rise Content: Motorola Inc., the world's No. 2 maker of cell phones, on Tuesday said its quarterly profit more than tripled, as sales rose 26 percent, driven in part by a host of new handset models and cost controls.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4169,
+    "text": "Title: Bookies take bets on new Band Aid Content: Bookies take bets on a new Band Aid single being Christmas No 1, expected to be confirmed by Midge Ure.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4182,
+    "text": "Title: Kids Opt for Kerry in Bellwether Online Poll (Reuters) Content: Reuters - The kids have spoken, and it's Sen. John Kerry with a convincing victory over President Bush on",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4222,
+    "text": "Title: Giga counters Content: They 're bold, brash and break most rules of business -- so why are the Google guys multi-billionaires? GOOGLE Inc had plenty to celebrate at its recent annual summer picnic -- its debut as a public company",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4258,
+    "text": "Title: General Assembly committee opens two-day debate on anti-cloning <b>...</b> Content: The UN General Assembly 's legal committee begins a two-day debate today that will focus on the contentious issue. There is support among member states for a treaty banning human cloning, but divisions remain",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4273,
+    "text": "Title: America 's curse Content: There is an all but unanswerable case for asserting that the biggest story out of the United States this week has nothing to do with the presidential election, has no connection with the flu vaccine shortage and that it does not involve a gay bishop either",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 4275,
+    "text": "Title: Erdogan Believes European Council 's Decision Will Be A Milestone Content: PARIS - Turkish PM Recep Tayyip Erdogan expressed belief on Thursday that the decision that the European Council would make on December 17th (on whether and when to open negotiations with Turkey) would be a milestone for not only Turkey-(EU) relations",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4285,
+    "text": "Title: World 's 'worst plunderers ' named Content: HUMAN beings are plundering the earth 's resources at an alarming and unsustainable rate, and Australians are among the worst offenders.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4300,
+    "text": "Title: City Series-ly wounded Content: With the Yanks out of the World Series, the city 's economy loses out on at least $40 million, according to studies by the controller 's office and other city agencies.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 4323,
+    "text": "Title: Amazon.com net sales jump 29; Google reports $52M in net income Content: OCTOBER 22, 2004 (IDG NEWS SERVICE) - Amazon.com Inc. fell a penny short of analysts ' per-share earnings expectations, while reporting net sales of $1.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4359,
+    "text": "Title: Google 's New PC Search Tool Poses Risks Content: NEW YORK Oct. 18, 2004 - People who use public or workplace computers for e-mail, instant messaging and Web searching have a new privacy risk to worry about: Google 's free new tool that indexes a PC 's contents for quickly locating data.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4396,
+    "text": "Title: Revolving Door Content: <em> IN</em><br> Aylwin B. Lewis, president of Yum Brands, as chief executive of Kmart.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4441,
+    "text": "Title: Approval Expected for Big Cellphone Deal Content: Federal regulators will formally approve Cingular Wireless 's $41 billion purchase of AT amp;T Wireless today, company officials briefed on the matter said over the weekend.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4451,
+    "text": "Title: Regulators Let Cingular Buy AT amp;T Wireless Content: The $41 billion merger between Cingular Wireless LLC and AT amp;T Wireless Services Inc. won approval from the Federal Communications Commission yesterday, according to federal sources close to",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4508,
+    "text": "Title: Spyware opponents win another battle Content: The Federal Trade Commission won an important victory last week in its fight to protect consumers from spyware, the software that tracks unsuspecting Web surfers, bombards them with advertisements and sometimes even steal login information and passwords.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4527,
+    "text": "Title: Qualcomm: A quot;Wireless Intel quot;? Content: Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs ' den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4540,
+    "text": "Title: Miss Peru takes Miss World crown Content: Twenty-year-old Miss Peru has been crowned Miss World in a southern Chinese resort town, as China looks to become the regular host of an event that would have once been deemed heretical by its Communist leaders.",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 4550,
+    "text": "Title: Lockheed Profit Jumps on IT, Jet Demand Content: <p> </p><p> NEW YORK (Reuters) - No. 1 U.S. defense contractor Lockheed Martin Corp. <LMT.N> reported a 41 percent rise in quarterly profit on Tuesday, beating Wall Street forecasts, as demand soared for its combat aircraft and information technology services.</p>",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4571,
+    "text": "Title: Microsoft Readies Next Business IM Server Content: A little over a year after introducing the first version of Office Live Communications Server, Microsoft says it plans to release the next version of its enterprise instant messaging software, in December.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4580,
+    "text": "Title: FaceTime, IMlogic Back Live Communications Server 2005 Content: Hard on the heels of Microsoft announcing that it 's taken Live Communications Server 2005 gold, instant messaging management software vendors IMlogic and FaceTime on Tuesday both touted their support for the communication product.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4591,
+    "text": "Title: Cingular Closes $41 Bln ATT Wireless Deal (Reuters) Content: Reuters - Cingular Wireless on Tuesday closed its $41 billion cash purchase of AT T Wireless Services Inc. , creating the biggest U.S. mobile service with more than 46 million customers.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4677,
+    "text": "Title: Black Market in British Treasure Sold on EBay (Reuters) Content: Reuters - Pieces of Britain's past, including a second-century silver ring and a 500-year-old Tudor trade weight, are among artifacts being peddled daily on the Internet to the alarm of experts at the British Museum.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4681,
+    "text": "Title: Report finds handheld device market in continued decline Content: The worldwide market for handheld devices saw its third successive quarter of year-over-year decline in the third quarter of 2004, according to a new report released by IDC.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4687,
+    "text": "Title: Will Tellabs Push Its Luck? Content: Perhaps the optical network supplier should call off its merger with AFC.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4689,
+    "text": "Title: Yahoo Debuts Mobile Search Content: SAN FRANCISCO -- Yahoo (Quote, Chart) expanded its search empire to the mobile arena with the launch of some additional services. The company was one of the original content providers for mobile devices running",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4691,
+    "text": "Title: Lexmark Loss Good for Consumers Content: Lexmark's loss in court on Tuesday may mean that consumer electronics companies won't try to use the Digital Millenium Copyright Act as an all-purpose competition shield anymore, consumer advocates say. By Katie Dean.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4720,
+    "text": "Title: Stability Control Systems Can Save Lives (AP) Content: AP - Stability control systems could save up to 7,000 lives each year if they were standard equipment on all vehicles, according to a study by the insurance industry.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4744,
+    "text": "Title: When Wireless Networks Merge Content: Now that its $41 billion takeover of AT T Wireless has been completed, Cingular will spend hundreds of millions of dollars in coming weeks on its advertising campaign.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4773,
+    "text": "Title: AOL Files Lawsuit Against IM 'Spim ' Content: America Online Inc. said Thursday it had filed a federal lawsuit accusing numerous unnamed defendants of violating federal and state laws by sending bulk messages known as quot;spim quot; to instant message accounts and Internet chat rooms.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4783,
+    "text": "Title: AOL, E-Mail Companies Sue Spammers Content: The nation 's largest e-mail providers today filed a new round of lawsuits against Internet spammers allegedly responsible for shoveling millions of junk e-mail messages into computer users ' in-boxes and their instant messaging screens.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4789,
+    "text": "Title: Gateway Reports Smaller Quarterly Loss Content: Gateway Inc. reported a narrowed net loss in the first quarter as it continues to restructure its operations and integrate its acquisition of eMachines. Still, the personal computer and electronics company posted a tiny operating profit -- its first in nearly three years.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4794,
+    "text": "Title: Gateway reports smaller net loss as restructuring continues Content: Gateway Inc. reported a narrowed net loss in the first quarter as it continues to restructure its operations and integrate its acquisition of eMachines.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4815,
+    "text": "Title: Blame player, not game Content: It was like nothing youd ever exercised your thumbs to before. You could do whatever you wanted, whenever you wanted. The game seemed endless.",
+    "true_label": 3,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4831,
+    "text": "Title: Dems, GOP: Who's Got the Brains? Content: Well, both do, actually. But there are some discernible differences in brain activity which may just explain why a Democrat sees the world one way, and a Republican sees it another.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 4854,
+    "text": "Title: Times to Scrap Broadsheet Edition Content: The Times is to scrap its broadsheet edition and go tabloid from Monday, it was confirmed today. The decision was made after a trial run of the compact edition proved a success, said editor Robert Thomson.",
+    "true_label": 1,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 4862,
+    "text": "Title: AOL's Viral Marketing Content: America Online will now provide gratis antivirus protection to its subscribers.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 4900,
+    "text": "Title: THE UNFOLDING UNIFORM Content: Pakistan is inherently unstable. Dealing with them is like playing with matches in a forest. - Larry Pressler. That statement from Larry Pressler, made during his recent visit to India, coincided with",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4912,
+    "text": "Title: Cast-aside candidates grab onto Sox coattails Content: By Raphael Lewis and Benjamin Gedan, Globe Staff and Globe Correspondent October 31, 2004. Republican state Senate candidate Rod Jane of Westborough woke up yesterday with a plan to grab some attention from",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 4982,
+    "text": "Title: Relaxed pot possession bill returns Content: OTTAWA -- The long push to reform marijuana laws took a big step forward yesterday as the federal government re-introduced legislation decriminalizing possession for personal use.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 4997,
+    "text": "Title: Volkswagen May Be Close to Settling Its Wage Talks Content: Volkswagen and its workers entered a critical week in their wage negotiations on Monday, with signs that a compromise was taking shape even as protests flared at factories across Germany.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5007,
+    "text": "Title: AOL to cut 700 jobs Content: America Online Inc. (AOL) plans to lay off 700 employees, about 5 percent of its US workforce, by the end of the year, several news organizations reported Tuesday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5024,
+    "text": "Title: FleetCenter to be reunion arena Content: It has all the gossipy intrigue and social awkwardness of seating the still-respected ex-wife and the sexy new girlfriend at the same table for a family wedding.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 5045,
+    "text": "Title: Gateway Can Party Like It 's 1999 Content: Those were heady days, they were, back in 1999. The bull market was still roaring. We hadn 't yet heard of hanging or dimpled chads.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5064,
+    "text": "Title: SIA: Chip sales to hit record, flatten Content: Worldwide semiconductor sales will hit an all-time high in 2004 but stay relatively flat in 2005 before climbing again over the next two years, according to the Semiconductor Industry Association.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5067,
+    "text": "Title: Quick end to US election crucial Content: US President George W. Bush is on the verge of a re-election victory, but Democratic challenger John Kerry is not conceding defeat, at least not now.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5122,
+    "text": "Title: Canadian freedoms 'under threat' Content: Personal freedoms in Canada are being eroded by the \"war on terror\", the country's privacy commissioner warns.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5127,
+    "text": "Title: Another homicide in Holland Content: It is a sad day. In what seems to be another politically inspired homicide in Holland, Dutch filmmaker, and controversial columnist Theo van Gogh was brutally murdered in the streets of Amsterdam this morning.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5128,
+    "text": "Title: Argentina Basketball Coach Magnano Quits Content: Ruben Magnano, who coached Argentina to the Olympic basketball gold medal in Athens, resigned Thursday to accept a coaching job in Italy.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5129,
+    "text": "Title: Product Previews Content: palmOneUpgrades Treo With Faster Chip, Better Display With more than 600,000 units shipped, the Treo 600 is one of the big smartphone success stories. Last week, palmOne introduced the follow-on Treo 650 with a higher resolution 320-by-320-pixel TFT screen, which the company claims increases the visible area of the display and makes pictures and documents much clearer. The 650 also carries a removable battery; 32MB of flash memory, and a faster 312MHz, Intel XScale processor. Improved multimedia features include a built-in MP3 player, a digital camera with improved low-light capabilities, as well as video capture and playback functionality. Products are expected to ship by years end from some carriers who will add their own services, and will be priced at about $499. Treo 650, palmOne",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5145,
+    "text": "Title: Serial HIV Assault Verdict Expected Mon. (AP) Content: AP - A verdict will be announced Monday in the trial of a man charged with intentionally exposing 17 women to HIV, a county judge said.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5151,
+    "text": "Title: Contradiction in Terms : How to make beer Content: It's been around for thousands of years. It has been worshiped, reviled, banned, and made the cornerstone of economies. It has helped us celebrate, weep, relax, and get laid. And now we're going to make some. A pint, a glass, an ale, a lager, a beer.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5164,
+    "text": "Title: Atomic Power Station Halted in Russia, No Radiation Content: MOSCOW (Reuters) - One reactor at a Russian nuclear power station was closed down after a malfunction, but there was no leak of radiation at the site near the city of Saratov on the Volga river, Russian news agencies reported on Friday.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5223,
+    "text": "Title: Social Security Reform a Boon for Funds? (Reuters) Content: Reuters - The bonanza many believe President Bush has handed the mutual fund industry with his plans to reform Social Security may be a mirage, industry leaders said on Friday.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5265,
+    "text": "Title: Travelocity Says Speed Is the Ticket For Growth Content: Sam Gilliand, the chief executive of Travelocity, talks about the online travel industry, the Cendant-Orbitz merger and the woes of the airline industry.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5280,
+    "text": "Title: Start-ups are discovering they might have to wait until the timing is right Content: Is the market for initial public offerings open or closed? Few questions loom larger for venture capital firms, which risk money on entrepreneurial companies and look for ''liquidity events quot; that will help them recoup their investments. But more than at any other time in the recent past, the answer may depend on your vantage point.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5288,
+    "text": "Title: Flying taxis - quot;within five years quot; Content: British company Avcen, designers of quot;Jetpod quot; taxi, believe they can offer a flying taxi service within 5 years. The taxi, due to undergo quot;proof of concept quot; test flights over the next 18 months, cruises to 228m with speeds of up to 350 mph (563 kph).",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5291,
+    "text": "Title: Website posts video of suicide attack against British troops Content: A video purportedly showing a suicide attack against British troops last week was posted on an Islamic website. Soldiers from Britain 's Black Watch regiment were manning a vehicle checkpoint south of Baghdad",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5305,
+    "text": "Title: Microsoft settles antitrust cases with Novell, CCIA Content: Microsoft Corp on Monday announced antitrust settlements with Novell Inc. and the Computer and Communications Industry Association (CCIA), ending years of legal wrangling.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5321,
+    "text": "Title: Microsoft Settles Novell Antitrust Suit (Reuters) Content: Reuters - Microsoft Corp. said on Monday it agreed to settle antitrust lawsuits with Novell Inc. and an industry trade group, marking the end of a decade-long antitrust battle.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5329,
+    "text": "Title: FCC expected to keep states off VoIP's back Content: Sources expect that on Tuesday, the FCC will exempt more Net phone calls from state telephone rules and taxes, even as the cable industry tries to grab VoIP's coattails.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5336,
+    "text": "Title: LCC Int 'l Posts 3Q Profit, Shares Tumble Content: LCC International Inc., which offers wireless voice and data technical consulting, on Monday saw shares plummet as much as 12 percent in after-hours trade after the company swung to a third-quarter profit but predicted lower revenues are ahead.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5337,
+    "text": "Title: Colombia Accuses Cos. of Illegal Imports Content: The Colombian government has filed a lawsuit accusing Pernod Ricard SA, Diageo PLC and Seagram Export Sales Co. of illegally importing spirits via Colombian companies that launder drug money.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5379,
+    "text": "Title: Cocoa prices down but Ivorian exports still blocked Content: World cocoa prices were down on Tuesday but off the day 's lows as exports remained on hold after mob violence and military clashes in Ivory Coast, the key global supplier, traders said.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5384,
+    "text": "Title: The Bag of Aeolus Content: quot;Aeolus was keeper of the winds. He gave a bag of evil winds to Odysseus, instructing him to keep it closed while a good breeze wafted him home.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5392,
+    "text": "Title: Cisco Systems 1st-Quarter Earnings Rise (Reuters) Content: Reuters - Cisco Systems Inc., the biggest maker of equipment that directs data over the Internet, on Tuesday said quarterly earnings rose 29 percent on rising demand for its networking gear.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5402,
+    "text": "Title: Fusion reactor decision must wait Content: Six nations planning to build the world's biggest nuclear fusion reactor fail to agree where to site the facility.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5431,
+    "text": "Title: Vodafone begins 3G service Content: Vodafone launches its third-generation services for mobile phones, offering video calls, music downloads and games.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5433,
+    "text": "Title: (B)old new frontiers Content: Northrop Grumman Corp. and Boeing Co. yesterday announced plans to team up to design a vehicle to take astronauts back to the moon and even beyond, but they 've got to make one stop first",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5479,
+    "text": "Title: Halo 2 scores record sales of $125 million in first 24 hours Content: Halo 2 broke entertainment retail records in its first 24 hours. Microsoft Game Studios said that the video game sold through 2.4 million stores in the US and Canada raking in $125 million in sales.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5532,
+    "text": "Title: Prized Fossil Just a Rock? Content: With positive and negative results, it remains to be seen what type of Fossil this company really is.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5601,
+    "text": "Title: Telephone Tag (Forbes.com) Content: Forbes.com - ARRIS GROUP (5, ARRS) saw its market cap unjustifiably halved recently when Comcast, a huge customer (24 of Arris' sales), hinted it might buy next-generation technology from Cisco Systems. Arris supplies the technical guts that cable companies use to provide phone service. (For the reverse phenomenon, see story on p. 162.)",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5602,
+    "text": "Title: Donors seek clarity on PA finances Content: Donors to the Palestinians are asking whether the change of leadership can let more light into Palestinian finances.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5627,
+    "text": "Title: U.S. to Allow Some Telemarketing 'Robo Calls' Content: WASHINGTON (Reuters) - Telemarketers will be able to use prerecorded \"robo calls\" to stay in touch with established customers starting next week -- at least for the short term, U.S. regulators said Friday.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5634,
+    "text": "Title: Court ruling has fat cats purring Content: THE future of horseracing in Britain was thrown into confusion this week as a result of a judgment by the European Court of Justice.",
+    "true_label": 3,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5656,
+    "text": "Title: Don King Productions Presents: quot;Battle For Supremacy quot; Content: On Saturday November 13th, ten misfits, nomads and upstarts seek to wage war or settle the score at the famed Madison Square Garden in New York, New York.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 5674,
+    "text": "Title: Will Hutton Content: There were two stories last week that will have world-shaping implications. The first was in a Paris hospital and a compound in Ramallah.",
+    "true_label": 2,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5685,
+    "text": "Title: Safety Group Closely Echoes Rail Industry Content: Documents show that the nation's most influential rail-safety group is tightly bound to the railroad industry.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5686,
+    "text": "Title: GAME UNDER FIRE Content: Attacking police officers, racial slurs, bloody beatings of innocent bystanders ... is it really just a game? In four and a half minutes, 14-year-old Ryan Mason ran over a police officer, stole his gun and shot and killed three innocent bystanders.",
+    "true_label": 3,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5690,
+    "text": "Title: Where have all the people gone? Content: While media and political attention is on the threat of outsourcing, the reality is that outsourcing is a sideshow in a much larger event.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5692,
+    "text": "Title: Boston archbishop reveals anguish of closings Content: BOSTON Boston 's Archbishop is telling catholics that the church 's financial footing is quot;much worse than people realize.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 5707,
+    "text": "Title: Online Football: Bruins unable to squeeze past Trojans Content: The UCLA football team had all that it asked for: possession of the ball in the fourth quarter with an opportunity to beat No. 1 USC.",
+    "true_label": 1,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 5740,
+    "text": "Title: Dow Jones Agrees to Buy MarketWatch in $519 Million Deal Content: Dow Jones Company, the publisher of The Wall Street Journal, has agreed to buy MarketWatch, the parent company of the financial news Web site CBS MarketWatch, for approximately $519 million, the companies said today.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5742,
+    "text": "Title: Microsoft signs two Indian deals Content: Microsoft is to form multi-million pound partnerships with two Indian software firms, and is expected to double the 1,500 people it already employs in India.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5797,
+    "text": "Title: Microsoft open new software development unit in India (AFP) Content: AFP - Microsoft said it will join with India's second-largest software firm, Infosys Technologies, to provide software and consulting to manufacturing, banking and automobile companies.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5813,
+    "text": "Title: ScanSoft to acquire 3 software firms Content: ScanSoft Inc. said it plans three acquisitions. The company will acquire Phonetic Systems Ltd., a provider of automated directory assistance and voice-based programs, for $35 million in cash, and an additional consideration of up to $35 million, based on the achievement of performance targets and the potential vesting of a warrant to buy 750,000 common shares. ART Advanced Recognition Technologies ...",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5839,
+    "text": "Title: Google shares released for sale Content: Employees and some investors in Google will be able to sell shares in the company as the latest \"lockup\" phase on sales ends.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5841,
+    "text": "Title: INSIDE INFO: Man Utd shares drop Content: MAN UNITED 'S share price has fallen by just over 2.5, less than expected after the resignation of Malcolm Glazer 's bankers JP Morgan.",
+    "true_label": 1,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 5862,
+    "text": "Title: You Say Sell, I Say Potato Content: Disgruntled shareholders file suit to force talks with Oracle while PeopleSoft's two largest shareholders agree to disagree.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5871,
+    "text": "Title: Motorola buys wireless network developer, eyes defense contracts Content: CHICAGO - Motorola Inc. is acquiring MeshNetworks Inc., developer of a Wi-Fi based technology that is expected to help land more contracts for its growing government contracting business.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5884,
+    "text": "Title: Argentina gets China investment Content: China is to invest nearly $20bn (11bn) in Argentina over the next 10 years, Argentine officials say.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5886,
+    "text": "Title: Producer Price Surge Fuels Inflation Fears Content: Producer prices surged 1.7 percent in October, their sharpest monthly increase in nearly 15 years.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5900,
+    "text": "Title: China, Argentina sign 5 cooperation documents Content: China and Argentina signed five agreements in Buenos Aires Tuesday that will allow them to expand cooperation in the areas of trade, space, education, tourism and railways.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5901,
+    "text": "Title: Judge asked to penalize Microsoft over e-mails Content: Burst.com asked a US judge to penalize Microsoft for destroying e-mails it says the world 's largest software company should have preserved as evidence in antitrust suits.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5902,
+    "text": "Title: Press review Content: 0850CET--The seizure of fake Nike sportswear by the Customs Department was one of the main stories on Wednesday 's newspapers. L-Orizzont published",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 5935,
+    "text": "Title: Swedes beam poetry into outer space (Reuters) Content: Reuters - Swedish poets have broadcast their work into outer space by radio to give alien life forms -- if they exist -- a taste of earthling literature.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 5937,
+    "text": "Title: TV's Passport Stamp of Approval Content: The sixth season of a popular reality television show is ready to rock the world.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 5973,
+    "text": "Title: Nursery rhymes more violent than TV (Reuters) Content: Reuters - Children's nursery rhymes contain 10 times more violence than television shows broadcast before the 9 p.m. \"watershed\" after which more adult content can be shown, research has said.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6006,
+    "text": "Title: Russia 's Putin Defends Reforms, Worries About Clans Content: Russian President Vladimir Putin said on Thursday he had no plans to grab more power or change the constitution when reforming Russia 's government structure.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6022,
+    "text": "Title: SBC and Yahoo! extend pact to offer Internet service Content: SAN ANTONIO SBC Communications and Yahoo are expanding their high-speed Internet service partnership to link video, wireless phone, Internet and other services.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6028,
+    "text": "Title: Suspect Animal Tested for Mad Cow Disease Content: WASHINGTON (Reuters) - Government scientists are chasing a possible new case of mad cow disease in the United States, with final results on a suspicious slaughtered animal expected in coming days, officials said on Thursday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6043,
+    "text": "Title: US May Have New Case of Mad Cow Disease Content: WASHINGTON (Reuters) - A final test is likely to confirm a second U.S. case of mad cow disease, experts said on Thursday, though they see a small possibility the animal, which tested \"inconclusive\" in two preliminary tests, could be given a clean bill of health.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6049,
+    "text": "Title: Nike Co-Founder Knight Steps Down as CEO (Reuters) Content: Reuters - Nike Inc. co-founder Philip Knight, who helped transform a small-start up business into the world's biggest athletic shoe company, will step down as chief executive officer, the company said on Thursday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6050,
+    "text": "Title: Nike CEO Philip Knight resigned Content: The co-founder of Nike Inc. Philip Knight has resigned from his position as chief executive officer, the company said on Thursday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6067,
+    "text": "Title: Aussies battle EU over cheese, champagne Content: AP - The United States and Australia have prevailed in an interim ruling by World Trade Organisation (WTO) in a dispute over the protection given by the European Union to its regional goods such as Champagne wine and Feta cheese, trade officials said.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6068,
+    "text": "Title: A Fair Tax Content: Some say a \"fair tax\" that removes the need to file tax returns from the vast majority of the citizenry is a national sales tax. This doesn't seem to be very fair to people trying to feed, house and clothe themselves and seems to subsidize large land holders (Bush's favorite constituency). There is a tax that lives up to the promises broken by Bush's proposal for a national sales tax.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6084,
+    "text": "Title: Yahoo and SBC extend partnership and plan new services Content: Yahoo and SBC Communications have agreed to collaborate to extend some of the online services and content they currently provide to PC users to mobile phones and home entertainment devices.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6100,
+    "text": "Title: Lazarus-like virus hits computers Content: A new computer virus is catching people out by coming back from the dead.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6140,
+    "text": "Title: Earthquake 'redraws the map' Content: The devastating earthquake that struck the Indian Ocean probably caused some islands to move by several metres.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6145,
+    "text": "Title: World's oldest man dies aged 113 Content: The world's oldest man, who gave up driving at 108 because \"slow drivers annoyed him\", dies at 113.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6175,
+    "text": "Title: Will there be peace in Great Lakes region? Content: To coordinate and cooperate or not to, that is where the rub is, and that is the key issue when it comes to answering the question whether there will be peace in the Great Lakes region.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6185,
+    "text": "Title: Special to ESPN.com Content: It 's the age old question: quot;What do you give to the man who 's been everything? quot;. Only time will tell whether Phil Knight 's retirement will be as long-lived as so many players he paid to endorse Nike.",
+    "true_label": 2,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6218,
+    "text": "Title: Blunkett gets tougher on drugs Content: New police powers to prosecute offenders for possession if they test positive for drugs when they are arrested, even if the only drugs they have are in their bloodstream, are to be announced this week.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6222,
+    "text": "Title: HGS Picks Watkins as New Chief Executive Content: Human Genome Sciences Inc. plans to announce today that it has hired a 20-year product development veteran from Abbott Laboratories Inc. as chief executive. H. Thomas Watkins, 51, will face the challenge of completing the Rockville company's makeover from gene hunter to drug marketer.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6226,
+    "text": "Title: Google targets software giant Content: SEATTLE -- Not too long ago, Google Inc. seemed little more than a pesky insect to Microsoft Corp.'s 800-pound gorilla.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6244,
+    "text": "Title: HK Disneyland Theme Park to Open in September Content: Hong Kong 's Disneyland theme park will open on Sept. 12, 2005 and become the driving force for growth in the city 's tourism industry, Hong Kong 's government and Walt Disney Co.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6247,
+    "text": "Title: Before-the-Bell: GenCorp Falls 5.6 Pct. (Reuters) Content: Reuters - Shares of GenCorp Inc. fell 5.6 percent before the opening bell on Monday after investment fund Steel Partners withdrew its proposal to acquire the aerospace and real estate company.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6262,
+    "text": "Title: Google Founders Selling Off Stock Content: Google Founders Selling Off Stock Is this a sign that Google stack is overpriced? Or does it just mean that since there is so much interest in Google and its shares right now that the founders decided to sell off a big part of their holdings with the search engine. Dow ...",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6267,
+    "text": "Title: Banks seek court ruling over F1 Content: Three banks go to the High Court in London seeking a ruling which could lead to Bernie Ecclestone losing control of Formula One racing.",
+    "true_label": 2,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6276,
+    "text": "Title: Federal CISOs Rank Patch Management As Biggest Obstacle Content: Survey by Intelligent Decisions indicates that patch management leaves less time for chief information security officers to work on improving overall security.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6320,
+    "text": "Title: Cingular to Reduce Work Force by Roughly 10 Percent, CEO Says Content: Cingular Wireless LLC, the nation's largest cell phone company, will cut about 10 percent of its 68,000 jobs over the next 12 to 18 months as it combines operations with the recently acquired AT T Wireless, Cingular's chief executive said Tuesday.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6325,
+    "text": "Title: JFK killing fades in intensity Content: WASHINGTON: The 41st anniversary of President John F Kennedy 's assassination passed on November 22 - a lot more quietly than earlier ones.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6327,
+    "text": "Title: EasyGroup close to launching low-cost mobile phone service (AFP) Content: AFP - EasyGroup, the holding company of no-frills British airline easyJet, is close to striking a deal to launch a low-cost mobile telephone service in Britain, the Financial Times reported.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6354,
+    "text": "Title: Ruling delayed in Peoplesoft case Content: A crucial legal ruling in Oracle's takeover bid for Peoplesoft is delayed after a judge says he needs to hear more evidence.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6405,
+    "text": "Title: Madrid miffed! Content: The organisers of Madrid 's bid complained that Paris had broken the rules by using France 's embassies in Oslo and Kuwait to hold events to promote its candidacy, the newspaper said.",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 6465,
+    "text": "Title: Forecast Frosty for U.S.-Canadian Ties Content: TORONTO -- The weather won't be the only thing that's cool when President Bush visits neighboring Canada next week.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6491,
+    "text": "Title: It may be end of line for narrow track Content: Hurricane forecasters debate the usefulness of the quot;skinny line quot; in tracking maps, and look at more accurate alternatives.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6500,
+    "text": "Title: The Shockwaves of Sumatra Content: The Indian Ocean earthquake of December 2004 produced a shockwave that created tsunamis all across the Indian Ocean. The tsunamis hammered nearby Indonesia and struck as far as the coast of East Africa. The death toll has climbed over 100,000 and continues to grow. It also created social shockwaves.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6516,
+    "text": "Title: FDA OKs Scientist Publishing Vioxx Data (AP) Content: AP - The Food and Drug Administration has given a whistle-blower scientist permission to publish data indicating that as many as 139,000 people had heart attacks that may be linked to Vioxx, the scientist's lawyer said Monday.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6574,
+    "text": "Title: Is this the end of IT as we know it? Content: Halsey Minor, CEO of hosted integration provider grand central Communications, has a powerful message for IT: In four years, ... basically the whole notion of enterprise application software is going to be dead. He believes application functionality will instead be available as hosted, pay-per-use services delivered by companies such as Salesforce.com. Putting his money where his mouth is, Minor has recently launched a $50 million venture capital fund with his own money to fuel on-demand startups. For its part, Grand Central will handle data and process integration between enterprises and multiple on-demand services.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6576,
+    "text": "Title: Toshiba claims Hollywood backing in war for next DVD standard (AFP) Content: AFP - Toshiba said four major Hollywood studios had thrown their crucial weight behind High Definition DVD (HD-DVD), one of two disc formats contending to be the standard in next-generation DVDs.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6592,
+    "text": "Title: Sony, IBM, Toshiba Give Details of 'Cell' Chip (Reuters) Content: Reuters - IBM , Sony Corp. (6758.T) and Toshiba Corp. (6502.T) on Monday revealed their plans for the powerful new \"Cell\" processor the three are jointly producing to run next-generation computers, game consoles and televisions.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6682,
+    "text": "Title: EPA May Conduct Human Tests for Chemicals (AP) Content: AP - In setting limits on chemicals in food and water, the Environmental Protection Agency may rely on industry tests that expose people to poisons and raise ethical questions.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6711,
+    "text": "Title: Local group joins suit to de-list endangered species Content: Bob Briggs wifes family has owned about 1,000 acres of redwood forest off Waddell Creek since 1913. He doesnt clearcut, and logs about once a decade.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6718,
+    "text": "Title: Why 2004 was the year of the blog Content: A US dictionary publisher declares \"blog\" as one of the words of the year.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6734,
+    "text": "Title: Turkey eyes $15 billion investment years Content: ANKARA: Turkey is hoping to attract $15 billion of foreign investment between 2005 and 2007 through reforms designed to overhaul its economy and ease the country 's entry into",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6748,
+    "text": "Title: Intel planning Centrino-like brand for desktops Content: Intel is preparing a marketing strategy that will brand desktop PCs with a similar label that made its Centrino notebook technology a household name, according to sources familiar with the company's plans.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6772,
+    "text": "Title: Plus: Cendant reported to buy Ebookers Content: SAN FRANCISCO (CBS.MW) -- Not only did the word quot;blog quot; enter Merriam-Webster 's dictionary this year, but Microsoft is getting on the personalized e-journal bandwagon.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6794,
+    "text": "Title: HAYLEY MICK: Content: Hayley Mick is a journalist currently based in Vancouver. She has broadcast experience with CBC Radio 's Quirks and Quarks and has reported for the Vancouver Sun, CBC Online, and the Canadian Press 's Ontario and Vancouver bureaus.",
+    "true_label": 0,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6830,
+    "text": "Title: Conte goes on TV and names names Content: As the bassist for the pop-funk band Tower of Power, Victor Conte laid down a song 's backbone by playing a predetermined series of notes.",
+    "true_label": 1,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 6831,
+    "text": "Title: Christmas clash over gift choices Content: Children would like expensive hi-tech gifts for Christmas, but few parents are happy to buy these, research suggests.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6834,
+    "text": "Title: Report: IBM's PC business up for sale Content: IBM Corp. has put its PC business up for sale, according to a story published on Friday on the Web site of The New York Times.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6849,
+    "text": "Title: Two top Nokia executives resign Content: HELSINKI: Nokia said the respected head of its networks unit had resigned and another top networks official left in the second major departure of top management in two weeks at the world 's largest mobile phone maker.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6893,
+    "text": "Title: Germans plan mass welfare rallies Content: Nationwide protests are set to take place in Germany as cuts in unemployment benefit take effect.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 6910,
+    "text": "Title: Supreme Court Hears Wine Sales Case Content: Winemakers who want to ship directly to consumers across state lines got a sympathetic hearing at the Supreme Court today, as the justices heard oral arguments in a case that could have a dramatic effect on Internet commerce and states' power to regulate the alcohol trade.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6919,
+    "text": "Title: Court Hears Interstate Wine Sales Case (AP) Content: AP - The Supreme Court considered Tuesday whether state alcoholic beverage regulations put in place 70 years ago, after Prohibition was lifted, should remain the law of the land in the Internet age.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6936,
+    "text": "Title: China's Lenovo to buy IBM's PC business Content: TOKYO - China's Lenovo Group Ltd. signed a definitive agreement on Wednesday to acquire IBM Corp.'s personal computing division. Lenovo will pay US$1.25 billion in cash for the business, which is expected to transform it into the world's number three PC maker, the companies announced.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6973,
+    "text": "Title: Schwarzenegger Vows to Defend Emissions Law Content: Toyota, General Motors and seven other automakers filed suit to block California's new greenhouse gas regulation, which was approved by the state in September.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 6991,
+    "text": "Title: Siebel looks to midmarket to bolster revenues Content: CRM software giant Siebel Systems said yesterday that it is launching a new program that will cater to small and midsize businesses in a bid to help it boost flat revenues.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 6992,
+    "text": "Title: Nortel to file restated results next year Content: Nortel Networks said today that after months of trying to untangle faulty financial results, it won't file its 2003 and first-half 2004 results until early next year.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7001,
+    "text": "Title: Company Trademark Rights Limited by US High Court (Update1) Content: The US Supreme Court limited the scope of federal trademark protection, saying rival companies in some cases can use proprietary terms even when customers might be confused.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7008,
+    "text": "Title: Get Real? Content: This time last week, first lady Laura Bush was having what she might call her Christmas Tree Day. First, she showed off the decorated executive mansion to reporters and then joined her husband",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7013,
+    "text": "Title: Ellison: Data Hubs Could 've Prevented 9/11 Content: SAN FRANCISCO -- Oracle CEO Larry Ellison is convinced that had the intelligence community used a unified database from Oracle, the terrorist attacks on 9/11 would never have happened.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7030,
+    "text": "Title: Without Batting An Eyelash : A very French welcome for a new <b>...</b> Content: THAT night, it seemed as if three or four parties were going on at once in Cosmo Manille. Wrong, palanggas. Actually, there were five in Makati alone, and one of them had a stream of traffic",
+    "true_label": 2,
+    "predicted_label": 1,
+    "predicted_label_name": "Sports",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7065,
+    "text": "Title: Prime minister says Australia faces tough economic year in 2005 (AFP) Content: AFP - Prime Minister John Howard warned that Australia's strong dollar, high world oil prices and the lingering effects of prolonged drought would dampen the country's long-buoyant economy in 2005.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 7068,
+    "text": "Title: Nextel, Sprint Talk Merger Content: Nextel Communications Inc. and Sprint Corp. are negotiating a possible merger, according to a source familiar with the discussions.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7081,
+    "text": "Title: Japan's comics retool the art Content: Animation in America once meant Mickey Mouse and Winnie the Pooh. These days, it's just as likely to mean Japanese fighting cyborgs, doe-eyed schoolgirls, and sinister monsters -- thanks in large part to people like John Ledford.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7148,
+    "text": "Title: Sources: Sprint, Nextel closing in on $36B deal Content: Sprint Corp. is in advanced talks to buy Nextel Communications Inc. for more than $36 billion in a mostly stock deal, sources familiar with the situation said today.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7209,
+    "text": "Title: Important Rules for Phone Market Face F.C.C. Vote Content: Next week, the FCC will likely change the rules on unbundled networks largely in ways favorable to the Regional bells.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7210,
+    "text": "Title: I.B.M. Sought a China Partnership, Not Just a Sale Content: Inside I.B.M., the issue of whether to stay in the personal computer business has been debated for a decade. The issue was put to rest last week.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7228,
+    "text": "Title: Indonesian diplomats asked to help improve RI 's bad image Content: JAKARTA (Antara): President Susilo Yudhoyono asked Indonesian diplomats on Monday to help the government improve Indonesia 's bad image.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7239,
+    "text": "Title: Week's delay for Delta launcher Content: Boeing's new heavy-lift Delta 4 rocket must wait a further week before making its maiden flight.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 7241,
+    "text": "Title: Software revenue pushes up Oracle 's Q2 earnings Content: Oracle Corp. reported second-quarter 2005 earnings that beat analyst expectations on Monday, thanks to new software revenue and continued gains from license updates and product support.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7305,
+    "text": "Title: Take Two Torts and Call Me in the Morning Content: The friction that sometimes strains the patient-doctor relationship when lawyers seek medical care is at an all-time high.",
+    "true_label": 3,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7319,
+    "text": "Title: Toys Will Be Toys Content: Trust me, you don 't want to see desperate parents shopping over the holidays. I was at Circuit City (NYSE: CC) last week and saw a mother pleading with a sales clerk for a Nintendo DS portable video game system.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7326,
+    "text": "Title: EA Signs Five-Year Exclusive NFL Deal Content: Electronic Arts announced an exclusive licensing relationships with the National Football League and PLAYERS INC to develop, publish and distribute interactive football games.",
+    "true_label": 1,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Sports"
+  },
+  {
+    "index": 7344,
+    "text": "Title: Briefly: Israel, Egypt and US trade pact Content: Egypt, Israel and the United States have reached an agreement that allows Egyptian industry to sell products using Israeli parts duty free in America.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 7391,
+    "text": "Title: Oracle chairman says can close gap with SAP - report Content: Oracle Corp can close the gap with SAP, the world 's biggest software company, after buying US rival PeopleSoft, Oracle 's Chairman Jeff Henley said in an interview published on Wednesday.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7413,
+    "text": "Title: Bush Pledges Strong-Dollar Policy Content: President Bush meets with Italian Prime Minister Silvio Berlusconi in the Oval Office of the White House, Wednesday, Dec. 15, 2004, in Washington.",
+    "true_label": 2,
+    "predicted_label": 0,
+    "predicted_label_name": "World",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7440,
+    "text": "Title: A Distraction as a Deadline Approaches Content: As the holidays approach, Christmas spirit is a bargain-hunting essential.",
+    "true_label": 3,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "Sci/Tech"
+  },
+  {
+    "index": 7455,
+    "text": "Title: BT cuts prices for telecom rivals Content: Ofcom is cutting the price BT can charge its rivals for putting their broadband equipment in its exchanges by up to 60.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7470,
+    "text": "Title: Broadband charges set to tumble Content: The cost of broadband internet access is likely to fall after Ofcom ordered British Telecom to cut the amount it charges internet providers.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7492,
+    "text": "Title: FCC Mulls Airborne Mobile Phone Use Content: Although there may have been technical limitations at the time the cell phone ban was established, according to IDC 's Shiv Bakhshi, it is unclear why the ban has remained in place, given that",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  },
+  {
+    "index": 7539,
+    "text": "Title: Mars water tops science honours Content: The discovery that salty, acidic water once flowed across the surface of Mars has topped a list of the 10 key scientific advances of 2004.",
+    "true_label": 0,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "World"
+  },
+  {
+    "index": 7585,
+    "text": "Title: Pricey Drug Trials Turn Up Few New Blockbusters Content: The $500 billion drug industry is stumbling badly in its core business of finding new medicines, while aggressively marketing existing drugs.",
+    "true_label": 0,
+    "predicted_label": 2,
+    "predicted_label_name": "Business",
+    "true_label_name": "World"
+  },
+  {
+    "index": 7599,
+    "text": "Title: EBay gets into rentals Content: EBay plans to buy the apartment and home rental service Rent.com for $415 million, adding to its already exhaustive breadth of offerings.",
+    "true_label": 2,
+    "predicted_label": 3,
+    "predicted_label_name": "Sci/Tech",
+    "true_label_name": "Business"
+  }
+]

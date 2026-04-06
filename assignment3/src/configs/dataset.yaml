@@ -3,12 +3,11 @@ dataset:
  text_column: "text"
  dev_split: 0.1
  seed: 67
- max_samples: 1000
- eval_max_samples: 200
+ max_samples: null
+ eval_max_samples: null
  cols_to_drop: ["title", "description", "text", "token_type_ids"]
  label_mapping:
   1: "World"
   2: "Sports"
   3: "Business"
   4: "Sci/Tech"
-

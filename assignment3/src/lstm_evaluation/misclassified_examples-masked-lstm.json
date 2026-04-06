@@ -1,24 +1,17 @@
 [
     {
-        "text": "Peru's Toledo Wants New Judges for Guzman Retrial <p></p><p> By Jude Webber</p><p> LIMA, Peru (Reuters) - Peruvian [MASK] Alejandro Toledosaid on [MASK] he wanted new judges to try Shining Pathleader Abimael Guzman after the \"shameful spectacle\" he stagedat the start of his terrorism retrial, punching the air withhis fist and chanting rebel slogans.</p>",
+        "text": "Staying or Going? Some Possibilities if [MASK] Wins [MASK] [MASK] plans major changes in his Cabinet if he wins a second term -- perhaps nominating the first female defense secretary and first black attorney general -- but very little change among the small group of his closest advisers.",
         "true_label": 0,
         "predicted_label": 1,
         "predicted_label_name": "Sports",
         "true_label_name": "World"
     },
     {
-        "text": "Training is the Key to Defibrillator Success By DANIEL YEE ALPHARETTA, Ga. (AP) -- Because defibrillators are more affordable than ever, they are quickly becoming commonplace in schools, businesses and other public places such as airports...",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "British Bug Splat Survey Springs Surprise (Reuters) Reuters - The results of one of the stranger environmental surveys to be conducted in Britain are in -- and there's a surprise.",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
+        "text": "Button decision delayed Jenson Button must wait until next month before discovering which Formula One team he can race for next season. He wants to leave BAR for Williams but both teams claim to have a deal with the British driver",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
     },
     {
         "text": "Argentina Basketball Coach Magnano Quits Ruben Magnano, who coached Argentina to the Olympic basketball gold medal in Athens, resigned Thursday to accept a coaching job in Italy.",
@@ -28,108 +21,395 @@
         "true_label_name": "World"
     },
     {
-        "text": "Canada, [MASK] fail to resolve beef trade dispute Canada and the United States have failed to reach an agreement on resuming [MASK] imports of Canadian live cattle, local press reported Sunday.",
+        "text": "PeopleSofts big bash See you next year in Las Vegas , proclaimed a marquee at the PeopleSoft user conference in San Francisco in late September. It was one of many not-so-subtle attempts by the company to reassure its customers",
         "true_label": 2,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
         "true_label_name": "Business"
     },
     {
-        "text": "The Bag of Aeolus quot;Aeolus was keeper of the winds. He gave a bag of evil winds to Odysseus, instructing him to keep it closed while a good breeze wafted him home.",
+        "text": "Cup chase lands in Dover When the green flag drops for today 's MBNA America 400 at Dover International Speedway, 43 drivers will be lined up to cross the start/finish line.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "U.S. Alerts Schools About Terror Threat WASHINGTON - The Education Department has advised school leaders nationwide to watch for [MASK] spying on their buildings or buses to help detect any possibility of terrorism like the deadly school siege in Russia. The warning follows an analysis by the FBI and the Homeland Security Department of the siege that [MASK] nearly 340 [MASK], many of them students, in the city of Beslan last month...",
         "true_label": 0,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
         "true_label_name": "World"
     },
     {
-        "text": "Symantec warns of weakness in its firewall and gateway products Security specialist Symantec has admitted to a number of vulnerabilities in its firewall and gateway products. The weaknesses make them liable to denial of service attacks and other compromises.",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "[MASK] panel to back oil inventories rethink A [MASK] [MASK] advisory panel is to recommend a revision to the minimum level of crude inventories required to ensure adequate supplies of crude oil to the nation 's refiners to produce gasoline",
+        "text": "[MASK] Lee [MASK] Uncertainty Deepens Economic Lethargy Deputy [MASK] [MASK] and Finance-Economy [MASK] Lee Hun-jai said Monday the nation 's current economic lethargy is due to unsubstantiated uncertainty ' ' about the future, which in turn weakens the confidence of market players.",
         "true_label": 2,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
         "true_label_name": "Business"
     },
     {
-        "text": "Sci/Tech - Virus gang wars on the Web Following his arrest in May, the teenage computer wizard admitted to police he wrote the code for Sasser and more than [MASK] dozen Netsky viruses that wreaked havoc across the Internet during the first few months of 2004.",
+        "text": "New York Times Co. announces plan to sell Manhattan building _ The New York Times Co. plans to sell its building on West 43rd Street in Manhattan to a partnership led by Tishman Speyer Properties, the companies announced Monday.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Gates, Ballmer pay holds at about $900,000 Paychecks stay the same for the top [MASK], but compensation changes for other Microsoft workers as stock grants replace options.",
         "true_label": 3,
         "predicted_label": 2,
         "predicted_label_name": "Business",
         "true_label_name": "Sci/Tech"
     },
     {
-        "text": "Socialites unite dolphin groups Dolphin groups, or \"pods\", rely on socialites to keep them from collapsing, scientists claim.",
-        "true_label": 3,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Ky. Company Wins Grant to Study Peptides (AP) AP - A company founded by a chemistry researcher at the University of Louisville won a grant to develop a method of producing better peptides, which are short chains of amino acids, the building blocks of proteins.",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Oracle gets with the patch programme The company said Thursday that it will release security bulletins and accompanying patches for its products on 18 January, 12 April, 12 July and 18 October.",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Rumsfeld Raises Prospect of Limited [MASK] Elections (Reuters) Reuters - Defense Secretary Donald Rumsfeld on Thursday raised the possibility that some areas of [MASK] night be excluded from elections scheduled for January if security could not be guaranteed.",
-        "true_label": 0,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "World"
-    },
-    {
-        "text": "Generals May Pay a Price for [MASK] Abuse WASHINGTON - The Abu Ghraib prisoner abuse scandal could effectively end the careers of four Army generals who are linked indirectly to the misconduct but face no criminal charges. The four are singled out for varying degrees of criticism - mixed with instances of praise - in [MASK] comprehensive investigative reports released last week...",
-        "true_label": 0,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
-        "true_label_name": "World"
-    },
-    {
-        "text": "Back to School and Gaming Kids Internet-ready schools do little to protect kids from seemingly safe sites whose only reason to exist is invasive marketing aimed directly at young web surfers. These corporate-sponsored 'advergames' look interactive but the endgame is 'buy.'",
-        "true_label": 3,
-        "predicted_label": 0,
-        "predicted_label_name": "World",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Music firms reach out to creator of Napster LOS ANGELES As a teenager, Shawn Fanning brought free music to the masses, creating the Napster file-swapping program and unleashing a technological genie that granted the wishes of fans seeking virtually any song at any time - gratis.",
-        "true_label": 3,
-        "predicted_label": 1,
-        "predicted_label_name": "Sports",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Picking Your Perfect PCI Express PC Way back in June I suggested you hold off on buying a new PC until systems with PCI Express shipped. The new technology has the potential to dramatically improve performance because it replaces the pokey old",
-        "true_label": 3,
-        "predicted_label": 2,
-        "predicted_label_name": "Business",
-        "true_label_name": "Sci/Tech"
-    },
-    {
-        "text": "Federer back in Open 's fourth round with masterful performance For most tennis players, having about the same number of clean winners as unforced errors translates into a pretty good performance.",
+        "text": "Radcliffe awaits gun for start of Russian roulette For the 3,000 Britons who will run in the New York City marathon next month the most important thing will be to finish the 26.2-mile race, in order to achieve a sense of personal fulfilment.",
         "true_label": 1,
         "predicted_label": 0,
         "predicted_label_name": "World",
         "true_label_name": "Sports"
     },
     {
-        "text": "NASA 'scramjet ' makes historic flight off California LOS ANGELES NASA 's unmanned quot;scramjet quot; proved it 's small but it 's fast -- in a record-breaking demonstration above the Pacific Ocean.",
+        "text": "Gilchrist confident about India tour SYDNEY, Sep 25: Australia 's stand-in captain and wicketkeeper Adam Gilchrist has said that his twin responsibilities will not come in the way of seeking a winning start for his team against India in next month 's Test series.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Feds Make A Strike Against Spyware Companies WASHINGTON -- In what regulators are calling a first, the federal [MASK] has asked for a court order to shut down a spyware operation.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Clash of the unpredictables: WI-Pak tie What would happen when [MASK] of the worlds most talented and unpredictable sides rub shoulders and that too in an ICC Champions Trophy semi-final?",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Social Security Reform a Boon for Funds? NEW YORK (Reuters) - The bonanza many believe [MASK] [MASK] has handed the mutual fund industry with his plans to reform Social Security may be a mirage, industry leaders said on [MASK].",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "KMart Names Yum Marketing Maven as CEO NEW YORK (Reuters) - Kmart Holding Corp. <A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=KMRT.O target=/stocks/quickinfo/fullquote\">KMRT.O</A> on Monday named a new [MASK] and chief executive in a move that could signal the start of a campaign to revamp the discount retailer's image.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Thousands Hit NYC Streets; Cheney Arrives NEW YORK - Tens of thousands of demonstrators marched past the Madison Square Garden site of the Republican National Convention on Sunday, chanting, blowing whistles and carrying anti-[MASK] banners as delegates gathered to nominate [MASK] [MASK] for a second term. On the eve of the convention, the demonstrators packed the street from sidewalk to sidewalk for 20 blocks as they slowly filed past...",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Wall St.'s Nest Egg - the Housing Sector NEW YORK (Reuters) - If there were any doubts that we're still living in the era of the stay-at-home economy, the rows of empty seats at the Athens Olympics should help erase them.",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "English 'world language' forecast A third of [MASK] on the planet will be learning English in the next decade, [MASK] a report.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "British Bug Splat Survey Springs Surprise (Reuters) Reuters - The results of one of the stranger environmental surveys to be conducted in Britain are in -- and there's a surprise.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "[MASK] [MASK] [MASK] Australia faces tough economic year in 2005 ([MASK]) [MASK] - [MASK] [MASK] John Howard warned that Australia's strong dollar, high world oil prices and the lingering effects of prolonged drought would dampen the country's long-buoyant economy in 2005.",
+        "true_label": 0,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Adams backs power-sharing plan Sinn Fein [MASK] Gerry Adams recommends his party accept proposals to revive power-sharing.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "N. Korea and U.S. Met Twice This Week (AP) AP - North Korea on [MASK] said its U.N. diplomats met U.S. officials in New York twice in the past week but concluded that Pyongyang should hold off on nuclear negotiations until the U.S. administration changes its \"hostile\" policy toward the country.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "The Bag of Aeolus quot;Aeolus was keeper of the winds. He gave a bag of evil winds to Odysseus, instructing him to keep it closed while a good breeze wafted him home.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Sete returns to top form in Qatar; Edwards joins party with runner <b>...</b> Sete Gibernau will go down in history as the first ever winner of the Grand Prix of Qatar after an incredible race today which he led from start",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Attacks on Disney's Eisner Abate On [MASK], the former Disney directors who led a shareholder rebellion aimed at the ouster of Disney's chief executive and other directors this year said they had dropped plans to run a slate of directors at next year's shareholders meeting.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "ASEAN moves closer to single market with 'road map ', global trade <b>...</b> JAKARTA : ASEAN finance ministers ended a meeting which saw Southeast Asia edge closer to a Europe-style single market, laying out a quot;road map quot; for integration and opening doors to wider global trade.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Giuliani expands his Wall St. firm NEW YORK (CBS.MW) -- Former New York City Mayor Rudolph Giuliani is making a foray into investment banking. Free! Sign up here to receive our Weekly Roundup e-Newsletter!",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Yukos files for [MASK] bankruptcy protection Russian oil giant Yukos Wednesday filed for [MASK] bankruptcy protection in attempt to stop the forthcoming auction of its major asset Yuganskeneftegaz, accordingto the Interfax news agency.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Long-Awaited Audit Shows Major Discrepancies In Newsday <b>...</b> The Audit Bureau of Circulations released the long-awaited results of its audit of the Tribune Company 's scandal-tarred Newsday on Tuesday, confirming the magnitude of the discrepancies uncovered by the company 's recent internal audit.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "The Kid Stays in His Home, Dressed in PJ's, With a Live Mike Robert Evans, the fabled Hollywood producer and man about town, will be enjoying his latest gig, as a satellite radio talk-show host, from the comfort of his home.",
         "true_label": 3,
         "predicted_label": 1,
         "predicted_label_name": "Sports",
         "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "EU, [MASK] [MASK] On Aircraft Aid Grounded [MASK] and EU negotiators traded arguments on Thursday over state aid for aircraft rivals Airbus and Boeing, but wound up no closer on a sensitive issue that has gathered steam in the run up to the [MASK] presidential election.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Sirius Satellite Radio quot;outperform, quot; target price raised NEW YORK, November 19 (newratings.com) - Analysts at Stifel Nicolaus amp; Company reiterate their quot;outperform quot; rating on Sirius Satellite Radio (SIRI.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "MCNAMARA RECEIVES GOOD NEWS Celtic have been boosted by the news that Jackie McNamara should be back in action within six weeks. The Hoops skipper was clearly in agony when he was stretchered off during Tuesday nights 3-1 defeat at the hands of Barcelona.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Microsoft Ends Decade of Antitrust Suits SEATTLE/NEW YORK (Reuters) - Microsoft Corp. <A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=MSFT.O target=/stocks/quickinfo/fullquote\">MSFT.O</A> said on Monday it had agreed to settle antitrust lawsuits with Novell Inc. <A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=NOVL.O target=/stocks/quickinfo/fullquote\">NOVL.O</A> and an industry trade group, marking the end of a decade-long antitrust battle.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Thailand Shows No Easy [MASK] Against Wildlife Crime (Reuters) Reuters - With an AK-47 assault rifle slung over his shoulder, Sompong Prajobjan roamed one of Thailand's lush national parks for more than a decade.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Blame player, not game It was like nothing youd ever exercised your thumbs to before. You could do whatever you wanted, whenever you wanted. The game seemed endless.",
+        "true_label": 3,
+        "predicted_label": 1,
+        "predicted_label_name": "Sports",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Westwood Closes in on First Title of 2004 SUN CITY, South Africa (Reuters) - Briton Lee Westwood closed in on his first title of 2004 when he claimed the third-round lead in the Sun City Golf Challenge [MASK].",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Petherick delighted over Franklin hat trick Peter Petherick welcomed James Franklin into the test hat trick club with open arms last night. The former offspinner, who took his hat-trick on debut against Pakistan in Lahore 28 years",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "A Painful Mistake In a world in which the fortune OF a pharmaceutical company can rise and fall on the strength of a handful of blockbuster drugs, Vioxx was a giant.",
+        "true_label": 2,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "U.S. Rules Out Dam Removal for Salmon Recovery (Reuters) Reuters - A [MASK] administration decision to eliminate the possibility of removing dams to save endangered U.S. Pacific Northwest salmon species is a huge blow to protection efforts, an environmental group said on Wednesday.",
+        "true_label": 3,
+        "predicted_label": 2,
+        "predicted_label_name": "Business",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "F1 debuts in China Formula One made its long-awaited debut in the [MASK] 's Republic of China today as the stunning new Shanghai International Circuit echoed to the banshee wail of Formula One engines being used in anger for the first time.",
+        "true_label": 1,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Notre Dame To Interview Utah 's Meyer University of Notre Dame officials are apparently prepared to interview Utah football coach Urban Meyer as early as tonight, only [MASK] days after the school fired coach Tyrone Willingham after [MASK] seasons.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Medtronic Quarterly Net Up CHICAGO (Reuters) - Medtronic Inc. <A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=MDT.N target=/stocks/quickinfo/fullquote\">MDT.N</A> on Wednesday said its quarterly earnings rose on brisk demand for devices that manage irregular heart beats and products used to treat the spine.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Mayor sure of ballpark support DC Mayor Anthony A. Williams said yesterday he is quot;very confident quot; that he has the seven necessary votes from the DC Council for his plan to build a ballpark near South Capitol Street Southeast.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
+    },
+    {
+        "text": "Japan executes child killer Japan has hanged a man convicted of stabbing to death eight elementary school children in a rampage that shocked the nation and severely shook its sense of security, local media have said.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Peru's Toledo Wants New Judges for Guzman Retrial <p></p><p> By Jude Webber</p><p> LIMA, Peru (Reuters) - Peruvian [MASK] Alejandro Toledosaid on [MASK] he wanted new judges to try Shining Pathleader Abimael Guzman after the \"shameful spectacle\" he stagedat the start of his terrorism retrial, punching the air withhis fist and chanting rebel slogans.</p>",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Howard Stern [MASK] He Plans to Jump to Satellite Radio After heavy F.C.C. fines, Howard Stern expects to deliver \"my show my way\" in the mostly unregulated medium.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "[MASK] won 't take [MASK] 's word for it CRAWFORD, Texas As [MASK] [MASK] sees it, quot;the only good deal is one that 's verifiable. quot;. He 's applauding the efforts of some European countries to get [MASK] to honor its commitment to refrain from developing nuclear weapons.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Nobel Economics Prize Awarded Norwegian-born Finn Kydland and Edward Prescott of the United States won the 2004 Nobel economics prize, the Royal Swedish Academy of Sciences said on Monday.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Econ Edge: The Economic Week [MASK] [MASK] 's White House conference on the economy is sure to attract some of the nation 's political and economic superstars to Washington this week.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Whitman: EBay To Buy Rent.com; Compliments Craigslist Stake Without reserve. EBay (nasdaq: EBAY - news - [MASK] ) on [MASK] said it is buying Rent.com. The latter, which is privately held, provides online listings of apartment and house rentals.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "No tax on Internet access until at least 2007 Consumers won 't have to pay a tax to log on to the Internet until at least 2007, after Congress voted [MASK] to renew a recently lapsed ban on Internet taxation.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "TV's Passport Stamp of Approval The sixth season of a popular reality television show is ready to rock the world.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Nigerian oil flows despite rebel threat-companies Oil should continue to flow from Nigeria, the world 's seventh largest exporter, despite a rebel threat to attack foreign oil workers in an quot;all-out [MASK] quot; due to start on [MASK], multinational energy companies said.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "HAYLEY MICK: Hayley Mick is a journalist currently based in Vancouver. She has broadcast experience with CBC Radio 's Quirks and Quarks and has reported for the Vancouver Sun, CBC Online, and the Canadian Press 's Ontario and Vancouver bureaus.",
+        "true_label": 0,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "World"
+    },
+    {
+        "text": "Child Abuse Leads to Adult Heart Disease By Ed Edelson, HealthDay Reporter HealthDayNews -- Children who are abused or neglected grow up to be adults with a significantly greater risk of heart disease, a new study [MASK]. It's the first study to show a direct link between a wide range of childhood problems and ischemic heart disease -- blockage of the arteries that leads to heart attacks and other major problems, said Maxia Dong, a medical epidemiologist at the U.S...",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Important Rules for Phone Market Face F.C.C. Vote Next week, the FCC will likely change the rules on unbundled networks largely in ways favorable to the Regional bells.",
+        "true_label": 2,
+        "predicted_label": 3,
+        "predicted_label_name": "Sci/Tech",
+        "true_label_name": "Business"
+    },
+    {
+        "text": "Calif. Aims to Limit Farm-Related Smog (AP) AP - Southern California's smog-fighting agency went after emissions of the bovine variety [MASK], adopting the nation's first rules to reduce air pollution from dairy cow manure.",
+        "true_label": 3,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sci/Tech"
+    },
+    {
+        "text": "Prosecutor brings charges against former neighbor in NBA brawl PONTIAC, Mich. The man accused of starting the brawl at a Detroit Pistons game last month is no stranger to the man who 's filing the charges against him.",
+        "true_label": 1,
+        "predicted_label": 0,
+        "predicted_label_name": "World",
+        "true_label_name": "Sports"
     }
 ]

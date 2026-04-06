@@ -4,7 +4,6 @@ Training utilities for text classification models with hyperparameter tuning.
 This module provides functions to set random seeds for reproducibility, compute evaluation metrics, create a Hugging Face Trainer instance, define the hyperparameter search space, and run hyperparameter tuning using the Trainer's hyperparameter_search() method with Optuna as the backend. The best hyperparameters are saved to a JSON config file in the output directory for later use during evaluation.
 """
 
-import inspect
 import json
 import os
 import random
@@ -39,18 +38,23 @@ def set_seed(seed: int) -> None:
 
 
 def compute_metrics(eval_pred):
-    """Compute evaluation metrics for the BERT model."""
+    """Compute evaluation metrics with macro-F1 as the primary signal."""
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
     acc = accuracy_score(labels, predictions)
-    precision, recall, f1, _ = precision_recall_fscore_support(
+    macro_precision, macro_recall, macro_f1, _ = precision_recall_fscore_support(
+        labels, predictions, average="macro", zero_division=0
+    )
+    _, _, weighted_f1, _ = precision_recall_fscore_support(
         labels, predictions, average="weighted", zero_division=0
     )
     return {
         "eval_accuracy": acc,
-        "eval_precision": precision,
-        "eval_recall": recall,
-        "eval_f1": f1,
+        "eval_precision": macro_precision,
+        "eval_recall": macro_recall,
+        "eval_f1": macro_f1,
+        "eval_macro_f1": macro_f1,
+        "eval_weighted_f1": weighted_f1,
     }
 
 
@@ -172,19 +176,10 @@ def create_trainer(model_init, data, cfg):
     # Build a dynamic-padding collator when a tokenizer is available.
     probe_model = model_init(None)
     tokenizer = getattr(probe_model, "tokenizer", None)
-    expects_lengths = "lengths" in inspect.signature(probe_model.forward).parameters
 
     data_collator = None
     if tokenizer is not None:
-        base_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
-        def dynamic_collator(features):
-            batch = base_collator(features)
-            if expects_lengths and "attention_mask" in batch:
-                batch["lengths"] = batch["attention_mask"].sum(dim=1)
-            return batch
-
-        data_collator = dynamic_collator
+        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
     callbacks = [
         EarlyStoppingCallback(early_stopping_patience=cfg.early_stopping_patience),

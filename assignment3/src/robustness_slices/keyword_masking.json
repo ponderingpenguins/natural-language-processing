@@ -1,0 +1,198 @@
+{
+  "method": {
+    "top_k_per_class": 6,
+    "random_seed": 67,
+    "keywords_by_class": {
+      "World": [
+        "iraq",
+        "killed",
+        "president",
+        "minister",
+        "afp",
+        "iraqi"
+      ],
+      "Sports": [
+        "game",
+        "season",
+        "team",
+        "win",
+        "cup",
+        "league"
+      ],
+      "Business": [
+        "oil",
+        "prices",
+        "stocks",
+        "reuters",
+        "fullquote",
+        "percent"
+      ],
+      "Sci/Tech": [
+        "microsoft",
+        "software",
+        "internet",
+        "space",
+        "music",
+        "search"
+      ]
+    },
+    "keyword_terms": [
+      "afp",
+      "cup",
+      "fullquote",
+      "game",
+      "internet",
+      "iraq",
+      "iraqi",
+      "killed",
+      "league",
+      "microsoft",
+      "minister",
+      "music",
+      "oil",
+      "percent",
+      "president",
+      "prices",
+      "reuters",
+      "search",
+      "season",
+      "software",
+      "space",
+      "stocks",
+      "team",
+      "win"
+    ],
+    "random_control_terms": [
+      "agreed",
+      "big",
+      "billion",
+      "business",
+      "computer",
+      "earnings",
+      "firm",
+      "general",
+      "help",
+      "higher",
+      "href",
+      "investor",
+      "investors",
+      "just",
+      "london",
+      "man",
+      "months",
+      "network",
+      "news",
+      "play",
+      "quickinfo",
+      "red",
+      "sports",
+      "trade"
+    ],
+    "mask_coverage_on_test": {
+      "keyword_terms": {
+        "documents_touched": 3733,
+        "total_token_matches": 7273
+      },
+      "random_control_terms": {
+        "documents_touched": 2281,
+        "total_token_matches": 3459
+      }
+    }
+  },
+  "lstm": {
+    "regular": {
+      "accuracy": 0.9098684210526315,
+      "macro_f1": 0.9100324227685002,
+      "weighted_f1": 0.9100324227685
+    },
+    "keyword_masked": {
+      "accuracy": 0.8953947368421052,
+      "macro_f1": 0.8958190268780997,
+      "weighted_f1": 0.8958190268780996
+    },
+    "random_masked_control": {
+      "accuracy": 0.9088157894736842,
+      "macro_f1": 0.9089859708830403,
+      "weighted_f1": 0.9089859708830403
+    },
+    "drop_keyword": {
+      "accuracy": 0.014473684210526305,
+      "macro_f1": 0.014213395890400493,
+      "weighted_f1": 0.014213395890400493
+    },
+    "drop_random_control": {
+      "accuracy": 0.001052631578947305,
+      "macro_f1": 0.0010464518854598204,
+      "weighted_f1": 0.0010464518854597094
+    },
+    "excess_drop_keyword_minus_random": {
+      "accuracy": 0.013421052631579,
+      "macro_f1": 0.013166944004940673,
+      "weighted_f1": 0.013166944004940784
+    }
+  },
+  "bert": {
+    "regular": {
+      "accuracy": 0.9485526315789473,
+      "macro_f1": 0.9486058398926079,
+      "weighted_f1": 0.9486058398926078
+    },
+    "keyword_masked": {
+      "accuracy": 0.9394736842105263,
+      "macro_f1": 0.9395622458790708,
+      "weighted_f1": 0.9395622458790709
+    },
+    "random_masked_control": {
+      "accuracy": 0.9476315789473684,
+      "macro_f1": 0.9476803278155499,
+      "weighted_f1": 0.9476803278155499
+    },
+    "drop_keyword": {
+      "accuracy": 0.009078947368420964,
+      "macro_f1": 0.00904359401353716,
+      "weighted_f1": 0.009043594013536937
+    },
+    "drop_random_control": {
+      "accuracy": 0.0009210526315789336,
+      "macro_f1": 0.0009255120770580438,
+      "weighted_f1": 0.0009255120770579328
+    },
+    "excess_drop_keyword_minus_random": {
+      "accuracy": 0.00815789473684203,
+      "macro_f1": 0.008118081936479116,
+      "weighted_f1": 0.008118081936479005
+    }
+  },
+  "cnn_a2": {
+    "regular": {
+      "accuracy": 0.9005263157894737,
+      "macro_f1": 0.9004605079118757,
+      "weighted_f1": 0.9004605079118758
+    },
+    "keyword_masked": {
+      "accuracy": 0.8710526315789474,
+      "macro_f1": 0.8707152356415144,
+      "weighted_f1": 0.8707152356415144
+    },
+    "random_masked_control": {
+      "accuracy": 0.8967105263157895,
+      "macro_f1": 0.8965094073334681,
+      "weighted_f1": 0.896509407333468
+    },
+    "drop_keyword": {
+      "accuracy": 0.02947368421052632,
+      "macro_f1": 0.029745272270361278,
+      "weighted_f1": 0.02974527227036139
+    },
+    "drop_random_control": {
+      "accuracy": 0.003815789473684217,
+      "macro_f1": 0.00395110057840764,
+      "weighted_f1": 0.003951100578407862
+    },
+    "excess_drop_keyword_minus_random": {
+      "accuracy": 0.025657894736842102,
+      "macro_f1": 0.025794171691953638,
+      "weighted_f1": 0.025794171691953527
+    }
+  }
+}

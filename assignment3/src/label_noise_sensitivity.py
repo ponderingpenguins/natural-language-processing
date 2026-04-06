@@ -1,10 +1,12 @@
-"""
-Label-Noise Sensitivity Analysis: Scaling Laws for BERT and LSTM Models
-"""
+"""Run data-fraction sensitivity for BERT and LSTM."""
 
+from __future__ import annotations
+
+import argparse
 import json
 import math
 import os
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,73 +14,92 @@ import torch
 from datasets import DatasetDict
 from omegaconf import OmegaConf
 from penguinlp.helpers import logger
-from transformers import EarlyStoppingCallback, Trainer, TrainingArguments
+from transformers import (
+    DataCollatorWithPadding,
+    Trainer,
+    TrainingArguments,
+)
 
 from models.bert import BertClassifier
 from models.lstm import LSTMClassifier
 from utils.dataset import dataset_prep, try_load_tokenized_data
 from utils.training import compute_metrics, set_seed
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DEVICE = torch.device("mps") if torch.backends.mps.is_available() else DEVICE
+SRC_DIR = Path(__file__).resolve().parent
+if torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    DEVICE = torch.device("mps")
+else:
+    DEVICE = torch.device("cpu")
 
-DATA_FRACTIONS = [0.25, 0.5, 1.0]
-RUNS_PER_FRACTION = 1
-OUTPUT_DIR = "scaling_law_results"
+if os.getenv("REQUIRE_CUDA", "0").lower() in {"1", "true", "yes"} and DEVICE.type != "cuda":
+    raise RuntimeError(
+        "REQUIRE_CUDA is enabled but CUDA is unavailable. Aborting to prevent CPU fallback."
+    )
 
-
-def load_best_config(model_type: str) -> dict:
-    """Loads the best hyperparameters from the tuning phase for the given model type.
-    Args:
-        model_type (str): "bert" or "lstm"
-    Returns:
-        dict: The best hyperparameters for the specified model type.
-    Raises:
-        FileNotFoundError: If the config file does not exist.
-    """
-
-    path = f"{model_type}_output/config.json"
-    if not os.path.exists(path):
-        raise FileNotFoundError(
-            f"Config not found at {path}. Run hyperparameter tuning first."
-        )
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+DEFAULT_DATA_FRACTIONS = [0.25, 0.5, 1.0]
+DEFAULT_RUNS_PER_FRACTION = 1
 
 
-def make_model(model_type: str, config: dict):
-    """
-    Creates a model instance based on the specified type and configuration.
+def _build_tokenized_cache_path(dataset_cfg, model_type: str, model_cfg) -> str:
+    dataset_tag = dataset_cfg.hf_dataset.replace("/", "__")
+    sample_tag = (
+        "full"
+        if getattr(dataset_cfg, "max_samples", None) is None
+        else f"max{dataset_cfg.max_samples}"
+    )
+    eval_tag = (
+        "fulleval"
+        if getattr(dataset_cfg, "eval_max_samples", None) is None
+        else f"eval{dataset_cfg.eval_max_samples}"
+    )
+    if model_type == "bert":
+        len_tag = f"maxlen{model_cfg.max_length}"
+    else:
+        len_tag = f"seq{model_cfg.sequence_length}"
+    cache_name = f"{dataset_tag}_tokenized_{model_type}_{len_tag}_{sample_tag}_{eval_tag}"
+    return str(SRC_DIR / cache_name)
 
-    Args:
-        model_type (str): "bert" or "lstm"
-        config (dict): The configuration dictionary containing hyperparameters.
-    Returns:
-        An instance of the specified model type initialized with the given configuration.
-    Raises:
-        ValueError: If an unsupported model type is provided.
-    """
+
+def _load_model_config(model_type: str):
+    """Load model config for the requested model type."""
+    if model_type == "bert":
+        curated_json = SRC_DIR / "bert_output/sanity_distilbert/config.json"
+        if curated_json.exists():
+            return OmegaConf.create(json.loads(curated_json.read_text(encoding="utf-8")))
+        return OmegaConf.load(SRC_DIR / "configs/bert.yaml").bert_model
+
+    return OmegaConf.load(SRC_DIR / "configs/lstm.yaml").lstm_model
+
+
+def make_model(model_type: str, config):
     cls = BertClassifier if model_type == "bert" else LSTMClassifier
-    return cls(OmegaConf.create(config), device=DEVICE)
+    return cls(config, device=DEVICE)
 
 
-def load_data(config, tokenize_fn) -> DatasetDict:
-    """
-    Loads and preprocesses the dataset according to the provided configuration and tokenization function.
-    Args:
-        config (dict): The configuration dictionary containing dataset parameters.
-        tokenize_fn (callable): A function that takes raw text and returns tokenized input suitable for the model.
-    Returns:
-        DatasetDict: A dictionary containing the processed train, dev, and test datasets.
-    """
-    data = dataset_prep(config)
-    max_samples = config.get("max_samples")
-    cache_path = f"./{config.get('hf_dataset', '').replace('/', '__')}_tokenized_{'full' if max_samples is None else f'max{max_samples}'}"
-    data = try_load_tokenized_data(cache_path, data, tokenize_fn)
+def load_data(dataset_cfg, model_type: str, model_cfg) -> DatasetDict:
+    """Load and tokenize data with cache-keyed settings."""
+    data = dataset_prep(dataset_cfg)
+    tokenizer_probe = make_model(model_type, model_cfg)
+    cache_path = _build_tokenized_cache_path(dataset_cfg, model_type, model_cfg)
+    tokenization_config = {
+        "hf_dataset": dataset_cfg.hf_dataset,
+        "model_type": model_type,
+        "model": tokenizer_probe.__class__.__name__,
+        "tokenizer_name": getattr(tokenizer_probe, "tokenizer", None).__class__.__name__,
+        "max_samples": dataset_cfg.max_samples,
+        "eval_max_samples": dataset_cfg.eval_max_samples,
+        "sequence_length": getattr(model_cfg, "sequence_length", None),
+        "max_length": getattr(model_cfg, "max_length", None),
+    }
+    data = try_load_tokenized_data(
+        cache_path, data, tokenizer_probe.tokenize, tokenization_config
+    )
     return DatasetDict(
         {
             split: ds.remove_columns(
-                [c for c in config.get("cols_to_drop", []) if c in ds.column_names]
+                [c for c in dataset_cfg.cols_to_drop if c in ds.column_names]
             )
             for split, ds in data.items()
         }
@@ -86,42 +107,38 @@ def load_data(config, tokenize_fn) -> DatasetDict:
 
 
 def train_and_evaluate(
-    model, train_data, eval_data, test_data, config: dict, output_dir: str
+    model,
+    train_data,
+    eval_data,
+    test_data,
+    run_cfg,
+    output_dir: Path,
 ) -> dict:
-    """
-    Trains the model on the training data, evaluates on the dev set for early stopping, and finally evaluates on the test set.
-
-    Args:
-        model: The model instance to be trained.
-        train_data: The training dataset.
-        eval_data: The evaluation dataset.
-        test_data: The test dataset.
-        config (dict): The configuration dictionary containing training parameters.
-        output_dir (str): The directory where training outputs will be saved.
-
-    Returns:
-        dict: A dictionary containing the final evaluation metrics on the test set.
-    """
-
+    """Train one run and return test accuracy and macro-F1."""
     steps_per_epoch = max(
-        1, math.ceil(len(train_data) / config.get("per_device_train_batch_size", 16))
+        1, math.ceil(len(train_data) / int(run_cfg.get("per_device_train_batch_size", 16)))
     )
-    total_steps = steps_per_epoch * config.get("num_train_epochs", 15)
-    warmup_steps = min(config.get("warmup_steps", 500), int(total_steps * 0.1))
+    total_steps = steps_per_epoch * int(run_cfg.get("num_train_epochs", 8))
+    warmup_steps = min(int(run_cfg.get("warmup_steps", 0)), int(total_steps * 0.1))
 
     args = TrainingArguments(
-        output_dir=output_dir,
+        output_dir=str(output_dir),
         eval_strategy="epoch",
-        save_strategy="epoch",
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_f1",
-        greater_is_better=True,
-        learning_rate=config.get("learning_rate", 2e-5),
-        per_device_train_batch_size=config.get("per_device_train_batch_size", 16),
-        per_device_eval_batch_size=config.get("per_device_eval_batch_size", 16),
-        num_train_epochs=config.get("num_train_epochs", 15),
+        save_strategy="no",
+        load_best_model_at_end=False,
+        learning_rate=float(run_cfg.get("learning_rate", 2e-5)),
+        weight_decay=float(run_cfg.get("weight_decay", 0.0)),
+        per_device_train_batch_size=int(run_cfg.get("per_device_train_batch_size", 16)),
+        per_device_eval_batch_size=int(run_cfg.get("per_device_eval_batch_size", 16)),
+        num_train_epochs=float(run_cfg.get("num_train_epochs", 8)),
         warmup_steps=warmup_steps,
-        save_total_limit=2,
+        report_to="none",
+        logging_steps=max(1, steps_per_epoch // 4),
+    )
+
+    tokenizer = getattr(model, "tokenizer", None)
+    data_collator = (
+        DataCollatorWithPadding(tokenizer=tokenizer) if tokenizer is not None else None
     )
 
     trainer = Trainer(
@@ -129,81 +146,91 @@ def train_and_evaluate(
         args=args,
         train_dataset=train_data,
         eval_dataset=eval_data,
+        data_collator=data_collator,
         compute_metrics=compute_metrics,
-        callbacks=[
-            EarlyStoppingCallback(
-                early_stopping_patience=config.get("early_stopping_patience", 3)
-            )
-        ],
     )
 
     trainer.train()
     metrics = trainer.evaluate(test_data, metric_key_prefix="test")
 
     accuracy_key = next(
-        (key for key in ("test_accuracy", "test_eval_accuracy") if key in metrics),
+        (k for k in ("test_accuracy", "test_eval_accuracy") if k in metrics), None
+    )
+    macro_f1_key = next(
+        (
+            k
+            for k in (
+                "test_macro_f1",
+                "test_eval_macro_f1",
+                "test_f1",
+                "test_eval_f1",
+            )
+            if k in metrics
+        ),
         None,
     )
-    f1_key = next(
-        (key for key in ("test_f1", "test_eval_f1") if key in metrics),
-        None,
-    )
-    if accuracy_key is None or f1_key is None:
+    if accuracy_key is None or macro_f1_key is None:
         raise KeyError(f"Unexpected test metric keys: {sorted(metrics.keys())}")
 
-    return {"accuracy": metrics[accuracy_key], "f1": metrics[f1_key]}
+    return {"accuracy": metrics[accuracy_key], "macro_f1": metrics[macro_f1_key]}
 
 
-def run_experiment(model_type: str) -> tuple[dict, dict]:
-    """
-    Runs the scaling law experiment for the specified model type by training on different fractions of the training data and evaluating performance.
-    Args:
-        model_type (str): "bert" or "lstm"
-    Returns:
-        tuple[dict, dict]: A tuple containing the results dictionary and subset sizes for each fraction.
-    """
-    config = load_best_config(model_type)
-    dataset_cfg = OmegaConf.load("configs/dataset.yaml")
-
-    tokenizer_model = make_model(model_type, config)
-    data = load_data(
-        dataset_cfg.dataset,
-        tokenizer_model.tokenize,
-    )
+def run_experiment(
+    model_type: str,
+    dataset_cfg,
+    training_cfg,
+    fractions: list[float],
+    runs_per_fraction: int,
+    output_dir: Path,
+) -> tuple[dict, dict]:
+    """Run a fraction sweep for one model."""
+    model_cfg = _load_model_config(model_type)
+    run_cfg = OmegaConf.merge(training_cfg, model_cfg)
+    data = load_data(dataset_cfg, model_type, run_cfg)
 
     results = {}
     subset_sizes = {}
 
-    for fraction in DATA_FRACTIONS:
-        n = int(len(data["train"]) * fraction)
+    for fraction in fractions:
+        n = max(1, int(len(data["train"]) * fraction))
         subset_sizes[fraction] = n
         fraction_results = []
 
-        for run_id in range(RUNS_PER_FRACTION):
-            set_seed(42 + run_id)
-            train_subset = data["train"].shuffle(seed=42 + run_id).select(range(n))
-            model = make_model(model_type, config)
-            out_dir = os.path.join(
-                OUTPUT_DIR, f"{model_type}_frac{fraction:.2f}_run{run_id}"
-            )
+        for run_id in range(runs_per_fraction):
+            run_seed = int(dataset_cfg.seed) + run_id
+            set_seed(run_seed)
+            train_subset = data["train"].shuffle(seed=run_seed).select(range(n))
+
+            model = make_model(model_type, run_cfg)
+            run_dir = output_dir / f"{model_type}_frac{fraction:.2f}_run{run_id}"
+            run_dir.mkdir(parents=True, exist_ok=True)
 
             try:
                 metrics = train_and_evaluate(
-                    model, train_subset, data["dev"], data["test"], config, out_dir
+                    model=model,
+                    train_data=train_subset,
+                    eval_data=data["dev"],
+                    test_data=data["test"],
+                    run_cfg=run_cfg,
+                    output_dir=run_dir,
                 )
                 logger.info(
-                    "  %s frac=%.2f run=%d | acc=%.4f f1=%.4f",
+                    "%s frac=%.2f run=%d | acc=%.4f macro_f1=%.4f",
                     model_type,
                     fraction,
                     run_id + 1,
                     metrics["accuracy"],
-                    metrics["f1"],
+                    metrics["macro_f1"],
                 )
-            except Exception as e:
+            except Exception as exc:
                 logger.error(
-                    "Error: %s frac=%.2f run=%d | %s", model_type, fraction, run_id, e
+                    "Error: %s frac=%.2f run=%d | %s",
+                    model_type,
+                    fraction,
+                    run_id + 1,
+                    exc,
                 )
-                metrics = {"accuracy": None, "f1": None}
+                metrics = {"accuracy": None, "macro_f1": None}
 
             fraction_results.append(metrics)
 
@@ -213,107 +240,167 @@ def run_experiment(model_type: str) -> tuple[dict, dict]:
 
 
 def aggregate(results: dict, metric: str) -> tuple[list, list, list]:
-    """
-    Aggregates the results for a given metric across different data fractions by computing the mean and standard deviation.
-    Args:
-        results (dict): The results dictionary containing metrics for each fraction and run.
-        metric (str): The metric to aggregate ("accuracy" or "f1").
-    Returns:
-        tuple[list, list, list]: A tuple containing the list of fractions, mean metric values, and standard deviations.
-    """
+    """Compute mean/std over runs for each fraction."""
     fractions = sorted(results)
     means, stds = [], []
-    for f in fractions:
-        vals = [r[metric] for r in results[f] if r[metric] is not None]
+    for fraction in fractions:
+        vals = [row[metric] for row in results[fraction] if row[metric] is not None]
         means.append(np.mean(vals) if vals else np.nan)
         stds.append(np.std(vals) if vals else 0.0)
-
     return fractions, means, stds
 
 
-def plot_results(bert_results: dict, lstm_results: dict, subset_sizes: dict):
-    """
-    Plots the scaling laws for accuracy and F1 score for both BERT and LSTM models across different training data fractions.
-
-    Args:
-        bert_results (dict): The results dictionary for the BERT model.
-        lstm_results (dict): The results dictionary for the LSTM model.
-        subset_sizes (dict): A dictionary mapping data fractions to the actual number of training samples used.
-    """
+def plot_results(results_by_model: dict, subset_sizes: dict, output_dir: Path) -> None:
+    """Plot scaling curves for accuracy and macro-F1."""
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
-    for model_name, results in [("BERT", bert_results), ("LSTM", lstm_results)]:
-        for ax, metric, marker in [(ax1, "accuracy", "o"), (ax2, "f1", "s")]:
+    for model_name, results in results_by_model.items():
+        for ax, metric, marker in [(
+            ax1,
+            "accuracy",
+            "o",
+        ), (ax2, "macro_f1", "s")]:
             fractions, means, stds = aggregate(results, metric)
             sizes = [subset_sizes[f] for f in fractions]
             valid = [
-                (s, m, e) for s, m, e in zip(sizes, means, stds) if not np.isnan(m)
+                (size, mean, std)
+                for size, mean, std in zip(sizes, means, stds)
+                if not np.isnan(mean)
             ]
-            if valid:
-                s, m, e = zip(*valid)
-                ax.errorbar(
-                    s,
-                    m,
-                    yerr=e,
-                    marker=marker,
-                    label=model_name,
-                    capsize=5,
-                    linewidth=2,
-                )
+            if not valid:
+                continue
+            x, y, err = zip(*valid)
+            ax.errorbar(
+                x,
+                y,
+                yerr=err,
+                marker=marker,
+                label=model_name.upper(),
+                capsize=4,
+                linewidth=2,
+            )
 
-    for ax, metric in [(ax1, "Accuracy"), (ax2, "F1 (weighted)")]:
-        ax.set_xlabel("Training Data Size (samples)")
-        ax.set_ylabel(f"Test {metric}")
-        ax.set_title(f"Scaling Laws: {metric}")
-        ax.legend()
+    for ax, metric_label in [(ax1, "Accuracy"), (ax2, "Macro-F1")]:
+        ax.set_xlabel("Train size")
+        ax.set_ylabel(f"Test {metric_label}")
+        ax.set_title(f"{metric_label} vs train size")
+        handles, labels = ax.get_legend_handles_labels()
+        if handles:
+            ax.legend()
         ax.grid(True, alpha=0.3)
         ax.set_xscale("log")
 
     plt.tight_layout()
-    path = os.path.join(OUTPUT_DIR, "scaling_laws.png")
-    plt.savefig(path, dpi=300)
+    plot_path = output_dir / "scaling_laws.png"
+    plt.savefig(plot_path, dpi=300)
     plt.close()
-    logger.info("Plot saved to %s", path)
+    logger.info("Saved plot: %s", plot_path)
 
 
-def save_results(bert_results: dict, lstm_results: dict):
-    """
-    Saves the aggregated results for both BERT and LSTM models to a text file in a tabular format.
-    Args:
-        bert_results (dict): The results dictionary for the BERT model.
-        lstm_results (dict): The results dictionary for the LSTM model.
-    """
-    path = os.path.join(OUTPUT_DIR, "scaling_law_results.txt")
-    with open(path, "w") as f:
-        f.write("LABEL-NOISE SENSITIVITY: SCALING LAW RESULTS\n")
-        f.write("=" * 80 + "\n\n")
-        for model_name, results in [("BERT", bert_results), ("LSTM", lstm_results)]:
-            f.write(f"{model_name}\n{'-' * 40}\n")
-            f.write(
-                f"{'Frac':<8} {'Acc (mean)':<16} {'Acc (std)':<16} {'F1 (mean)':<16} {'F1 (std)':<16}\n"
+def save_results(results_by_model: dict, output_dir: Path) -> None:
+    """Save text and JSON summaries."""
+    txt_path = output_dir / "scaling_law_results.txt"
+    with txt_path.open("w", encoding="utf-8") as handle:
+        handle.write("Data-fraction sensitivity results\n")
+        handle.write("=" * 80 + "\n\n")
+        for model_name, results in results_by_model.items():
+            handle.write(f"{model_name.upper()}\n{'-' * 40}\n")
+            handle.write(
+                f"{'Frac':<8} {'Acc (mean)':<16} {'Acc (std)':<16} "
+                f"{'Macro-F1 (mean)':<16} {'Macro-F1 (std)':<16}\n"
             )
-            for frac in sorted(results):
-                _, acc_means, acc_stds = aggregate({frac: results[frac]}, "accuracy")
-                _, f1_means, f1_stds = aggregate({frac: results[frac]}, "f1")
-                f.write(
-                    f"{frac:<8.2f} {acc_means[0]:<16.4f} {acc_stds[0]:<16.4f} {f1_means[0]:<16.4f} {f1_stds[0]:<16.4f}\n"
+            for fraction in sorted(results):
+                _, acc_means, acc_stds = aggregate({fraction: results[fraction]}, "accuracy")
+                _, f1_means, f1_stds = aggregate({fraction: results[fraction]}, "macro_f1")
+                handle.write(
+                    f"{fraction:<8.2f} {acc_means[0]:<16.4f} {acc_stds[0]:<16.4f} "
+                    f"{f1_means[0]:<16.4f} {f1_stds[0]:<16.4f}\n"
                 )
-            f.write("\n")
-    logger.info("Results saved to %s", path)
+            handle.write("\n")
+    logger.info("Saved text results: %s", txt_path)
+
+    raw_path = output_dir / "scaling_law_results.json"
+    raw_path.write_text(json.dumps(results_by_model, indent=2), encoding="utf-8")
+    logger.info("Saved JSON results: %s", raw_path)
 
 
-def main():
-    """Main function to run the scaling law analysis for BERT and LSTM models."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    logger.info("Starting scaling law analysis")
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run data-fraction sensitivity.")
+    parser.add_argument(
+        "--models",
+        nargs="+",
+        choices=["bert", "lstm"],
+        default=["bert", "lstm"],
+        help="Models to run.",
+    )
+    parser.add_argument(
+        "--fractions",
+        nargs="+",
+        type=float,
+        default=DEFAULT_DATA_FRACTIONS,
+        help="Train fractions, e.g. 0.25 0.5 1.0.",
+    )
+    parser.add_argument(
+        "--runs-per-fraction",
+        type=int,
+        default=DEFAULT_RUNS_PER_FRACTION,
+        help="Runs per fraction.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default="scaling_law_results",
+        help="Output directory.",
+    )
+    parser.add_argument(
+        "--max-samples",
+        type=int,
+        default=None,
+        help="Optional train cap.",
+    )
+    parser.add_argument(
+        "--eval-max-samples",
+        type=int,
+        default=None,
+        help="Optional dev/test cap.",
+    )
+    return parser.parse_args()
 
-    bert_results, subset_sizes = run_experiment("bert")
-    lstm_results, _ = run_experiment("lstm")
 
-    save_results(bert_results, lstm_results)
-    plot_results(bert_results, lstm_results, subset_sizes)
+def main() -> None:
+    args = parse_args()
+    output_dir = Path(args.output_dir)
+    if not output_dir.is_absolute():
+        output_dir = SRC_DIR / output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    logger.info("Done. Results in %s/", OUTPUT_DIR)
+    dataset_cfg = OmegaConf.load(SRC_DIR / "configs/dataset.yaml").dataset
+    dataset_cfg.max_samples = args.max_samples
+    dataset_cfg.eval_max_samples = args.eval_max_samples
+    training_cfg = OmegaConf.load(SRC_DIR / "configs/training.yaml").training
+
+    logger.info("Starting run on device=%s", DEVICE)
+    logger.info("Fractions=%s runs_per_fraction=%d", args.fractions, args.runs_per_fraction)
+
+    results_by_model = {}
+    subset_sizes = None
+    for model_type in args.models:
+        results, sizes = run_experiment(
+            model_type=model_type,
+            dataset_cfg=dataset_cfg,
+            training_cfg=training_cfg,
+            fractions=args.fractions,
+            runs_per_fraction=args.runs_per_fraction,
+            output_dir=output_dir,
+        )
+        results_by_model[model_type] = results
+        if subset_sizes is None:
+            subset_sizes = sizes
+
+    save_results(results_by_model, output_dir)
+    if subset_sizes is not None:
+        plot_results(results_by_model, subset_sizes, output_dir)
+
+    logger.info("Done. Output: %s", output_dir)
 
 
 if __name__ == "__main__":

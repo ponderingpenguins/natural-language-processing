@@ -1,0 +1,116 @@
+{
+  "lstm": {
+    "length_edges_words": [
+      34.0,
+      39.0,
+      45.0
+    ],
+    "overall_regular": {
+      "accuracy": 0.9098684210526315,
+      "macro_f1": 0.9100324227685002,
+      "weighted_f1": 0.9100324227685
+    },
+    "bucket_metrics": {
+      "Q1_shortest": {
+        "count": 2144,
+        "accuracy": 0.8843283582089553,
+        "macro_f1": 0.8815062104750963,
+        "weighted_f1": 0.8844861811148081
+      },
+      "Q2_short": {
+        "count": 1730,
+        "accuracy": 0.9144508670520232,
+        "macro_f1": 0.9145124132657395,
+        "weighted_f1": 0.9145434120027179
+      },
+      "Q3_long": {
+        "count": 1986,
+        "accuracy": 0.9284994964753273,
+        "macro_f1": 0.9286695102926252,
+        "weighted_f1": 0.9286473329381879
+      },
+      "Q4_longest": {
+        "count": 1740,
+        "accuracy": 0.9155172413793103,
+        "macro_f1": 0.914669248301045,
+        "weighted_f1": 0.916003904564937
+      }
+    }
+  },
+  "bert": {
+    "length_edges_words": [
+      34.0,
+      39.0,
+      45.0
+    ],
+    "overall_regular": {
+      "accuracy": 0.9485526315789473,
+      "macro_f1": 0.9486058398926079,
+      "weighted_f1": 0.9486058398926078
+    },
+    "bucket_metrics": {
+      "Q1_shortest": {
+        "count": 2144,
+        "accuracy": 0.9323694029850746,
+        "macro_f1": 0.9301763701632019,
+        "weighted_f1": 0.9322926129447735
+      },
+      "Q2_short": {
+        "count": 1730,
+        "accuracy": 0.9554913294797688,
+        "macro_f1": 0.9555314265483061,
+        "weighted_f1": 0.9555663815503656
+      },
+      "Q3_long": {
+        "count": 1986,
+        "accuracy": 0.9572004028197382,
+        "macro_f1": 0.9570904447518171,
+        "weighted_f1": 0.9572817759978042
+      },
+      "Q4_longest": {
+        "count": 1740,
+        "accuracy": 0.9517241379310345,
+        "macro_f1": 0.9501001944184686,
+        "weighted_f1": 0.9518772077302575
+      }
+    }
+  },
+  "cnn_a2": {
+    "length_edges_words": [
+      34.0,
+      39.0,
+      45.0
+    ],
+    "overall_regular": {
+      "accuracy": 0.9005263157894737,
+      "macro_f1": 0.9004605079118757,
+      "weighted_f1": 0.9004605079118758
+    },
+    "bucket_metrics": {
+      "Q1_shortest": {
+        "count": 2144,
+        "accuracy": 0.875,
+        "macro_f1": 0.8713657767767435,
+        "weighted_f1": 0.8746782157741648
+      },
+      "Q2_short": {
+        "count": 1730,
+        "accuracy": 0.9138728323699422,
+        "macro_f1": 0.9135226852439311,
+        "weighted_f1": 0.9137409728314699
+      },
+      "Q3_long": {
+        "count": 1986,
+        "accuracy": 0.9138972809667674,
+        "macro_f1": 0.9135778256969942,
+        "weighted_f1": 0.913713925144982
+      },
+      "Q4_longest": {
+        "count": 1740,
+        "accuracy": 0.903448275862069,
+        "macro_f1": 0.9021531600295387,
+        "weighted_f1": 0.9038880393607085
+      }
+    }
+  }
+}

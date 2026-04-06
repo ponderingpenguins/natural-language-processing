@@ -24,3 +24,11 @@
 
 # ignore pickles (tokenizer, model checkpoints, etc.)
 **.pkl
+
+# local virtual environments
+.venv/
+.venv-*/
+
+# assignment3 generated artifacts
+/assignment3/src/a2_cnn_slice_model/
+/sh0416__ag_news_tokenized_*/
