@@ -17,7 +17,7 @@ Weight decay            & 0.01               & 0.01 \\
 Dropout                 & ---                & 0.4 \\
 Layers $L$              & 6                 & 2 \\
 Bidirectional           & True               & True \\
-Attention heads $A$     & 12                 & --- \\
+Attention heads $A$     & 6                 & --- \\
 Classification Head dim                & 256                & --- \\
 Classification Head dropout            & 0.1                & --- \\
 \bottomrule
@@ -47,7 +47,7 @@ DistilBERT (fine-tuned) & transformer & 0.9450 & 0.9450 & 0.9486 & 0.9486 \\
 
 \subsubsection{Length buckets}
 
-As mentioned in Section~\ref{sec:methods}, we evaluated the models on different length buckets (shortest (0-34 words), short (35-39 words), long (40-45 words), and longest (46+ words)) to see how performance varies with input length. The results are shown in Table~\ref{tab:length_buckets}.
+As mentioned in Section~\ref{sec:methods}, we evaluated the models on different length buckets; \textit{shortest} (0-34 words), \textit{short} (35-39 words), \textit{long} (40-45 words), and \textit{longest} (46+ words), to see how performance varies with input length. The results are shown in Table~\ref{tab:length_buckets}.
 
 \begin{table}[H]
 \centering
@@ -70,9 +70,9 @@ DistilBERT & longest & 1740 & 0.9517 & 0.9501 \\
 \end{tabular}
 \end{table}
 
-The results show that both models perform better on longer sequences, with the highest accuracy and macro-F1 scores in the $long$ bucket (40-45 words) for both models. However, the fact that the $longest$ bucket has decreased performance metrics indicates long-term dependency issues in both models. Though this issue is subtler in DistilBERT, with 0.0055 drop in accuracy and 0.0066 drop in macro-F1 compared to the previous bucket, the LSTM model demonstrates a more significant drop of 0.0130 in accuracy and 0.0140 in macro-F1. This disparity in performance suggests that the LSTM struggles more with sequences longer than 45 words because of its limited capacity to efficiently handle long-range dependencies compared to DistilBERT.
+The results show that both models perform better on longer sequences, with the highest accuracy and macro-F1 scores in the \textit{long} bucket (40-45 words) for both models. However, the fact that the \textit{longest} bucket has decreased performance metrics indicates long-term dependency issues in both models. Though this issue is subtler in DistilBERT, with 0.0055 drop in accuracy and 0.0066 drop in macro-F1 compared to the previous bucket, the LSTM model demonstrates a more significant drop of 0.0130 in accuracy and 0.0140 in macro-F1. This disparity in performance suggests that the LSTM struggles more with sequences longer than 45 words because of its limited capacity to efficiently handle long-range dependencies compared to DistilBERT.
 
-Furthermore, both models had the lowest accuracy and macro-F1 scores in the shortest bucket (0-34 words), likely due to the limited context available in shorter sequences, which makes it harder for the models to accurately classify the news articles. 
+Furthermore, both models had the lowest accuracy and macro-F1 scores in the shortest bucket (0-34 words), likely due to the limited context available in shorter sequences, which makes it harder for the models to accurately classify the news articles.
 
 \subsubsection{Keyword Masking Probe}
 
@@ -113,11 +113,11 @@ agreed, big, billion, business, computer, earnings, firm, general, help, higher,
 The results of the keyword masking probe are shown in Table~\ref{tab:keyword_masking_probe}, which includes the macro-F1 scores for the regular test set, the keyword-masked test set, and the random control-masked test set. The table also shows the drop in macro-F1 for both the keyword-masked and random control-masked test sets compared to the regular test set.
 
 \begin{table}[H]
-\centering    
+\centering
 \caption{Keyword masking probe results on the test set.}
 \label{tab:keyword_masking_probe}
 \begin{tabular}{lccccc}
-\toprule    
+\toprule
 \textbf{Model} &
 \shortstack{\textbf{Regular}\\\textbf{Macro-F1}} &
 \shortstack{\textbf{Keyword-}\\\textbf{Masked F1}} &
