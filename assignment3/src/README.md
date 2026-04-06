@@ -59,6 +59,14 @@ Run commands with:
 uv run python <script>.py ...
 ```
 
+## One-command Run to run the full evaluation + robustness pipeline and generate tables:
+
+One-command run (eval + slices + tables):
+
+```bash
+uv run python run_assignment3_pipeline.py
+```
+
 ## Data and Preprocessing
 
 Dataset handling is in [utils/dataset.py](utils/dataset.py):
@@ -135,11 +143,6 @@ Generate final comparison table:
 uv run python generate_comparison_table.py
 ```
 
-One-command run (eval + slices + tables):
-
-```bash
-uv run python run_assignment3_pipeline.py
-```
 
 ## Reproducibility Notes
 
